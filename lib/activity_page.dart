@@ -1,9 +1,8 @@
-import 'package:fit_rpg/game_page.dart';
+import 'package:fit_rpg/game_page_static.dart';
 import 'package:fit_rpg/game_state.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:fit_rpg/game_state.dart';
 
 class ActivityPage extends StatefulWidget 
 {
@@ -33,7 +32,8 @@ class _ActivityPageState extends State<ActivityPage>
   Future<void> _loadActivityData() async 
   {
     final prefs = await SharedPreferences.getInstance();
-    setState(() {
+    setState(() 
+    {
       steps = prefs.getInt('steps') ?? 0;
       calories = prefs.getInt('calories') ?? 0;
       duration = prefs.getInt('duration') ?? 0;
@@ -100,7 +100,7 @@ class _ActivityPageState extends State<ActivityPage>
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (_) => const GamePage(triggerDelayedXP: true),
+                builder: (_) => const GamePageStatic(),
               ),
             );
           },
@@ -110,7 +110,8 @@ class _ActivityPageState extends State<ActivityPage>
     );
   }
 
-  Widget _buildInputField(String label, TextEditingController controller) {
+  Widget _buildInputField(String label, TextEditingController controller) 
+  {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       child: TextField(

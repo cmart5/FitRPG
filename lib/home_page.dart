@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fit_rpg/game_page.dart';
+import 'package:fit_rpg/game_page_static.dart';
 import 'package:fit_rpg/activity_page.dart';
 
 class HomePage extends StatelessWidget 
@@ -29,7 +29,7 @@ class HomePage extends StatelessWidget
               onPressed: ()
                {
                 Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => const GamePage()),// Navigate to game page
+                  context, MaterialPageRoute(builder: (context) => const GamePageStatic()),// Navigate to game page
                 );
               },
               child: const Text('Open RPG Game'),

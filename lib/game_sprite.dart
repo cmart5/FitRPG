@@ -14,7 +14,7 @@ class FitRPGGame extends FlameGame with KeyboardEvents
   Future<void> onLoad() async 
   {
     character = SpriteComponent()
-      ..sprite = await loadSprite('slimeBlock.png') // Load from assets
+      ..sprite = await loadSprite('alien.png') // Load from assets
       ..size = Vector2(100, 100) // Set sprite size
       ..position = Vector2(size.x / 2, size.y - 150); // Start at bottom center
 
