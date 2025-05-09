@@ -39,6 +39,7 @@ dependencies:
   shared_preferences: ^2.5.3
   flame: ^1.26.1
   provider: ^6.1.4
+  supabase_flutter: ^2.9.0
 
 dev_dependencies:
   flutter_test:

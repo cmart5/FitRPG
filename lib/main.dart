@@ -4,9 +4,18 @@ import 'package:provider/provider.dart';
 import 'package:fit_rpg/game_state.dart';
 import 'package:fit_rpg/home_page.dart';
 import 'package:fit_rpg/window_manager.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async
 {
+  WidgetsFlutterBinding.ensureInitialized(); // Ensures that the Flutter engine is initialized before running the app
+  // Initialize Supabase client with URL and API key
+  await Supabase.initialize(
+    url: 'https://hqgepaqroxfukxbtrpkb.supabase.co',
+    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhxZ2VwYXFyb3hmdWt4YnRycGtiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3MDk1NTksImV4cCI6MjA2MjI4NTU1OX0.jNAzar8L9X2m9F58q23fzOTkPsL3ysgSTU-oiWH8k6k',
+  );
+  //await Supabase.instance.client.auth.recoverSession('your-refresh-token-here'); // Attempt to recover the session if it exists
+
   runApp(
     WindowManagerInitializer(
       child: ChangeNotifierProvider(

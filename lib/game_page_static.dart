@@ -1,30 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:fit_rpg/game_state.dart';
-import 'package:fit_rpg/game_page_active.dart';
 
-class GamePageStatic extends StatelessWidget {
+class GamePageStatic extends StatelessWidget 
+{
   const GamePageStatic({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) 
+  {
     final gameState = Provider.of<GameState>(context);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('FitRPG - Stats'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.play_arrow),
-            tooltip: 'Enter Active Game',
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const GamePageActive()),
-              );
-            },
-          )
-        ],
+        actions: [],
       ),
       body: Column(
         children: [
@@ -34,7 +24,8 @@ class GamePageStatic extends StatelessWidget {
 
           Expanded(
             child: ListView(
-              children: gameState.skillXP.keys.map((skill) {
+              children: gameState.skillXP.keys.map((skill) 
+              {
                 final xp = gameState.skillXP[skill] ?? 0;
                 final level = gameState.skillLevels[skill] ?? 1;
 

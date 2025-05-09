@@ -140,6 +140,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
+    <ProjectReference Include="C:\Users\cpmar\fit_rpg\build\windows\x64\plugins\app_links\app_links_plugin.vcxproj">
+      <Project>{036D93AB-DC0A-38BF-8F9C-DA87D7CB3AC4}</Project>
+      <Name>app_links_plugin</Name>
+    </ProjectReference>
     <ProjectReference Include="C:\Users\cpmar\fit_rpg\build\windows\x64\runner\fit_rpg.vcxproj">
       <Project>{AB6D5B4C-E9E6-3B5C-A899-92BC29D8BF86}</Project>
       <Name>fit_rpg</Name>
@@ -155,6 +159,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ProjectReference Include="C:\Users\cpmar\fit_rpg\build\windows\x64\plugins\screen_retriever_windows\screen_retriever_windows_plugin.vcxproj">
       <Project>{1E486A4D-6B98-31DA-935D-EAF1CBF1343B}</Project>
       <Name>screen_retriever_windows_plugin</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\cpmar\fit_rpg\build\windows\x64\plugins\url_launcher_windows\url_launcher_windows_plugin.vcxproj">
+      <Project>{B8DD5BFB-D693-3519-8E4E-AEED8A996194}</Project>
+      <Name>url_launcher_windows_plugin</Name>
     </ProjectReference>
     <ProjectReference Include="C:\Users\cpmar\fit_rpg\build\windows\x64\plugins\window_manager\window_manager_plugin.vcxproj">
       <Project>{F3FD06EC-D90A-3DF3-8172-2D9782020CC9}</Project>

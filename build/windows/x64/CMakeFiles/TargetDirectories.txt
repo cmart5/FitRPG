@@ -8,9 +8,15 @@ C:/Users/cpmar/fit_rpg/build/windows/x64/flutter/CMakeFiles/INSTALL.dir
 C:/Users/cpmar/fit_rpg/build/windows/x64/runner/CMakeFiles/fit_rpg.dir
 C:/Users/cpmar/fit_rpg/build/windows/x64/runner/CMakeFiles/INSTALL.dir
 C:/Users/cpmar/fit_rpg/build/windows/x64/runner/CMakeFiles/ALL_BUILD.dir
+C:/Users/cpmar/fit_rpg/build/windows/x64/plugins/app_links/CMakeFiles/app_links_plugin.dir
+C:/Users/cpmar/fit_rpg/build/windows/x64/plugins/app_links/CMakeFiles/INSTALL.dir
+C:/Users/cpmar/fit_rpg/build/windows/x64/plugins/app_links/CMakeFiles/ALL_BUILD.dir
 C:/Users/cpmar/fit_rpg/build/windows/x64/plugins/screen_retriever_windows/CMakeFiles/screen_retriever_windows_plugin.dir
 C:/Users/cpmar/fit_rpg/build/windows/x64/plugins/screen_retriever_windows/CMakeFiles/INSTALL.dir
 C:/Users/cpmar/fit_rpg/build/windows/x64/plugins/screen_retriever_windows/CMakeFiles/ALL_BUILD.dir
+C:/Users/cpmar/fit_rpg/build/windows/x64/plugins/url_launcher_windows/CMakeFiles/url_launcher_windows_plugin.dir
+C:/Users/cpmar/fit_rpg/build/windows/x64/plugins/url_launcher_windows/CMakeFiles/INSTALL.dir
+C:/Users/cpmar/fit_rpg/build/windows/x64/plugins/url_launcher_windows/CMakeFiles/ALL_BUILD.dir
 C:/Users/cpmar/fit_rpg/build/windows/x64/plugins/window_manager/CMakeFiles/window_manager_plugin.dir
 C:/Users/cpmar/fit_rpg/build/windows/x64/plugins/window_manager/CMakeFiles/INSTALL.dir
 C:/Users/cpmar/fit_rpg/build/windows/x64/plugins/window_manager/CMakeFiles/ALL_BUILD.dir
