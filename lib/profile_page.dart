@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:fit_rpg/auth_service.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -9,6 +9,8 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  final AuthService _authService = AuthService();
+
   String? email;
   String? displayName;
   bool isLoading = true;
@@ -23,46 +25,23 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Future<void> loadUserInfo() async {
-    final user = Supabase.instance.client.auth.currentUser;
-    final supabase = Supabase.instance.client;
-
-    if (user == null) {
-      setState(() {
-        isLoading = false;
-        email = null;
-      });
-      return;
-    }
-
     try {
     // Fetch user row from "users" table using the user ID
-    final response = await supabase
-        .from('users')
-        .select('id')
-        .eq('id', user.id)
-        .single(); //only one row expected
-
-    final userRow = await supabase
-        .from('users')
-        .select()
-        .eq('id', user.id)
-        .single();
+    final userData = await _authService.getUserInfo();
 
     setState(() {
-      email = user.email;
-      displayName = userRow['display_name'];
+      email = userData?['email'];
+      displayName = userData?['display_name'];
       isLoading = false;
     });
     } catch (error) {
       // Session is invalid or expired, log out
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text('Session expired. Logging out...'),
+        const SnackBar(content: Text('Session expired. Logging out...'),
         ),
       );
-      print('Session check failed. Logging out... Error: $error'); //debug
 
-      await Supabase.instance.client.auth.signOut();
+      await _authService.logout();
 
       setState(() {
         isLoading = false;
@@ -72,39 +51,19 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Future<void> loginOrRegister({required bool isLogin}) async {
-    final email = _emailController.text.trim();
-    final password = _passwordController.text.trim();
+    final emailText = _emailController.text.trim();
+    final passwordText = _passwordController.text.trim();
 
     try {
       if (isLogin) {
-        await Supabase.instance.client.auth.signInWithPassword(
-          email: email,
-          password: password,
-        );
+        await _authService.login(emailText, passwordText);
       } else {
-        final signUpReponse = await Supabase.instance.client.auth.signUp(
-          email: email,
-          password: password,
-        );
-
-        final user = signUpReponse.user;
-
-        //Only insert if user creation is successful
-        if (user != null) {
-          await Supabase.instance.client.from('users').insert({
-            'id': user.id,
-            'email': user.email,
-            'display_name': 'New Player', // Default display name
-          });
-        }
+        await _authService.register(emailText, passwordText);
       }
-
-      //Reload user info after login/register
       await loadUserInfo();
     } catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Auth Error: $error'),
+        SnackBar(content: Text('Auth Error: $error'),
         ),
       );
     }
@@ -114,8 +73,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     if (isLoading) {
       return const Scaffold(
-        body: Center(
-          child: CircularProgressIndicator()),
+        body: Center(child: CircularProgressIndicator()),
       );
     }
 
@@ -125,9 +83,7 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
-        child: email == null
-            ? _buildLoginOverlay()
-            : _buildProfileInfo(),
+        child: email == null ? _buildLoginOverlay() : _buildProfileInfo(),
       ),
     );
   }
