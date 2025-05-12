@@ -14,8 +14,11 @@ class GamePageActive extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: const Center(
-        child: SizedBox(height: 300, child: GameScreen()),
+      body: Center(
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: const GameScreen()),
       ),
     );
   }

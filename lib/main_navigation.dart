@@ -39,7 +39,6 @@ class _MainNavigationState extends State<MainNavigation>
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
-        selectedItemColor: Colors.blueAccent,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle), //placeholder icon
@@ -58,6 +57,11 @@ class _MainNavigationState extends State<MainNavigation>
             label: 'Game',
           ),
         ],
+        selectedItemColor: Colors.blueAccent,
+        unselectedItemColor: Colors.grey,
+        showUnselectedLabels: true,
+        showSelectedLabels: true,
+        type: BottomNavigationBarType.fixed,
       ),
     );
   }

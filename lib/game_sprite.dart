@@ -46,6 +46,14 @@ class FitRPGGame extends FlameGame with KeyboardEvents
         keysPressed.contains(LogicalKeyboardKey.keyD)) {
       velocity.x = 1; // Move right
     }
+    if (keysPressed.contains(LogicalKeyboardKey.arrowUp) ||
+        keysPressed.contains(LogicalKeyboardKey.keyW)) {
+      velocity.y = -1; // Move up
+    }
+    if (keysPressed.contains(LogicalKeyboardKey.arrowDown) ||
+        keysPressed.contains(LogicalKeyboardKey.keyS)) {
+      velocity.y = 1; // Move down
+    }
 
     return KeyEventResult.handled;
   }
