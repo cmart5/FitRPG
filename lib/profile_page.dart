@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:fit_rpg/auth_service.dart';
+import 'package:flutter/material.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -9,132 +9,81 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  final AuthService _authService = AuthService();
+  final authService = AuthService();
 
-  String? email;
-  String? displayName;
-  bool isLoading = true;
+  // Text controllers
+  final _usernameController = TextEditingController();
+  bool _isEditing = false; // Track whether the username is being edited
+  String _username = "DefaultUsername"; // Initial username
 
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    Future.delayed(const Duration(milliseconds: 200), loadUserInfo); // Delay to ensure the UI is built before loading user info    
+  void logout() async {
+    await authService.signOut();
   }
 
-  Future<void> loadUserInfo() async {
-    try {
-    // Fetch user row from "users" table using the user ID
-    final userData = await _authService.getUserInfo();
-
+  void _toggleEdit() {
     setState(() {
-      email = userData?['email'];
-      displayName = userData?['display_name'];
-      isLoading = false;
-    });
-    } catch (error) {
-      // Session is invalid or expired, log out
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Session expired. Logging out...'),
-        ),
-      );
-
-      await _authService.logout();
-
-      setState(() {
-        isLoading = false;
-        email = null; // Reset email to null on logout
-      });
-    }
-  }
-
-  Future<void> loginOrRegister({required bool isLogin}) async {
-    final emailText = _emailController.text.trim();
-    final passwordText = _passwordController.text.trim();
-
-    try {
-      if (isLogin) {
-        await _authService.login(emailText, passwordText);
+      if (_isEditing) {
+        // Save the new username when exiting edit mode
+        _username = _usernameController.text;
       } else {
-        await _authService.register(emailText, passwordText);
+        // Set the controller's text to the current username when entering edit mode
+        _usernameController.text = _username;
       }
-      await loadUserInfo();
-    } catch (error) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Auth Error: $error'),
-        ),
-      );
-    }
+      _isEditing = !_isEditing;
+    });
   }
 
+  // BUILD UI
   @override
   Widget build(BuildContext context) {
-    if (isLoading) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
-    }
-
     return Scaffold(
       appBar: AppBar(
-        title: const Text('FitRPG - Account'),
+        actions: [
+          //logout button
+          IconButton(
+            onPressed: logout,
+            icon: const Icon(Icons.logout),
+            tooltip: 'Logout',
+          )
+        ]
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
-        child: email == null ? _buildLoginOverlay() : _buildProfileInfo(),
-      ),
-    );
-  }
-
-  Widget _buildLoginOverlay() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const Text("Please Log In or Register",
-        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-        const SizedBox(height: 20),
-        TextField(
-          controller: _emailController,
-          decoration: const InputDecoration(labelText: "Email"),
-        ),
-        TextField(
-          controller: _passwordController,
-          obscureText: true,
-          decoration: const InputDecoration(labelText: "Password"),
-        ),
-        const SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ElevatedButton(
-              onPressed: () => loginOrRegister(isLogin: true),
-              child: const Text("Login"),
+            // Username display with edit button
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _isEditing
+                    ? Expanded(
+                        child: TextField(
+                          controller: _usernameController,
+                          decoration: const InputDecoration(
+                            labelText: 'Username',
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                      )
+                    : Text(
+                        _username,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                IconButton(
+                  onPressed: _toggleEdit,
+                  icon: Icon(_isEditing ? Icons.check : Icons.edit),
+                  tooltip: _isEditing ? 'Save' : 'Edit',
+                ),
+              ],
             ),
-            const SizedBox (width: 10),
-            ElevatedButton(
-              onPressed: () => loginOrRegister(isLogin: false),
-              child: const Text("Register"),
-            ),
+            const SizedBox(height: 16),
           ],
         ),
-      ],
-    );
-  }
-
-  Widget _buildProfileInfo() {
-    return Column(
-      children: [
-        const SizedBox(height: 20),
-        const Text("Account",
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-        const SizedBox(height: 20),
-        Text("Email: $email", style: const TextStyle(fontSize: 18)),
-        const SizedBox(height: 10),
-        Text("Display Name: ${displayName ?? 'Not Set'}", 
-          style: const TextStyle(fontSize: 18)),
-      ]
+      ),
     );
   }
 }
