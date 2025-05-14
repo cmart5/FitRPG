@@ -2,10 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:fit_rpg/game_state.dart';
 
-class GamePageStatic extends StatelessWidget 
+class GamePageStatic extends StatefulWidget 
 {
-  const GamePageStatic({super.key});
+  final bool triggerDelayedXP;
+  const GamePageStatic({super.key, this.triggerDelayedXP = false});
+  
+  @override
+  State<GamePageStatic> createState() => _GamePageStaticState();
+}
 
+class _GamePageStaticState extends State<GamePageStatic>
+{
+  @override
+  void initState()
+  {
+    super.initState();
+
+    if (widget.triggerDelayedXP) {
+      Future.delayed(const Duration(milliseconds: 1500), () async{
+        final gameState = Provider.of<GameState>(context, listen: false);
+        await gameState.applyPendingXPWithDelay();
+        await gameState.saveToCloud();
+        setState(() {});
+      }); 
+    }  
+  }
+  
+  @override
   Widget xpBar(double percent) {
     return Container(
       width: 200, // full width of the bar
@@ -72,14 +95,33 @@ class GamePageStatic extends StatelessWidget
                             '$skill: Level $level',
                             style: const TextStyle(fontSize: 24),
                           ),
-                          Text(
-                            'XP: $xp / $xpToLevel',
-                            style: const TextStyle(fontSize: 20),
+                          TweenAnimationBuilder<int>( // Animate XP value
+                            tween: IntTween(
+                              begin: gameState.recentlyUpdatedSkills.contains(skill) ? 0 : xp,
+                              end: xp,
+                            ),
+                            duration: const Duration(milliseconds: 1200),
+                            curve: Curves.easeOutExpo,
+                            builder: (context, animatedXP, _) {
+                              return Text('XP: $animatedXP / $xpToLevel', style: TextStyle(
+                                fontSize: 20,
+                                color: xpPercent >= 1.0 ? Colors.green : Colors.white,
+                              ));
+                            }
                           ),
                         ],
                       ),
                       const SizedBox(height: 4),
-                      xpBar(xpPercent.clamp(0.0, 1.0)),
+                      TweenAnimationBuilder<double>( // Animate XP bar
+                        tween: Tween<double>(
+                          begin: gameState.recentlyUpdatedSkills.contains(skill) ? 0.0 : xpPercent,
+                          end: xpPercent.clamp(0.0, 1.0),
+                        ),
+                        duration: const Duration(seconds: 1),
+                        builder: (context, value, child) {
+                          return xpBar(value); // Pass the animated value to xpBar
+                        },
+                      ),
                     ],
                   ),
                 );

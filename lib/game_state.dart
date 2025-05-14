@@ -1,9 +1,18 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class GameState extends ChangeNotifier 
 {
+  final supabase = Supabase.instance.client;
+
+  GameState()
+   {
+    _loadGameData();
+    //_startIdleXP();
+  }
+
   Map<String, int> skillXP = 
   {
     'Health': 0,
@@ -24,18 +33,7 @@ class GameState extends ChangeNotifier
     'Agility': 0,
     'Crafting': 0,
     'Smithing': 0,
-};
-
-void queueActivityXP(int steps, int calories, int duration) 
-{
-  pendingXP['Agility'] = (steps / 10).round();   // Steps contribute to Agility XP
-  pendingXP['Attack'] = (steps / 100).round();   // Steps contribute to Attack XP
-  pendingXP['Health'] = (steps / 50).round();   // Steps contribute to Attack XP
-  pendingXP['Strength'] = (calories / 15).round(); // Calories burned contribute to Strength XP
-  pendingXP['Defence'] = (calories / 10).round(); // Calories burned contribute to Defence XP
-  pendingXP['Crafting'] = (duration / 5).round();   // Workout time contributes to Crafting XP
-  pendingXP['Smithing'] = (duration / 5).round();   // Workout time contributes to Smithing XP
-}
+  };
 
   Map<String, int> skillLevels =
   {
@@ -48,11 +46,56 @@ void queueActivityXP(int steps, int calories, int duration)
     'Smithing': 1,
   };
 
-  GameState()
-   {
-    _loadGameData();
-    _startIdleXP();
+  void queueActivityXP(int steps, int calories, int duration) 
+  {
+    pendingXP['Agility'] = (steps / 10).round();   // Steps contribute to Agility XP
+    pendingXP['Attack'] = (steps / 100).round();   // Steps contribute to Attack XP
+    pendingXP['Health'] = (steps / 50).round();   // Steps contribute to Attack XP
+    pendingXP['Strength'] = (calories / 15).round(); // Calories burned contribute to Strength XP
+    pendingXP['Defence'] = (calories / 10).round(); // Calories burned contribute to Defence XP
+    pendingXP['Crafting'] = (duration / 5).round();   // Workout time contributes to Crafting XP
+    pendingXP['Smithing'] = (duration / 5).round();   // Workout time contributes to Smithing XP
   }
+
+  void applyActivityXP(int steps, int calories, int duration) 
+  {
+    gainXP('Agility', (steps / 10).round());   // Steps contribute to Agility XP
+    gainXP('Attack', (steps / 100).round());   // Steps contribute to Attack XP
+    gainXP('Health', (steps / 50).round());   // Steps contribute to Health XP
+    gainXP('Strength', (calories / 15).round()); // Calories burned contribute to Strength XP
+    gainXP('Defence', (calories / 10).round()); // Calories burned contribute to Defence XP
+    gainXP('Crafting', (duration / 5).round());   // Workout time contributes to Crafting XP
+    gainXP('Smithing', (duration / 5).round());   // Workout time contributes to Smithing XP
+  }
+
+  Set<String> recentlyUpdatedSkills = {};
+
+  Future<void> applyPendingXPWithDelay() async 
+  {
+    recentlyUpdatedSkills.clear();
+    await Future.delayed(const Duration(seconds: 1));
+    
+    for (var skill in pendingXP.keys) { // Iterate through each skill
+
+      final gained = pendingXP[skill] ?? 0; // Get the pending XP for this skill
+
+      if(gained > 0) { // Check if there's pending XP
+        skillXP[skill] = (skillXP[skill] ?? 0) + gained; // Apply pending XP
+
+        if (skillXP[skill]! >= _xpToLevelUp(skillLevels[skill]!)) // Check if level up
+        {
+          _levelUp(skill); // Level up the skill
+        }
+      }
+      pendingXP[skill] = 0; // Reset pending XP for this skill
+    }    
+    notifyListeners();
+  }
+
+  int _xpToLevelUp(int level) 
+  {
+    return level * 100; // Incremental XP req for Level UP
+  }  
 
   void gainXP(String skill, int amount) 
   {
@@ -74,58 +117,48 @@ void queueActivityXP(int steps, int calories, int duration)
     skillLevels[skill] = (skillLevels[skill] ?? 1) + 1;
     notifyListeners();
     _saveGameData();
-  }
-
-  int _xpToLevelUp(int level) 
-  {
-    return level * 100; // Incremental XP req for Level UP
-  }
-
-  void _startIdleXP()
-   {
-    Timer.periodic(const Duration(seconds:10), (timer) 
-    {
-      for (var skill in skillXP.keys) 
-      {        
-        gainXP(skill, 5);
-      }
-    });
-  }
-
-  void applyActivityXP(int steps, int calories, int duration) 
-  {
-    gainXP('Agility', (steps / 10).round());   // Steps contribute to Agility XP
-    gainXP('Attack', (steps / 100).round());   // Steps contribute to Attack XP
-    gainXP('Health', (steps / 50).round());   // Steps contribute to Health XP
-    gainXP('Strength', (calories / 15).round()); // Calories burned contribute to Strength XP
-    gainXP('Defence', (calories / 10).round()); // Calories burned contribute to Defence XP
-    gainXP('Crafting', (duration / 5).round());   // Workout time contributes to Crafting XP
-    gainXP('Smithing', (duration / 5).round());   // Workout time contributes to Smithing XP
-  }
-
-  Future<void> applyPendingXPWithDelay() async 
-  {
-    await Future.delayed(const Duration(seconds: 1));
-    
-    for (var skill in pendingXP.keys) {
-      skillXP[skill] = (skillXP[skill] ?? 0) + pendingXP[skill]!; // Ensure stacking
-      pendingXP[skill] = 0;
-
-      if (skillXP[skill]! >= _xpToLevelUp(skillLevels[skill]!)) 
-      {
-        _levelUp(skill);
-      }
-    }
-    
-    notifyListeners();
-  }
+  }  
 
   Future<void> _saveGameData() async {
+    final userId = supabase.auth.currentUser?.id; // Get the current user ID
+    print("User ID: ${Supabase.instance.client.auth.currentUser?.id}");
+    if (userId == null) return; // If user is not logged in, do not save data
+
+
     final prefs = await SharedPreferences.getInstance();
-    for (var skill in skillXP.keys) {
+
+    print("Starting save to Supabase...");
+
+    for (var skill in skillXP.keys) { // Iterate through each skill
+      final xp = skillXP[skill]!; // Get the XP for this skill
+      final level = skillLevels[skill]!; // Get the level for this skill
+
+      final response = await Supabase.instance.client
+        .from('user_skills') // Save to Supabase
+        .upsert({
+          'user_id': userId,
+          'skill_name': skill,
+          'xp': xp,
+          'level': level,
+        },
+        onConflict: 'user_id,skill_name'
+      );
+
+      // Log if there's an error
+      if (response.error != null) {
+         print("Error saving $skill: ${response.error!.message}");
+      } else {
+         print("Saved $skill successfully.");
+      }
+
+      // Save XP and level for each skill locally
       prefs.setInt('${skill}_xp', skillXP[skill]!);
       prefs.setInt('${skill}_level', skillLevels[skill]!);
     }
+  }
+
+  Future<void> saveToCloud() async {
+    await _saveGameData();
   }
 
   Future<void> _loadGameData() async
@@ -138,4 +171,6 @@ void queueActivityXP(int steps, int calories, int duration)
     }
     notifyListeners();
   }
+
+
 }

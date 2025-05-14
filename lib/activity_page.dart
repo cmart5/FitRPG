@@ -93,14 +93,14 @@ class _ActivityPageState extends State<ActivityPage>
             final steps = int.tryParse(_stepsController.text) ?? 0;
             final calories = int.tryParse(_caloriesController.text) ?? 0;
             final duration = int.tryParse(_durationController.text) ?? 0;
-
             final gameState = Provider.of<GameState>(context, listen: false);
-            gameState.queueActivityXP(steps, calories, duration);
+
+            gameState.queueActivityXP(steps, calories, duration); // Queue the XP, dont apply it yet
 
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (_) => const GamePageStatic(),
+                builder: (_) => const GamePageStatic(triggerDelayedXP: true),
               ),
             );
           },

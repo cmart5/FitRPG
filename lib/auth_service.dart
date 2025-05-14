@@ -16,7 +16,7 @@ class AuthService {
     return await supabase.auth.signUp(
       email: email,
       password: password,
-      );
+    );
   }
 
   // Sign out the user
