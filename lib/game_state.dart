@@ -6,11 +6,11 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class GameState extends ChangeNotifier 
 {
   final supabase = Supabase.instance.client;
+  bool needsCloudSync = false;
 
   GameState()
    {
     _loadGameData();
-    //_startIdleXP();
   }
 
   Map<String, int> skillXP = 
@@ -120,56 +120,122 @@ class GameState extends ChangeNotifier
   }  
 
   Future<void> _saveGameData() async {
+    final online = await _isOnline(); // Check if online
+    final prefs = await SharedPreferences.getInstance(); // Get local storage instance
     final userId = supabase.auth.currentUser?.id; // Get the current user ID
+
     print("User ID: ${Supabase.instance.client.auth.currentUser?.id}");
+
     if (userId == null) return; // If user is not logged in, do not save data
 
-
-    final prefs = await SharedPreferences.getInstance();
-
-    print("Starting save to Supabase...");
-
-    for (var skill in skillXP.keys) { // Iterate through each skill
-      final xp = skillXP[skill]!; // Get the XP for this skill
-      final level = skillLevels[skill]!; // Get the level for this skill
-
-      final response = await Supabase.instance.client
-        .from('user_skills') // Save to Supabase
-        .upsert({
-          'user_id': userId,
-          'skill_name': skill,
-          'xp': xp,
-          'level': level,
-        },
-        onConflict: 'user_id,skill_name'
-      );
-
-      // Log if there's an error
-      if (response.error != null) {
-         print("Error saving $skill: ${response.error!.message}");
-      } else {
-         print("Saved $skill successfully.");
-      }
-
-      // Save XP and level for each skill locally
+    for (var skill in skillXP.keys) { // Always save XP and level for each skill locally
       prefs.setInt('${skill}_xp', skillXP[skill]!);
       prefs.setInt('${skill}_level', skillLevels[skill]!);
     }
+
+    print("Starting save to Supabase...");
+
+    if(!online) {
+      print("Offline: saving data to local storage");
+      needsCloudSync = true;
+    }
+
+    final rows = skillXP.keys.map((skill) {
+      return {
+        'user_id': userId,
+        'skill_name': skill,
+        'xp': skillXP[skill],
+        'level': skillLevels[skill],
+      };
+    }).toList();
+
+    final response = await Supabase.instance.client
+      .from('user_skills')
+      .upsert(rows, onConflict: 'user_id,skill_name');
+
+    if (response.error != null) {
+      print('Error saving XP data to Supabase: ${response.error!.message}');
+      needsCloudSync = true; // Set flag to true if there's an error
+    } else {
+      print('XP data saved successfully to Supabase');
+      needsCloudSync = false; // Reset flag if save is successful
+    }
   }
 
+  // Save game data to cloud (public method)
+  // This method can be called from anywhere in the app
   Future<void> saveToCloud() async {
     await _saveGameData();
   }
 
+  //
   Future<void> _loadGameData() async
    {
-    final prefs = await SharedPreferences.getInstance();
-    for (var skill in skillXP.keys) 
-    {
-      skillXP[skill] = prefs.getInt('${skill}_xp') ?? 0;
-      skillLevels[skill] = prefs.getInt('${skill}_level') ?? 1;
+    final online = await _isOnline(); // Check if online
+
+    if (online) {
+      print('Online: loading data from Supabase');  
+
+      final userId = Supabase.instance.client.auth.currentUser?.id; // Get the current user ID
+      if (userId == null) { return; } // If user is not logged in, do not load data
+
+      try {
+        final response = await Supabase.instance.client // Load XP data from Supabase
+          .from('user_skills')
+          .select()
+          .eq('user_id', userId);
+
+        if (response == null) {
+          print('Error loading XP data: response is null');
+        } else {
+          // Clear current data first
+          skillXP.updateAll((key, _) => 0);
+          skillLevels.updateAll((key, _) => 1);
+
+          for (final row in response) {
+            final skill = row['skill_name'] as String;
+            final xp = row['xp'] as int;
+            final level = row['level'] as int;
+
+            if (skillXP.containsKey(skill)) {
+              skillXP[skill] = xp;
+              skillLevels[skill] = level;
+            } 
+            else {
+              print('Unknown skill: $skill');
+            }
+          }
+        }
+      } catch (e) {
+        print('Error loading XP data: $e');
+      }
+    } else { // If offline, load data from local storage
+      print('Offline: loading data from local storage');
+      final prefs = await SharedPreferences.getInstance();
+
+      for (var skill in skillXP.keys) { // Iterate through each skill
+        final xp = prefs.getInt('${skill}_xp') ?? 0; // Get the XP for this skill
+        final level = prefs.getInt('${skill}_level') ?? 1; // Get the level for this skill
+
+        skillXP[skill] = xp; // Save XP for each skill
+        skillLevels[skill] = level; // Save level for each skill
+      }
     }
     notifyListeners();
+    print ('XP data loaded successfully');
+  }
+
+  Future<bool> _isOnline() async { // Check if the device is online
+    try {
+      final response = await Supabase.instance.client
+        .from('user_skills')
+        .select()
+        .limit(1)
+        .maybeSingle();
+      return response != null;
+    } catch (e) {
+      return false;
+    }
   }
 
 

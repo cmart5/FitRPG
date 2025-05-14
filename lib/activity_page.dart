@@ -68,66 +68,100 @@ class _ActivityPageState extends State<ActivityPage>
   @override
   Widget build(BuildContext context) 
   {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
+    return Scaffold(
+      resizeToAvoidBottomInset: false, // Prevent automatic layout resize
+      body: Stack(
       children: [
-        const Text(
-          'Activity Tracker',
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 20),
-
-        // Steps Input
-        _buildInputField("Steps", _stepsController),
-        // Calories Input
-        _buildInputField("Calories Burned", _caloriesController),
-        // Duration Input
-        _buildInputField("Workout Duration (mins)", _durationController),
-
-        const SizedBox(height: 20),
-
-        // Save Button
-        ElevatedButton(
-          onPressed: () 
-          {
-            final steps = int.tryParse(_stepsController.text) ?? 0;
-            final calories = int.tryParse(_caloriesController.text) ?? 0;
-            final duration = int.tryParse(_durationController.text) ?? 0;
-            final gameState = Provider.of<GameState>(context, listen: false);
-
-            gameState.queueActivityXP(steps, calories, duration); // Queue the XP, dont apply it yet
-
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => const GamePageStatic(triggerDelayedXP: true),
-              ),
-            );
-          },
-          child: const Text("Save Activity", style: TextStyle(fontSize: 20)),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildInputField(String label, TextEditingController controller) 
-  {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10), // More vertical space
-      child: SizedBox(
-        height: 70, // Make the TextField taller
-        child: TextField(
-          controller: controller,
-          keyboardType: TextInputType.number,
-          style: const TextStyle(fontSize: 24), // Larger text
-          decoration: InputDecoration(
-            labelText: label,
-            labelStyle: const TextStyle(fontSize: 22), // Larger label
-            border: const OutlineInputBorder(),
-            contentPadding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16), // More padding inside
+        // Background image
+        Positioned.fill(
+          child: Image.asset(
+            'assets/images/FitRPG_ActivityBG.png',
+            fit: BoxFit.cover,
           ),
         ),
-      ),
-    );
-  }
+        SafeArea(
+          child: Column(
+            children: [
+              const SizedBox(height: 20),
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Center(
+                        child: Text(
+                          "Acitivty Tracker",
+                          style: TextStyle(
+                            fontSize: 48,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      const Text(
+                        "Enter your workout manually.",
+                        style: TextStyle(fontSize: 24, color: Colors.white),
+                      ),
+                      const SizedBox(height: 16),
+                      TextField(
+                        controller: _stepsController,
+                        decoration: const InputDecoration(
+                          labelText: "Steps",
+                          border: OutlineInputBorder(),
+                        ),
+                        keyboardType: TextInputType.number,
+                      ),
+                      const SizedBox(height: 16),
+                      TextField(
+                        controller: _caloriesController,
+                        decoration: const InputDecoration(
+                          labelText: "Calories",
+                          border: OutlineInputBorder(),
+                        ),
+                        keyboardType: TextInputType.number,
+                      ),
+                      const SizedBox(height: 20),
+                      TextField(
+                        controller: _durationController,
+                        decoration: const InputDecoration(
+                          labelText: "Duration (minutes)",
+                          border: OutlineInputBorder(),
+                        ),
+                        keyboardType: TextInputType.number,
+                      ),
+                      // End of input fields
+                      const SizedBox(height: 20),
+                      // Save Button
+                      ElevatedButton(
+                        onPressed: () 
+                        {
+                          final steps = int.tryParse(_stepsController.text) ?? 0;
+                          final calories = int.tryParse(_caloriesController.text) ?? 0;
+                          final duration = int.tryParse(_durationController.text) ?? 0;
+                          final gameState = Provider.of<GameState>(context, listen: false);
+
+                          gameState.queueActivityXP(steps, calories, duration); // Queue the XP, dont apply it yet
+
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const GamePageStatic(triggerDelayedXP: true),
+                            ),
+                          );
+                        },
+                        child: const Text("Save Activity", style: TextStyle(fontSize: 20)),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
+}
 }
