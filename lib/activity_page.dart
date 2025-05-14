@@ -104,7 +104,7 @@ class _ActivityPageState extends State<ActivityPage>
               ),
             );
           },
-          child: const Text("Save Activity"),
+          child: const Text("Save Activity", style: TextStyle(fontSize: 20)),
         ),
       ],
     );
@@ -113,13 +113,19 @@ class _ActivityPageState extends State<ActivityPage>
   Widget _buildInputField(String label, TextEditingController controller) 
   {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-      child: TextField(
-        controller: controller,
-        keyboardType: TextInputType.number,
-        decoration: InputDecoration(
-          labelText: label,
-          border: OutlineInputBorder(),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10), // More vertical space
+      child: SizedBox(
+        height: 70, // Make the TextField taller
+        child: TextField(
+          controller: controller,
+          keyboardType: TextInputType.number,
+          style: const TextStyle(fontSize: 24), // Larger text
+          decoration: InputDecoration(
+            labelText: label,
+            labelStyle: const TextStyle(fontSize: 22), // Larger label
+            border: const OutlineInputBorder(),
+            contentPadding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16), // More padding inside
+          ),
         ),
       ),
     );

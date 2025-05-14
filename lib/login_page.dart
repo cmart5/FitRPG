@@ -7,7 +7,6 @@ class LoginPage extends StatefulWidget {
 
   @override
   State<LoginPage> createState() => _LoginPageState();
-
 }
 
 class _LoginPageState extends State<LoginPage> {
@@ -20,18 +19,18 @@ class _LoginPageState extends State<LoginPage> {
 
   // login button pressed 
   void login() async {
-    //prepare data
+    // Prepare data
     final email = _emailController.text;
     final password = _passwordController.text;
 
-    //attempt login
+    // Attempt login
     try {
       await authService.signInWithEmailPassword(email, password);
     }
 
-    //catch errors
+    // Catch errors
     catch (e) {
-      //show error message
+      // Show error message
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text("Error: $e"),
@@ -41,68 +40,92 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   // BUILD UI
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          //logo
-          const Center(
-            child: Text(
-              "FitRPG",
-              style: TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+ @override
+Widget build(BuildContext context) {
+  return Scaffold(
+    resizeToAvoidBottomInset: false, // Prevent automatic layout resize
+    body: Stack(
+      children: [
+        // Background image
+        Positioned.fill(
+          child: Image.asset(
+            'assets/images/FitRPG_BG_Login.png',
+            fit: BoxFit.cover,
           ),
-          const SizedBox(height: 16),
-          //welcome message
-          const Text(
-            "Welcome back! Please login to continue.",
-            style: TextStyle(fontSize: 16),
-          ),
-          const SizedBox(height: 16),
-          //email and password fields      
-          //email
-          TextField(
-            controller: _emailController,
-            decoration: const InputDecoration(
-              labelText: "Email",
-            ),
-          ),
-          //password
-          TextField(
-            controller: _passwordController,
-            decoration: const InputDecoration(
-              labelText: "Password",
-            ),
-            //obscureText: true,
-          ),
-          //button
-          const SizedBox(height: 16),
-          //login button
-          ElevatedButton(
-            onPressed: login,
-            child: const Text("Login"),
-          ),
+        ),
 
-          const SizedBox(height: 16),
-          //register button
-          TextButton(
-            onPressed: () {
-              // Navigate to register page
-              Navigator.push(context, 
-                MaterialPageRoute(
-                  builder: (context) => const RegisterPage(),
+        // Safe fixed height scrollable area
+        SafeArea(
+          child: Column(
+            children: [
+              const SizedBox(height: 20),
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      const Center(
+                        child: Text(
+                          "FitRPG",
+                          style: TextStyle(
+                            fontSize: 64,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      const Text(
+                        "Welcome back! Please login to continue.",
+                        style: TextStyle(fontSize: 24, color: Colors.white),
+                      ),
+                      const SizedBox(height: 16),
+                      TextField(
+                        controller: _emailController,
+                        decoration: const InputDecoration(
+                          labelText: "Email",
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      TextField(
+                        controller: _passwordController,
+                        decoration: const InputDecoration(
+                          labelText: "Password",
+                          border: OutlineInputBorder(),
+                        ),
+                        obscureText: true,
+                      ),
+                      const SizedBox(height: 16),
+                      ElevatedButton(
+                        onPressed: login,
+                        child: const Text("Login"),
+                      ),
+                      const SizedBox(height: 16),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const RegisterPage(),
+                            ),
+                          );
+                        },
+                        child: const Text(
+                          "Don't have an account? Register here.",
+                          style: TextStyle(fontSize: 20, color: Colors.white),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              );
-            },
-            child: const Text("Don't have an account? Register here."),
-          ),         
-        ]
-      )
-    );
-  }
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
+}
 }

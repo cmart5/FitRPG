@@ -1,3 +1,4 @@
+import 'package:fit_rpg/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:fit_rpg/auth_service.dart';
 
@@ -55,56 +56,97 @@ class _RegisterPageState extends State<RegisterPage> {
 
   // BUILD UI
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Sign Up"),
-      ),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          //logo
-          const Center(
-            child: Text(
-              "FitRPG",
-              style: TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
+Widget build(BuildContext context) {
+  return Scaffold(
+    resizeToAvoidBottomInset: false, // Prevent automatic layout resize
+    body: Stack(
+      children: [
+        // Background image
+        Positioned.fill(
+          child: Image.asset(
+            'assets/images/FitRPG_BG_Login.png',
+            fit: BoxFit.cover,
+          ),
+        ),
+
+        // Safe fixed height scrollable area
+        SafeArea(
+          child: Column(
+            children: [
+              const SizedBox(height: 20),
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      const Center(
+                        child: Text(
+                          "FitRPG",
+                          style: TextStyle(
+                            fontSize: 32,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      const Text(
+                        "Welcome back! Please login to continue.",
+                        style: TextStyle(fontSize: 16, color: Colors.white),
+                      ),
+                      const SizedBox(height: 16),
+                      TextField(
+                        controller: _emailController,
+                        decoration: const InputDecoration(
+                          labelText: "Email",
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      TextField(
+                        controller: _passwordController,
+                        decoration: const InputDecoration(
+                          labelText: "Password",
+                          border: OutlineInputBorder(),
+                        ),
+                        obscureText: true,
+                      ),
+                      const SizedBox(height: 16),
+                      TextField(
+                        controller: _confirmPasswordController,
+                        decoration: const InputDecoration(
+                          labelText: "Confirm Password",
+                          border: OutlineInputBorder(),
+                        ),
+                        obscureText: true,
+                      ),
+                      const SizedBox(height: 16),
+                      ElevatedButton(
+                        onPressed: register,
+                        child: const Text("Register"),
+                      ),
+                      const SizedBox(height: 16),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const LoginPage(),
+                            ),
+                          );
+                        },
+                        child: const Text("Already have an account? Login"),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
-          const SizedBox(height: 16),
-
-          // Email field
-          TextField(
-            controller: _emailController,
-            decoration: const InputDecoration(labelText: "Email"),
-          ),
-          const SizedBox(height: 8),
-
-          // Password field
-          TextField(
-            controller: _passwordController,
-            decoration: const InputDecoration(labelText: "Password"),
-            obscureText: true,
-          ),
-          const SizedBox(height: 8),
-
-          // Confirm Password field
-          TextField(
-            controller: _confirmPasswordController,
-            decoration: const InputDecoration(labelText: "Confirm Password"),
-            obscureText: true,
-          ),
-          const SizedBox(height: 16),
-
-          // Register button
-          ElevatedButton(
-            onPressed: register,
-            child: const Text("Register"),
-          ),
-        ],
-      ),
-    );
-  }
+        ),
+      ],
+    ),
+  );
+}
 }

@@ -83,7 +83,7 @@ void queueActivityXP(int steps, int calories, int duration)
 
   void _startIdleXP()
    {
-    Timer.periodic(const Duration(seconds: 5), (timer) 
+    Timer.periodic(const Duration(seconds:10), (timer) 
     {
       for (var skill in skillXP.keys) 
       {        

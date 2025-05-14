@@ -36,7 +36,13 @@ class FitRPGApp extends StatelessWidget
   {
     return MaterialApp(
       title: 'FitRPG',
-      theme: ThemeData.dark(),
+      theme: ThemeData.dark().copyWith(
+        textTheme: ThemeData.dark().textTheme.apply(
+          fontFamily: 'pixelFont', // Custom font for the app
+          bodyColor: Colors.white, // Text color
+          displayColor: Colors.white, // Text color for display    
+        ),
+      ),
       home: const AuthGate(), //MainNavigation is the main screen of the app, which contains the bottom navigation bar
     );
   }
