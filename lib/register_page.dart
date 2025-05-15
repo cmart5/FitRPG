@@ -17,6 +17,8 @@ class _RegisterPageState extends State<RegisterPage> {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
+  bool isFemale = false;
+
   // Register button pressed 
   void register() async {
     //prepare data
@@ -36,7 +38,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
     // attempt registration
     try {
-      await authService.signUpWithEmailPassword(email, password);
+      await authService.signUpWithEmailPassword(email, password, isFemale);
 
       // Navigate to login page
       Navigator.pop(context);
@@ -92,8 +94,8 @@ Widget build(BuildContext context) {
                       ),
                       const SizedBox(height: 16),
                       const Text(
-                        "Welcome back! Please login to continue.",
-                        style: TextStyle(fontSize: 16, color: Colors.white),
+                        "Welcome to FitRPG! Register, Champion.",
+                        style: TextStyle(fontSize: 24, color: Colors.white),
                       ),
                       const SizedBox(height: 16),
                       TextField(
@@ -122,6 +124,51 @@ Widget build(BuildContext context) {
                         obscureText: true,
                       ),
                       const SizedBox(height: 16),
+                      // Male or Female selection
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            "Choose Your Champion:",
+                            style: TextStyle(fontSize: 18, color: Colors.white),
+                          ),
+                          const SizedBox(height: 8),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              ChoiceChip(
+                                label: const Text("Male"),
+                                selected: !isFemale,
+                                onSelected: (selected) {
+                                  setState(() {
+                                    isFemale = false;
+                                  });
+                                },
+                                selectedColor: Colors.blueAccent,
+                                labelStyle: TextStyle(
+                                  color: !isFemale ? Colors.white : Colors.black,
+                                  fontFamily: 'PixelFont',
+                                ),
+                              ),
+                              ChoiceChip(
+                                label: const Text("Female"),
+                                selected: isFemale,
+                                onSelected: (selected) {
+                                  setState(() {
+                                    isFemale = true;
+                                  });
+                                },
+                                selectedColor: Colors.pinkAccent,
+                                labelStyle: TextStyle(
+                                  color: isFemale ? Colors.white : Colors.black,
+                                  fontFamily: 'PixelFont',
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
                       ElevatedButton(
                         onPressed: register,
                         child: const Text("Register"),
@@ -136,7 +183,10 @@ Widget build(BuildContext context) {
                             ),
                           );
                         },
-                        child: const Text("Already have an account? Login"),
+                        child: const Text(
+                          "Already have an account? Login",
+                          style: TextStyle(fontSize: 20, color: Colors.white),
+                        ),
                       ),
                     ],
                   ),

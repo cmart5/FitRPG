@@ -151,7 +151,7 @@ class GameState extends ChangeNotifier
 
     final response = await Supabase.instance.client
       .from('user_skills')
-      .upsert(rows, onConflict: 'user_id,skill_name');
+      .upsert(rows);
 
     if (response.error != null) {
       print('Error saving XP data to Supabase: ${response.error!.message}');

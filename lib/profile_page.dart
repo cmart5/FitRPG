@@ -1,5 +1,5 @@
-import 'package:fit_rpg/auth_service.dart';
 import 'package:flutter/material.dart';
+import 'package:fit_rpg/auth_service.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -11,78 +11,118 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   final authService = AuthService();
 
-  // Text controllers
+  String _username = 'Loading...';
+  bool _isEditing = false;
+  bool isFemale = false;
+
   final _usernameController = TextEditingController();
-  bool _isEditing = false; // Track whether the username is being edited
-  String _username = "DefaultUsername"; // Initial username
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData(); // Loads username and isFemale
+  }
+
+  Future<void> _loadUserData() async {
+    final data = await authService.loadUserData();
+    if (data == null) return;
+
+    setState(() {
+      _username = data['username'] ?? 'Unnamed';
+      isFemale = data['isFemale'] ?? false;
+    });
+  }
+
+  Future<void> _toggleEdit() async {
+    if (_isEditing) {
+      final newUsername = _usernameController.text;
+      await authService.updateUsername(newUsername);
+      setState(() {
+        _username = newUsername;
+        _isEditing = false;
+      });
+    } else {
+      _usernameController.text = _username;
+      setState(() {
+        _isEditing = true;
+      });
+    }
+  }
 
   void logout() async {
     await authService.signOut();
   }
 
-  void _toggleEdit() {
-    setState(() {
-      if (_isEditing) {
-        // Save the new username when exiting edit mode
-        _username = _usernameController.text;
-      } else {
-        // Set the controller's text to the current username when entering edit mode
-        _usernameController.text = _username;
-      }
-      _isEditing = !_isEditing;
-    });
-  }
-
-  // BUILD UI
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        foregroundColor: Colors.white,
         actions: [
-          //logout button
           IconButton(
             onPressed: logout,
             icon: const Icon(Icons.logout),
             tooltip: 'Logout',
           )
-        ]
+        ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Username display with edit button
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: Stack(
+        children: [
+          // Background image based on gender
+          Positioned.fill(
+            child: Image.asset(
+              isFemale
+                  ? 'assets/images/FitRPG_ProfileBG_Female.png'
+                  : 'assets/images/FitRPG_ProfileBG.png',
+              fit: BoxFit.cover,
+              key: ValueKey(isFemale),
+            ),
+          ),
+
+          // Foreground content
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _isEditing
-                    ? Expanded(
-                        child: TextField(
-                          controller: _usernameController,
-                          decoration: const InputDecoration(
-                            labelText: 'Username',
-                            border: OutlineInputBorder(),
+                const SizedBox(height: 75),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _isEditing
+                        ? Expanded(
+                            child: TextField(
+                              controller: _usernameController,
+                              decoration: const InputDecoration(
+                                labelText: 'Username',
+                                border: OutlineInputBorder(),
+                              ),
+                            ),
+                          )
+                        : Text(
+                            _username,
+                            style: const TextStyle(
+                              fontSize: 48,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
                           ),
-                        ),
-                      )
-                    : Text(
-                        _username,
-                        style: const TextStyle(
-                          fontSize: 48,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                IconButton(
-                  onPressed: _toggleEdit,
-                  icon: Icon(_isEditing ? Icons.check : Icons.edit),
-                  tooltip: _isEditing ? 'Save' : 'Edit',
+                    IconButton(
+                      onPressed: _toggleEdit,
+                      icon: Icon(_isEditing ? Icons.check : Icons.edit),
+                      tooltip: _isEditing ? 'Save' : 'Edit',
+                      color: Colors.white,
+                    ),
+                  ],
                 ),
               ],
             ),
-            const SizedBox(height: 16),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

@@ -50,14 +50,14 @@ class _ActivityPageState extends State<ActivityPage>
     final prefs = await SharedPreferences.getInstance();
     await prefs.setInt('steps', steps);
     await prefs.setInt('calories', calories);
-    await prefs.setInt('duration', duration);
+    await prefs.setInt('duration', duration); 
   }
 
   void _updateValues(BuildContext context) 
   {
     setState(()
     {
-      steps = int.tryParse(_stepsController.text) ?? 0;
+      steps = int.tryParse(_stepsController.text) ?? 0; 
       calories = int.tryParse(_caloriesController.text) ?? 0;
       duration = int.tryParse(_durationController.text) ?? 0;
     });
@@ -68,28 +68,28 @@ class _ActivityPageState extends State<ActivityPage>
   @override
   Widget build(BuildContext context) 
   {
-    return Scaffold(
+    return Scaffold( // Scaffold to provide basic material design layout
       resizeToAvoidBottomInset: false, // Prevent automatic layout resize
-      body: Stack(
+      body: Stack( // Stack to allow background image
       children: [
         // Background image
-        Positioned.fill(
+        Positioned.fill( // Fill the entire screen with the background image
           child: Image.asset(
             'assets/images/FitRPG_ActivityBG.png',
             fit: BoxFit.cover,
           ),
         ),
-        SafeArea(
-          child: Column(
+        SafeArea( // Safe fixed height scrollable area
+          child: Column( // Column to stack widgets vertically
             children: [
               const SizedBox(height: 20),
-              Expanded(
-                child: SingleChildScrollView(
+              Expanded( // Expanded to fill available space
+                child: SingleChildScrollView( // Scrollable area for the content
                   padding: const EdgeInsets.all(16),
-                  child: Column(
+                  child: Column( // Column to stack widgets vertically
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const Center(
+                      const Center( // Centered title
                         child: Text(
                           "Acitivty Tracker",
                           style: TextStyle(
@@ -137,14 +137,14 @@ class _ActivityPageState extends State<ActivityPage>
                       ElevatedButton(
                         onPressed: () 
                         {
-                          final steps = int.tryParse(_stepsController.text) ?? 0;
+                          final steps = int.tryParse(_stepsController.text) ?? 0; // Get from the text field
                           final calories = int.tryParse(_caloriesController.text) ?? 0;
                           final duration = int.tryParse(_durationController.text) ?? 0;
                           final gameState = Provider.of<GameState>(context, listen: false);
 
                           gameState.queueActivityXP(steps, calories, duration); // Queue the XP, dont apply it yet
 
-                          Navigator.push(
+                          Navigator.push( 
                             context,
                             MaterialPageRoute(
                               builder: (context) => const GamePageStatic(triggerDelayedXP: true),

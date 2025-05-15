@@ -42,8 +42,23 @@ class FitRPGApp extends StatelessWidget
           bodyColor: Colors.white, // Text color
           displayColor: Colors.white, // Text color for display    
         ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color.fromARGB(255, 180, 180, 180), // Button fill color
+            foregroundColor: const Color.fromARGB(255, 0, 0, 0), // Text (and icon) color
+            textStyle: const TextStyle(
+              fontFamily: 'pixelFont',
+              fontSize: 32,
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4), // Sharp corners for retro feel
+            ),
+          ),
+        ),
       ),
-      home: const AuthGate(), //MainNavigation is the main screen of the app, which contains the bottom navigation bar
+
+      home: const AuthGate(), // Main entry point of the app, where the authentication gate is displayed
     );
   }
 }

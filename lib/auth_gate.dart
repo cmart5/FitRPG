@@ -3,14 +3,13 @@
 // unauthenticated -> login page
 // authenticated -> account page
 
-import 'package:fit_rpg/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:fit_rpg/login_page.dart';
 import 'package:fit_rpg/main_navigation.dart';
 
-class AuthGate extends StatelessWidget {
-  const AuthGate({super.key});
+class AuthGate extends StatelessWidget { // This widget will continuously check if the user is logged in or not
+  const AuthGate({super.key}); 
 
   @override
   Widget build(BuildContext context) {
