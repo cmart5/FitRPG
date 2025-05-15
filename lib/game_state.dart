@@ -46,49 +46,46 @@ class GameState extends ChangeNotifier
     'Smithing': 1,
   };
 
-  void queueActivityXP(int steps, int calories, int duration) 
-  {
-    pendingXP['Agility'] = (steps / 10).round();   // Steps contribute to Agility XP
-    pendingXP['Attack'] = (steps / 100).round();   // Steps contribute to Attack XP
-    pendingXP['Health'] = (steps / 50).round();   // Steps contribute to Attack XP
-    pendingXP['Strength'] = (calories / 15).round(); // Calories burned contribute to Strength XP
-    pendingXP['Defence'] = (calories / 10).round(); // Calories burned contribute to Defence XP
-    pendingXP['Crafting'] = (duration / 5).round();   // Workout time contributes to Crafting XP
-    pendingXP['Smithing'] = (duration / 5).round();   // Workout time contributes to Smithing XP
+  // Calculate XP based on activity
+  // This function takes the skill name, number of steps, calories burned, and duration of activity
+  int calculateXP(String skill, int steps, int calories, int duration) {
+
+    // Calculate XP based on activity
+    double stepsMath = (steps / 1000 * 10); // => 10 XP per 1000 steps
+    double caloriesMath = (calories / 100 * 5); // => 5 XP per 100 calories
+    double durationMath = (duration / 5 * 2); // => 2 XP per 5 minutes
+
+    // Calculate total XP gained from activity
+    double xpSum = (stepsMath + caloriesMath + durationMath);
+    // => 17 xp per 1000 steps, 100 calories, and 5 minutes. => High-end: 17 * 10 = 170 XP.
+
+  return xpSum.round(); // Round to nearest whole number
   }
 
-  void applyActivityXP(int steps, int calories, int duration) 
+  void queueActivityXP(String skill, int xpAmount) 
   {
-    gainXP('Agility', (steps / 10).round());   // Steps contribute to Agility XP
-    gainXP('Attack', (steps / 100).round());   // Steps contribute to Attack XP
-    gainXP('Health', (steps / 50).round());   // Steps contribute to Health XP
-    gainXP('Strength', (calories / 15).round()); // Calories burned contribute to Strength XP
-    gainXP('Defence', (calories / 10).round()); // Calories burned contribute to Defence XP
-    gainXP('Crafting', (duration / 5).round());   // Workout time contributes to Crafting XP
-    gainXP('Smithing', (duration / 5).round());   // Workout time contributes to Smithing XP
+    if (pendingXP.containsKey(skill)) 
+    {
+      pendingXP[skill] = xpAmount; // Set the pending XP for this skill
+    }
   }
 
   Set<String> recentlyUpdatedSkills = {};
 
   Future<void> applyPendingXPWithDelay() async 
-  {
+  {    
     recentlyUpdatedSkills.clear();
     await Future.delayed(const Duration(seconds: 1));
     
-    for (var skill in pendingXP.keys) { // Iterate through each skill
+    for (var entry in pendingXP.entries) {
+      final skill = entry.key;
+      final gained = entry.value;
 
-      final gained = pendingXP[skill] ?? 0; // Get the pending XP for this skill
-
-      if(gained > 0) { // Check if there's pending XP
-        skillXP[skill] = (skillXP[skill] ?? 0) + gained; // Apply pending XP
-
-        if (skillXP[skill]! >= _xpToLevelUp(skillLevels[skill]!)) // Check if level up
-        {
-          _levelUp(skill); // Level up the skill
-        }
+      if (gained > 0) {
+        gainXP(skill, gained);
+        pendingXP[skill] = 0;
       }
-      pendingXP[skill] = 0; // Reset pending XP for this skill
-    }    
+    }        
     notifyListeners();
   }
 
@@ -97,24 +94,39 @@ class GameState extends ChangeNotifier
     return level * 100; // Incremental XP req for Level UP
   }  
 
-  void gainXP(String skill, int amount) 
-  {
-    if (skillXP.containsKey(skill))
-     {
-      skillXP[skill] = (skillXP[skill] ?? 0) + amount;
-      if (skillXP[skill]! >= _xpToLevelUp(skillLevels[skill]!)) 
-      {
-        _levelUp(skill);
+  void gainXP(String skill, int amount) {
+    if (!skillXP.containsKey(skill)) return; // Check if skill exists
+
+    skillXP[skill] = (skillXP[skill] ?? 0) + amount; // Add XP to skill
+
+    // Loop while we can still level up
+    while (true) {
+      final currentLevel = skillLevels[skill] ?? 1; // Get current level
+      final xpToLevel = _xpToLevelUp(currentLevel); // Calculate XP needed for next level
+
+      if (skillXP[skill]! >= xpToLevel) { // Check if enough XP to level up
+        skillXP[skill] = skillXP[skill]! - xpToLevel; // Deduct XP for level up
+        skillLevels[skill] = currentLevel + 1; // Increment level
+      } 
+      else { // If not enough XP, break the loop
+        break;
       }
-      notifyListeners();
-      _saveGameData();
     }
+    notifyListeners();
+    _saveGameData();
   }
 
-  void _levelUp(String skill) 
+  void _levelUp(String skill, int amount) 
   {
-    skillXP[skill] = 0;
-    skillLevels[skill] = (skillLevels[skill] ?? 1) + 1;
+    if(!skillXP.containsKey(skill)) return; // Check if skill exists
+
+    skillXP[skill] = (skillXP[skill] ?? 0) + amount; // Add XP to skill
+
+    while (skillXP[skill]! >= _xpToLevelUp(skillLevels[skill]!))  // Check if XP is enough for level up
+    {
+      skillXP[skill] = skillXP[skill]! - _xpToLevelUp(skillLevels[skill]!); // Deduct XP for level up
+      skillLevels[skill] = (skillLevels[skill] ?? 1) + 1; // Increment level
+    }
     notifyListeners();
     _saveGameData();
   }  
@@ -237,6 +249,4 @@ class GameState extends ChangeNotifier
       return false;
     }
   }
-
-
 }

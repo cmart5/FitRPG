@@ -13,10 +13,14 @@ class GamePageStatic extends StatefulWidget
 
 class _GamePageStaticState extends State<GamePageStatic>
 {
+  Map<String, int> previousXP = {}; // Store previous XP values
+
   @override
   void initState()
   {
     super.initState();
+    final gameState = Provider.of<GameState>(context, listen: false); // Initialize game state
+    previousXP = Map.from(gameState.skillXP); // Store initial XP values
 
     if (widget.triggerDelayedXP) { // Check if delayed XP application is triggered
       Future.delayed(const Duration(milliseconds: 1500), () async{
@@ -101,6 +105,9 @@ class _GamePageStaticState extends State<GamePageStatic>
                     final level = gameState.skillLevels[skill] ?? 1;
                     final xpToLevel = level * 100; // XP needed for next level
                     final xpPercent = xp / xpToLevel;
+
+                    final oldXP = previousXP[skill] ?? xp; // Get the old XP value
+                    final rolledOver = xp < oldXP; // Check if XP rolled over
 
                     return Padding(
                       padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 20),

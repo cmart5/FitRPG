@@ -22,6 +22,17 @@ class _ActivityPageState extends State<ActivityPage>
   int calories = 0;
   int duration = 0; // in minutes
 
+  String? selectedSkill; // Track the selected skill
+  final List<String> skills = [ // List of skills
+    "Health",
+    "Attack",
+    "Strength",
+    "Defence",
+    "Agility",
+    "Crafting",
+    "Smithing",
+  ];
+
   @override
   void initState() 
   {
@@ -51,18 +62,6 @@ class _ActivityPageState extends State<ActivityPage>
     await prefs.setInt('steps', steps);
     await prefs.setInt('calories', calories);
     await prefs.setInt('duration', duration); 
-  }
-
-  void _updateValues(BuildContext context) 
-  {
-    setState(()
-    {
-      steps = int.tryParse(_stepsController.text) ?? 0; 
-      calories = int.tryParse(_caloriesController.text) ?? 0;
-      duration = int.tryParse(_durationController.text) ?? 0;
-    });
-    Provider.of<GameState>(context, listen: false).applyActivityXP(steps, calories, duration);
-    _saveActivityData();
   }
 
   @override
@@ -132,6 +131,35 @@ class _ActivityPageState extends State<ActivityPage>
                         keyboardType: TextInputType.number,
                       ),
                       // End of input fields
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            "Choose which Skill to Apply XP to:",
+                            style: TextStyle(fontSize: 18, color: Colors.white),
+                          ),
+                          Wrap(
+                            spacing: 15.0,
+                            runSpacing: 10.0,
+                            children: skills.map((skill) {
+                              return ChoiceChip(
+                                label: Text(skill),
+                                selected: selectedSkill == skill,
+                                onSelected: (selected) {
+                                  setState(() {
+                                    selectedSkill = selected ? skill : null;
+                                  });
+                                },
+                                selectedColor: Colors.blueAccent,
+                                labelStyle: TextStyle(
+                                  color: selectedSkill == skill ? Colors.white : Colors.grey,
+                                  fontFamily: 'pixelFont',
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ],
+                      ),
                       const SizedBox(height: 20),
                       // Save Button
                       ElevatedButton(
@@ -141,9 +169,11 @@ class _ActivityPageState extends State<ActivityPage>
                           final calories = int.tryParse(_caloriesController.text) ?? 0;
                           final duration = int.tryParse(_durationController.text) ?? 0;
                           final gameState = Provider.of<GameState>(context, listen: false);
+                          final totalXP = gameState.calculateXP(selectedSkill!, steps, calories, duration); // Calculate XP based on activity
 
-                          gameState.queueActivityXP(steps, calories, duration); // Queue the XP, dont apply it yet
-
+                          if(selectedSkill != null && totalXP > 0){
+                            gameState.queueActivityXP(selectedSkill!, totalXP); // Queue the XP, dont apply it yet
+                          }
                           Navigator.push( 
                             context,
                             MaterialPageRoute(

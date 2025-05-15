@@ -8,11 +8,13 @@ C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Debug/data/flutter_assets/AssetM
 C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Debug/data/flutter_assets/AssetManifest.json
 C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Debug/data/flutter_assets/assets/fonts/pixelFont.ttf
 C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Debug/data/flutter_assets/assets/images/alien.png
+C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Debug/data/flutter_assets/assets/images/boss.png
 C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Debug/data/flutter_assets/assets/images/FitRPG_ActivityBG.png
 C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Debug/data/flutter_assets/assets/images/FitRPG_BG_Login.png
 C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Debug/data/flutter_assets/assets/images/FitRPG_ProfileBG.png
 C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Debug/data/flutter_assets/assets/images/FitRPG_ProfileBG_Female.png
 C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Debug/data/flutter_assets/assets/images/FitRPG_StatBG.png
+C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Debug/data/flutter_assets/assets/images/knight.png
 C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Debug/data/flutter_assets/assets/images/XP_Bar.png
 C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Debug/data/flutter_assets/FontManifest.json
 C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Debug/data/flutter_assets/fonts/MaterialIcons-Regular.otf
