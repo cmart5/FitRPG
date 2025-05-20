@@ -73,9 +73,15 @@ class _ActivityPageState extends State<ActivityPage>
       children: [
         // Background image
         Positioned.fill( // Fill the entire screen with the background image
-          child: Image.asset(
-            'assets/images/FitRPG_ActivityBG.png',
-            fit: BoxFit.cover,
+          child: ColorFiltered(
+            colorFilter: ColorFilter.mode(
+              Colors.white.withOpacity(0.025),
+              BlendMode.lighten,
+            ),
+            child: Image.asset(
+              'assets/images/FitRPG_ActivityBG.png',
+              fit: BoxFit.cover,
+            ),
           ),
         ),
         SafeArea( // Safe fixed height scrollable area
@@ -106,8 +112,14 @@ class _ActivityPageState extends State<ActivityPage>
                       const SizedBox(height: 16),
                       TextField(
                         controller: _stepsController,
+                        style: const TextStyle(
+                          fontSize: 24
+                        ),
                         decoration: const InputDecoration(
                           labelText: "Steps",
+                          labelStyle: TextStyle(
+                          fontSize: 24
+                        ),
                           border: OutlineInputBorder(),
                         ),
                         keyboardType: TextInputType.number,
@@ -115,8 +127,14 @@ class _ActivityPageState extends State<ActivityPage>
                       const SizedBox(height: 16),
                       TextField(
                         controller: _caloriesController,
+                        style: const TextStyle(
+                          fontSize: 24
+                        ),
                         decoration: const InputDecoration(
                           labelText: "Calories",
+                          labelStyle: TextStyle(
+                          fontSize: 24
+                        ),
                           border: OutlineInputBorder(),
                         ),
                         keyboardType: TextInputType.number,
@@ -124,8 +142,14 @@ class _ActivityPageState extends State<ActivityPage>
                       const SizedBox(height: 20),
                       TextField(
                         controller: _durationController,
+                        style: const TextStyle(
+                          fontSize: 24
+                        ),
                         decoration: const InputDecoration(
                           labelText: "Duration (minutes)",
+                          labelStyle: TextStyle(
+                          fontSize: 24
+                        ),
                           border: OutlineInputBorder(),
                         ),
                         keyboardType: TextInputType.number,
@@ -138,22 +162,45 @@ class _ActivityPageState extends State<ActivityPage>
                             "Choose which Skill to Apply XP to:",
                             style: TextStyle(fontSize: 18, color: Colors.white),
                           ),
-                          Wrap(
-                            spacing: 15.0,
-                            runSpacing: 10.0,
+                          GridView.count(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 12.0,
+                            mainAxisSpacing: 12.0,
+                            childAspectRatio: 3.0,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(), // Disable scrolling
                             children: skills.map((skill) {
-                              return ChoiceChip(
-                                label: Text(skill),
-                                selected: selectedSkill == skill,
-                                onSelected: (selected) {
+                              final isSelected = selectedSkill == skill;
+
+                              return GestureDetector(
+                                onTap: () {
                                   setState(() {
-                                    selectedSkill = selected ? skill : null;
+                                    selectedSkill = isSelected ? null : skill;
                                   });
                                 },
-                                selectedColor: Colors.blueAccent,
-                                labelStyle: TextStyle(
-                                  color: selectedSkill == skill ? Colors.white : Colors.grey,
-                                  fontFamily: 'pixelFont',
+                                child: Card(
+                                  color: isSelected ? Colors.blueAccent : const Color.fromARGB(65, 0, 0, 0),
+                                  elevation: isSelected ? 8 : 1,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(6),
+                                    side: BorderSide(
+                                      color: isSelected ? Colors.white : Colors.grey,
+                                      width: 2,
+                                    ),
+                                  ),
+                                  child: Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(12.0),
+                                      child: Text(
+                                        skill,
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontFamily: 'pixelFont',
+                                          color: isSelected ? Colors.white : Colors.grey[300],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               );
                             }).toList(),
@@ -165,8 +212,8 @@ class _ActivityPageState extends State<ActivityPage>
                       ElevatedButton(
                         onPressed: () 
                         {
-                          final steps = int.tryParse(_stepsController.text) ?? 0; // Get from the text field
-                          final calories = int.tryParse(_caloriesController.text) ?? 0;
+                          final steps = int.tryParse(_stepsController.text) ?? 0; // Get from the text field,
+                          final calories = int.tryParse(_caloriesController.text) ?? 0; // set to 0 if empty
                           final duration = int.tryParse(_durationController.text) ?? 0;
                           final gameState = Provider.of<GameState>(context, listen: false);
                           final totalXP = gameState.calculateXP(selectedSkill!, steps, calories, duration); // Calculate XP based on activity
