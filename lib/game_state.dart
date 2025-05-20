@@ -72,8 +72,7 @@ class GameState extends ChangeNotifier
 
   Set<String> recentlyUpdatedSkills = {};
 
-  Future<void> applyPendingXPWithDelay() async 
-  {    
+  Future<void> applyPendingXPWithDelay() async {    
     recentlyUpdatedSkills.clear();
     await Future.delayed(const Duration(seconds: 1));
     
@@ -82,9 +81,14 @@ class GameState extends ChangeNotifier
       final gained = entry.value;
 
       if (gained > 0) {
+        if(skillXP[skill]! + gained >= _xpToLevelUp(skillLevels[skill]!)) { // Prevents divide by 0
+          recentlyUpdatedSkills.add(skill); // Store and mark skill as updated for animation trigger
+        }
         gainXP(skill, gained);
         pendingXP[skill] = 0;
       }
+      print('$skill XP: ${skillXP[skill]}');
+      print('recentlyUpdatedSkills: $recentlyUpdatedSkills');
     }        
     notifyListeners();
   }
@@ -115,21 +119,6 @@ class GameState extends ChangeNotifier
     notifyListeners();
     _saveGameData();
   }
-
-  void _levelUp(String skill, int amount) 
-  {
-    if(!skillXP.containsKey(skill)) return; // Check if skill exists
-
-    skillXP[skill] = (skillXP[skill] ?? 0) + amount; // Add XP to skill
-
-    while (skillXP[skill]! >= _xpToLevelUp(skillLevels[skill]!))  // Check if XP is enough for level up
-    {
-      skillXP[skill] = skillXP[skill]! - _xpToLevelUp(skillLevels[skill]!); // Deduct XP for level up
-      skillLevels[skill] = (skillLevels[skill] ?? 1) + 1; // Increment level
-    }
-    notifyListeners();
-    _saveGameData();
-  }  
 
   Future<void> _saveGameData() async {
     final online = await _isOnline(); // Check if online

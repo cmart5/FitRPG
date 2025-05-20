@@ -71,16 +71,20 @@ class _ActivityPageState extends State<ActivityPage>
       resizeToAvoidBottomInset: false, // Prevent automatic layout resize
       body: Stack( // Stack to allow background image
       children: [
+        MediaQuery.removeViewInsets(
+          context: context,
+          removeBottom: true, // Remove bottom inset to prevent keyboard overlap
         // Background image
-        Positioned.fill( // Fill the entire screen with the background image
-          child: ColorFiltered(
-            colorFilter: ColorFilter.mode(
-              Colors.white.withOpacity(0.025),
-              BlendMode.lighten,
-            ),
-            child: Image.asset(
-              'assets/images/FitRPG_ActivityBG.png',
-              fit: BoxFit.cover,
+          child: Positioned.fill( // Fill the entire screen with the background image
+            child: ColorFiltered(
+              colorFilter: ColorFilter.mode(
+                Colors.white.withOpacity(0.025),
+                BlendMode.lighten,
+              ),
+              child: Image.asset(
+                'assets/images/FitRPG_ActivityBG.png',
+                fit: BoxFit.cover,  
+              ),
             ),
           ),
         ),
