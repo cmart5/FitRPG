@@ -79,17 +79,21 @@ class GameState extends ChangeNotifier
     for (var entry in pendingXP.entries) {
       final skill = entry.key;
       final gained = entry.value;
+      final oldXP    = skillXP[skill]!;            // XP before applying
+      final oldLevel = skillLevels[skill]!;        // level before applying
+      final xpNeeded = _xpToLevelUp(oldLevel);     // threshold for that level
 
       if (gained > 0) {
-        if(skillXP[skill]! + gained >= _xpToLevelUp(skillLevels[skill]!)) { // Prevents divide by 0
-          recentlyUpdatedSkills.add(skill); // Store and mark skill as updated for animation trigger
+        // Only animate rollover if we actually hit or exceed the threshold:
+        if (oldXP + gained >= xpNeeded) {
+          recentlyUpdatedSkills.add(skill);
         }
+
         gainXP(skill, gained);
         pendingXP[skill] = 0;
       }
-      print('$skill XP: ${skillXP[skill]}');
       print('recentlyUpdatedSkills: $recentlyUpdatedSkills');
-    }        
+    }       
     notifyListeners();
   }
 
@@ -118,6 +122,48 @@ class GameState extends ChangeNotifier
     }
     notifyListeners();
     _saveGameData();
+  }
+
+  /// Update or insert a single skill for the current user in Supabase
+  Future<void> updateOrInsertUserSkill(String skill) async {
+    final userId = supabase.auth.currentUser?.id;
+    if (userId == null) return;
+
+    final xp = skillXP[skill] ?? 0;
+    final level = skillLevels[skill] ?? 1;
+
+    try {
+      // Check if the row exists
+      final existing = await supabase
+          .from('user_skills')
+          .select()
+          .eq('user_id', userId)
+          .eq('skill_name', skill)
+          .maybeSingle();
+
+      if (existing != null) {
+        // Update if exists
+        await supabase
+            .from('user_skills')
+            .update({'xp': xp, 'level': level})
+            .eq('user_id', userId)
+            .eq('skill_name', skill);
+        print('Skill $skill updated successfully in Supabase');
+      } else {
+        // Insert if not exists
+        await supabase
+            .from('user_skills')
+            .insert({
+              'user_id': userId,
+              'skill_name': skill,
+              'xp': xp,
+              'level': level,
+            });
+        print('Skill $skill inserted successfully in Supabase');
+      }
+    } catch (e) {
+      print('Error updating/inserting $skill in Supabase: $e');
+    }
   }
 
   Future<void> _saveGameData() async {
@@ -154,8 +200,8 @@ class GameState extends ChangeNotifier
       .from('user_skills')
       .upsert(rows);
 
-    if (response.error != null) {
-      print('Error saving XP data to Supabase: ${response.error!.message}');
+    if (response?.error != null) {
+      print('Error saving XP data to Supabase: ${response?.error!.message}'); 
       needsCloudSync = true; // Set flag to true if there's an error
     } else {
       print('XP data saved successfully to Supabase');

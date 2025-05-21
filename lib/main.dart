@@ -39,8 +39,8 @@ class FitRPGApp extends StatelessWidget
       theme: ThemeData.dark().copyWith(
         textTheme: ThemeData.dark().textTheme.apply(
           fontFamily: 'pixelFont', // Custom font for the app
-          bodyColor: Colors.white, // Text color
-          displayColor: Colors.white, // Text color for display    
+          bodyColor: Colors.black, // Text color
+          displayColor: Colors.black, // Text color for display    
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(

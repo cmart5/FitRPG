@@ -20,7 +20,7 @@ class _GamePageActiveState extends State<GamePageActive> {
           // Background
           Positioned.fill(
             child: Image.asset(
-              'assets/images/FitRPG_StatBG.png',
+              'assets/images/BattleScene_BG.png',
               fit: BoxFit.cover,
             ),
           ),

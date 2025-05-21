@@ -58,7 +58,7 @@ class SkillProgressRow extends StatelessWidget { // Widget to display skill prog
                       fontSize: 20,
                       color: (xp / xpToLevel) >= 1.0 // Check if XP is maxed out
                           ? Colors.green // Change color to green if maxed out
-                          : Colors.white, // Default color
+                          : Colors.black, // Default color
                     ),
                   );
                 },
@@ -105,6 +105,7 @@ class _GamePageStaticState extends State<GamePageStatic> with SingleTickerProvid
 
         // Build TweenSequences for each skill leveling up
         _rolloverAnims.clear();
+        print('recentlyUpdatedSkills: ${gameState.recentlyUpdatedSkills}');
         for (final skill in gameState.recentlyUpdatedSkills) {
           final oldLevel = previousLevels[skill]!;
           final newLevel = gameState.skillLevels[skill]!;
@@ -164,7 +165,7 @@ class _GamePageStaticState extends State<GamePageStatic> with SingleTickerProvid
       width: 200, // full width of the bar
       height: 20,
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.white),
+        border: Border.all(color: Colors.black),
         borderRadius: BorderRadius.circular(4),
         ),
         child: Stack(
@@ -200,20 +201,20 @@ class _GamePageStaticState extends State<GamePageStatic> with SingleTickerProvid
           // Background image
           Positioned.fill(
             child: Image.asset(
-              'assets/images/FitRPG_StatBG.png',
+              'assets/images/Stats_BG.png',
               fit: BoxFit.cover,
             ),
           ),
           // Dark overlay
           Positioned.fill(
             child: Container(
-              color: Colors.black.withValues(alpha: .25), // Dark overlay
+              color: Colors.white.withValues(alpha: .125), // Dark overlay
             ),
           ),
           AppBar(
             backgroundColor: Colors.transparent, // Make the AppBar transparent
             elevation: 0, // Remove shadow
-            foregroundColor: Colors.white, // Set icon color to white
+            foregroundColor: Colors.black, // Set icon color to white
           ),
           // Foreground content
           Column(

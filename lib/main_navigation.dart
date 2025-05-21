@@ -42,7 +42,7 @@ class _MainNavigationState extends State<MainNavigation>
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle), //placeholder icon
-            label: 'Account',
+            label: 'Profile',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.directions_run), //placeholder icon

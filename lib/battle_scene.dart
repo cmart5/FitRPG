@@ -36,8 +36,8 @@ class BattleScene extends FlameGame {
 
   @override
   Future<void> onLoad() async {
-    final knightSprite = await loadSprite('knight.png');
-    final bossSprite = await loadSprite('boss.png');
+    final knightSprite = await loadSprite('WarriorSprite.png');
+    final bossSprite = await loadSprite('BossSprite.png');
 
     final screenCenterY = size.y / 2;
 

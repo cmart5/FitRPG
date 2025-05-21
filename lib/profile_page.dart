@@ -76,8 +76,8 @@ class _ProfilePageState extends State<ProfilePage> {
           Positioned.fill(
             child: Image.asset(
               isFemale
-                  ? 'assets/images/FitRPG_ProfileBG_Female.png'
-                  : 'assets/images/FitRPG_ProfileBG.png',
+                  ? 'assets/images/Profile_BG.png'
+                  : 'assets/images/Profile_BG.png',
               fit: BoxFit.cover,
               key: ValueKey(isFemale),
             ),

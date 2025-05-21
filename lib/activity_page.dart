@@ -1,5 +1,6 @@
 import 'package:fit_rpg/game_page_static.dart';
 import 'package:fit_rpg/game_state.dart';
+import 'package:fit_rpg/widgets_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -78,11 +79,11 @@ class _ActivityPageState extends State<ActivityPage>
           child: Positioned.fill( // Fill the entire screen with the background image
             child: ColorFiltered(
               colorFilter: ColorFilter.mode(
-                Colors.white.withOpacity(0.025),
+                Colors.white.withAlpha(32),
                 BlendMode.lighten,
               ),
               child: Image.asset(
-                'assets/images/FitRPG_ActivityBG.png',
+                'assets/images/Activity_BG.png',
                 fit: BoxFit.cover,  
               ),
             ),
@@ -91,7 +92,7 @@ class _ActivityPageState extends State<ActivityPage>
         SafeArea( // Safe fixed height scrollable area
           child: Column( // Column to stack widgets vertically
             children: [
-              const SizedBox(height: 20),
+              const SizedBox(height: 0),
               Expanded( // Expanded to fill available space
                 child: SingleChildScrollView( // Scrollable area for the content
                   padding: const EdgeInsets.all(16),
@@ -104,16 +105,16 @@ class _ActivityPageState extends State<ActivityPage>
                           style: TextStyle(
                             fontSize: 48,
                             fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                            color: Colors.black,
                           ),
                         ),
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 0),
                       const Text(
                         "Enter your workout manually.",
-                        style: TextStyle(fontSize: 24, color: Colors.white),
+                        style: TextStyle(fontSize: 32, color: Colors.black),
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 0),
                       TextField(
                         controller: _stepsController,
                         style: const TextStyle(
@@ -122,7 +123,8 @@ class _ActivityPageState extends State<ActivityPage>
                         decoration: const InputDecoration(
                           labelText: "Steps",
                           labelStyle: TextStyle(
-                          fontSize: 24
+                            color: Colors.black,
+                            fontSize: 24
                         ),
                           border: OutlineInputBorder(),
                         ),
@@ -137,7 +139,8 @@ class _ActivityPageState extends State<ActivityPage>
                         decoration: const InputDecoration(
                           labelText: "Calories",
                           labelStyle: TextStyle(
-                          fontSize: 24
+                            color: Colors.black,
+                            fontSize: 24
                         ),
                           border: OutlineInputBorder(),
                         ),
@@ -152,7 +155,8 @@ class _ActivityPageState extends State<ActivityPage>
                         decoration: const InputDecoration(
                           labelText: "Duration (minutes)",
                           labelStyle: TextStyle(
-                          fontSize: 24
+                            color: Colors.black,
+                            fontSize: 24
                         ),
                           border: OutlineInputBorder(),
                         ),
@@ -162,15 +166,20 @@ class _ActivityPageState extends State<ActivityPage>
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
+                          FrostedText(
+                            sigmaX: 1,
+                            sigmaY: 1,
+                            color: Colors.white.withAlpha(0),
+                            child: const Text(
                             "Choose which Skill to Apply XP to:",
-                            style: TextStyle(fontSize: 18, color: Colors.white),
+                            style: TextStyle(fontSize: 24, color: Colors.black),
+                            ),
                           ),
                           GridView.count(
                             crossAxisCount: 2,
-                            crossAxisSpacing: 12.0,
-                            mainAxisSpacing: 12.0,
-                            childAspectRatio: 3.0,
+                            crossAxisSpacing: 3.0,
+                            mainAxisSpacing: 3.0,
+                            childAspectRatio: 4.0,
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(), // Disable scrolling
                             children: skills.map((skill) {
@@ -183,7 +192,7 @@ class _ActivityPageState extends State<ActivityPage>
                                   });
                                 },
                                 child: Card(
-                                  color: isSelected ? Colors.blueAccent : const Color.fromARGB(65, 0, 0, 0),
+                                  color: isSelected ? Colors.blueAccent : Colors.black.withAlpha(150),
                                   elevation: isSelected ? 8 : 1,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(6),
@@ -194,7 +203,7 @@ class _ActivityPageState extends State<ActivityPage>
                                   ),
                                   child: Center(
                                     child: Padding(
-                                      padding: const EdgeInsets.all(12.0),
+                                      padding: const EdgeInsets.all(6.0),
                                       child: Text(
                                         skill,
                                         style: TextStyle(
@@ -211,11 +220,10 @@ class _ActivityPageState extends State<ActivityPage>
                           ),
                         ],
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 10),
                       // Save Button
                       ElevatedButton(
-                        onPressed: () 
-                        {
+                        onPressed: () async {
                           final steps = int.tryParse(_stepsController.text) ?? 0; // Get from the text field,
                           final calories = int.tryParse(_caloriesController.text) ?? 0; // set to 0 if empty
                           final duration = int.tryParse(_durationController.text) ?? 0;
@@ -224,7 +232,10 @@ class _ActivityPageState extends State<ActivityPage>
 
                           if(selectedSkill != null && totalXP > 0){
                             gameState.queueActivityXP(selectedSkill!, totalXP); // Queue the XP, dont apply it yet
+                            //await gameState.applyPendingXPWithDelay(); // Apply the XP with a delay
+                            await gameState.updateOrInsertUserSkill(selectedSkill!); // Upsert the skill to the database
                           }
+
                           Navigator.push( 
                             context,
                             MaterialPageRoute(

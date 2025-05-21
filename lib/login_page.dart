@@ -1,6 +1,7 @@
 import 'package:fit_rpg/register_page.dart';
 import 'package:flutter/material.dart';
 import 'package:fit_rpg/auth_service.dart';
+import 'package:fit_rpg/widgets_ui.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -49,7 +50,7 @@ Widget build(BuildContext context) {
         // Background image
         Positioned.fill(
           child: Image.asset(
-            'assets/images/FitRPG_BG_Login.png',
+            'assets/images/Login_BG.png',
             fit: BoxFit.cover,
           ),
         ),
@@ -71,31 +72,62 @@ Widget build(BuildContext context) {
                           style: TextStyle(
                             fontSize: 64,
                             fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                            color: Colors.black,
                           ),
                         ),
                       ),
                       const SizedBox(height: 16),
-                      const Text(
-                        "Welcome back! Please login to continue.",
-                        style: TextStyle(fontSize: 24, color: Colors.white),
-                      ),
-                      const SizedBox(height: 16),
-                      TextField(
-                        controller: _emailController,
-                        decoration: const InputDecoration(
-                          labelText: "Email",
-                          border: OutlineInputBorder(),
+                      FrostedText(
+                        color: Colors.white.withOpacity(0.125),
+                        borderRadius: BorderRadius.circular(4),
+                        padding: const EdgeInsets.all(0),
+                        child: const Text(
+                          " Welcome back! Please login to continue.",
+                          style: TextStyle(fontSize: 28, color: Colors.black),
                         ),
                       ),
                       const SizedBox(height: 16),
-                      TextField(
-                        controller: _passwordController,
-                        decoration: const InputDecoration(
-                          labelText: "Password",
-                          border: OutlineInputBorder(),
+                      FrostedText(
+                        color: Colors.black.withAlpha(64),
+                        borderRadius: BorderRadius.circular(4),
+                        padding: const EdgeInsets.all(3),
+                        child: TextField(
+                          controller: _emailController,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 24
+                            ),
+                          decoration: const InputDecoration(
+                            labelStyle: TextStyle(
+                              color: Colors.black,
+                              fontSize: 24
+                            ),
+                            labelText: "Email",
+                            border: OutlineInputBorder(),
+                          ),
                         ),
+                      ),
+                      const SizedBox(height: 16),
+                      FrostedText(
+                        color: Colors.black.withAlpha(64),
+                        borderRadius: BorderRadius.circular(4),
+                        padding: const EdgeInsets.all(3),
+                        child: TextField(
+                          controller: _passwordController,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 24
+                            ),
+                          decoration: const InputDecoration(
+                            labelStyle: TextStyle(
+                              color: Colors.black,
+                              fontSize: 24
+                            ),
+                            labelText: "Password",
+                            border: OutlineInputBorder(),
+                          ),
                         obscureText: true,
+                        ),
                       ),
                       const SizedBox(height: 16),
                       ElevatedButton(
@@ -112,9 +144,14 @@ Widget build(BuildContext context) {
                             ),
                           );
                         },
-                        child: const Text(
-                          "Don't have an account? Register here.",
-                          style: TextStyle(fontSize: 20, color: Colors.white),
+                        child: FrostedText(
+                          color: Colors.white.withAlpha(32),
+                          borderRadius: BorderRadius.circular(4),
+                          padding: const EdgeInsets.all(0),
+                          child: const Text(
+                            "Dont have an account? Register here.",
+                            style: TextStyle(fontSize: 24, color: Colors.black),
+                          ),
                         ),
                       ),
                     ],

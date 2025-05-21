@@ -1,6 +1,7 @@
 import 'package:fit_rpg/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:fit_rpg/auth_service.dart';
+import 'package:fit_rpg/widgets_ui.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -66,7 +67,7 @@ Widget build(BuildContext context) {
         // Background image
         Positioned.fill(
           child: Image.asset(
-            'assets/images/FitRPG_BG_Login.png',
+            'assets/images/Login_BG.png',
             fit: BoxFit.cover,
           ),
         ),
@@ -86,58 +87,110 @@ Widget build(BuildContext context) {
                         child: Text(
                           "FitRPG",
                           style: TextStyle(
-                            fontSize: 32,
+                            fontSize: 64,
                             fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                            color: Colors.black,
                           ),
                         ),
                       ),
                       const SizedBox(height: 16),
-                      const Text(
-                        "Welcome to FitRPG! Register, Champion.",
-                        style: TextStyle(fontSize: 24, color: Colors.white),
-                      ),
-                      const SizedBox(height: 16),
-                      TextField(
-                        controller: _emailController,
-                        decoration: const InputDecoration(
-                          labelText: "Email",
-                          border: OutlineInputBorder(),
+                      // Frosted text background
+                      FrostedText(
+                            color: Colors.white.withAlpha(32),
+                            borderRadius: BorderRadius.circular(4),
+                            padding: const EdgeInsets.all(2),
+                            child: const Text(
+                              "Welcome to FitRPG! Register, Champion.",
+                              style: TextStyle(fontSize: 28, color: Colors.black),
                         ),
                       ),
                       const SizedBox(height: 16),
-                      TextField(
-                        controller: _passwordController,
-                        decoration: const InputDecoration(
-                          labelText: "Password",
-                          border: OutlineInputBorder(),
+                      FrostedText(
+                        color: Colors.black.withAlpha(64),
+                        borderRadius: BorderRadius.circular(4),
+                        padding: const EdgeInsets.all(3),
+                        child: TextField(
+                          controller: _emailController,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 24
+                            ),
+                          decoration: const InputDecoration(
+                            labelStyle: TextStyle(
+                              color: Colors.black,
+                              fontSize: 24
+                            ),
+                            labelText: "Email",
+                            border: OutlineInputBorder(),
+                          ),
                         ),
-                        obscureText: true,
                       ),
                       const SizedBox(height: 16),
-                      TextField(
-                        controller: _confirmPasswordController,
-                        decoration: const InputDecoration(
-                          labelText: "Confirm Password",
-                          border: OutlineInputBorder(),
+                      FrostedText(
+                        color: Colors.black.withAlpha(64),
+                        borderRadius: BorderRadius.circular(4),
+                        padding: const EdgeInsets.all(3),
+                        child: TextField(
+                          controller: _passwordController,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 24
+                            ),
+                          decoration: const InputDecoration(
+                              labelStyle: TextStyle(
+                              color: Colors.black,
+                              fontSize: 24
+                            ),
+                            labelText: "Password",
+                            border: OutlineInputBorder(),
+                          ),
+                          obscureText: true,
                         ),
-                        obscureText: true,
+                      ),
+                      const SizedBox(height: 16),
+                      FrostedText(
+                        color: Colors.black.withAlpha(64),
+                        borderRadius: BorderRadius.circular(4),
+                        padding: const EdgeInsets.all(3),
+                        child: TextField(
+                          controller: _confirmPasswordController,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 24
+                            ),
+                          decoration: const InputDecoration(
+                            labelStyle: TextStyle(
+                              color: Colors.black,
+                              fontSize: 24
+                            ),
+                            labelText: "Confirm Password",
+                            border: OutlineInputBorder(),
+                          ),
+                          obscureText: true,
+                        ),
                       ),
                       const SizedBox(height: 16),
                       // Male or Female selection
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            "Choose Your Champion:",
-                            style: TextStyle(fontSize: 18, color: Colors.white),
+                          FrostedText(
+                            sigmaX: 12,
+                            sigmaY: 12,
+                            color: Colors.white.withAlpha(32),
+                            borderRadius: BorderRadius.circular(4),
+                            padding: const EdgeInsets.all(2),
+                            child: const Text(
+                              "Choose Your Champion:",
+                              style: TextStyle(fontSize: 28, color: Colors.black),
+                            ),
                           ),
                           const SizedBox(height: 8),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               ChoiceChip(
-                                label: const Text("Male"),
+                                label: const Text(" Male"),
                                 selected: !isFemale,
                                 onSelected: (selected) {
                                   setState(() {
@@ -146,8 +199,9 @@ Widget build(BuildContext context) {
                                 },
                                 selectedColor: Colors.blueAccent,
                                 labelStyle: TextStyle(
-                                  color: !isFemale ? Colors.white : Colors.black,
+                                  color: !isFemale ? Colors.white : Colors.grey,
                                   fontFamily: 'PixelFont',
+                                  fontSize: 24,
                                 ),
                               ),
                               ChoiceChip(
@@ -160,8 +214,9 @@ Widget build(BuildContext context) {
                                 },
                                 selectedColor: Colors.pinkAccent,
                                 labelStyle: TextStyle(
-                                  color: isFemale ? Colors.white : Colors.black,
+                                  color: isFemale ? Colors.white : Colors.grey,
                                   fontFamily: 'PixelFont',
+                                  fontSize: 24,
                                 ),
                               ),
                             ],
@@ -183,9 +238,14 @@ Widget build(BuildContext context) {
                             ),
                           );
                         },
-                        child: const Text(
-                          "Already have an account? Login",
-                          style: TextStyle(fontSize: 20, color: Colors.white),
+                        child: FrostedText(
+                          color: Colors.white.withAlpha(32),
+                          borderRadius: BorderRadius.circular(4),
+                          padding: const EdgeInsets.all(2),
+                          child: const Text(
+                            "Already have an account? Login",
+                            style: TextStyle(fontSize: 24, color: Colors.black),
+                          ),
                         ),
                       ),
                     ],

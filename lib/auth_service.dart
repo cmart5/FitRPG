@@ -41,21 +41,23 @@ class AuthService {
     await supabase.auth.signOut();
   }
 
-    String? getUserId() {
+  String? getUserId() {
     return supabase.auth.currentUser?.id;
   }
 
   Future<Map<String, dynamic>?> loadUserData() async {
-  final userId = getUserId();
-  if (userId == null) return null;
+    final userId = getUserId();
+    if (userId == null) {
+      throw Exception('No logged in user.');
+    };
 
-  final data = await supabase
-      .from('users')
-      .select()
-      .eq('id', userId)
-      .maybeSingle();
+    final data = await supabase
+        .from('users')
+        .select()
+        .eq('id', userId)
+        .maybeSingle();
 
-  return data;
+    return data;
   }
   
   Future<void> updateUsername(String newUsername) async {
