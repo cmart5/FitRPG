@@ -111,7 +111,7 @@ class _ActivityPageState extends State<ActivityPage>
                       ),
                       const SizedBox(height: 0),
                       const Text(
-                        "Enter your workout manually.",
+                        "Enter your daily stats here.",
                         style: TextStyle(fontSize: 32, color: Colors.black),
                       ),
                       const SizedBox(height: 0),
@@ -121,7 +121,7 @@ class _ActivityPageState extends State<ActivityPage>
                           fontSize: 24
                         ),
                         decoration: const InputDecoration(
-                          labelText: "Steps",
+                          labelText: "Total Steps",
                           labelStyle: TextStyle(
                             color: Colors.black,
                             fontSize: 24
@@ -137,7 +137,7 @@ class _ActivityPageState extends State<ActivityPage>
                           fontSize: 24
                         ),
                         decoration: const InputDecoration(
-                          labelText: "Calories",
+                          labelText: "Active Calories",
                           labelStyle: TextStyle(
                             color: Colors.black,
                             fontSize: 24
@@ -153,7 +153,7 @@ class _ActivityPageState extends State<ActivityPage>
                           fontSize: 24
                         ),
                         decoration: const InputDecoration(
-                          labelText: "Duration (minutes)",
+                          labelText: "Total Workout Duration (minutes)",
                           labelStyle: TextStyle(
                             color: Colors.black,
                             fontSize: 24
@@ -167,8 +167,8 @@ class _ActivityPageState extends State<ActivityPage>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           FrostedText(
-                            sigmaX: 1,
-                            sigmaY: 1,
+                            sigmaX: 6,
+                            sigmaY: 6,
                             color: Colors.white.withAlpha(0),
                             child: const Text(
                             "Choose which Skill to Apply XP to:",

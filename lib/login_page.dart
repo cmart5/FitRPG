@@ -1,3 +1,4 @@
+import 'package:fit_rpg/main_navigation.dart';
 import 'package:fit_rpg/register_page.dart';
 import 'package:flutter/material.dart';
 import 'package:fit_rpg/auth_service.dart';
@@ -27,6 +28,11 @@ class _LoginPageState extends State<LoginPage> {
     // Attempt login
     try {
       await authService.signInWithEmailPassword(email, password);
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => const MainNavigation(),
+        ),
+      );
     }
 
     // Catch errors
@@ -78,7 +84,7 @@ Widget build(BuildContext context) {
                       ),
                       const SizedBox(height: 16),
                       FrostedText(
-                        color: Colors.white.withOpacity(0.125),
+                        color: Colors.white.withAlpha(32),
                         borderRadius: BorderRadius.circular(4),
                         padding: const EdgeInsets.all(0),
                         child: const Text(

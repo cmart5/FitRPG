@@ -46,18 +46,28 @@ class AuthService {
   }
 
   Future<Map<String, dynamic>?> loadUserData() async {
-    final userId = getUserId();
-    if (userId == null) {
+    final user = supabase.auth.currentUser;
+    if (user == null) {
       throw Exception('No logged in user.');
     };
 
-    final data = await supabase
+    final response = await supabase
         .from('users')
         .select()
-        .eq('id', userId)
+        .eq('id', user.id)
         .maybeSingle();
 
-    return data;
+    if (response == null) {
+      print("❌ User not found in users table");
+      return null;
+    }
+
+    return {
+      'username': response['username'],
+      'email': response['email'],
+      'isFemale': response ['isFemale'],
+      'created_at': response ['created_at'],
+    };
   }
   
   Future<void> updateUsername(String newUsername) async {

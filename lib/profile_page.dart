@@ -1,3 +1,4 @@
+import 'package:fit_rpg/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:fit_rpg/auth_service.dart';
 
@@ -11,8 +12,10 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   final authService = AuthService();
 
-  String _username = 'Loading...';
-  bool _isEditing = false;
+  String username = 'Loading...';
+  String email = '???';
+  String created = 'XX-XX-XXXX';
+  bool isEditing = false;
   bool isFemale = false;
 
   final _usernameController = TextEditingController();
@@ -25,28 +28,20 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Future<void> _loadUserData() async {
     final data = await authService.loadUserData();
+    print('🔄 Loaded data: $data');
+
     if (data == null) return;
 
     setState(() {
-      _username = data['username'] ?? 'Unnamed';
+      username = data['username'] ?? 'Unnamed';
       isFemale = data['isFemale'] ?? false;
+      email = data['email'] ?? '_@_._';
+      final rawDate = data['created_at'];
+      if (rawDate != null) {
+        final parsedDate = DateTime.parse(rawDate);
+        created = '${parsedDate.year}-${parsedDate.month.toString().padLeft(2, '0')}-${parsedDate.day.toString().padLeft(2, '0')}';
+      } // only XX-XX-XXXX
     });
-  }
-
-  Future<void> _toggleEdit() async {
-    if (_isEditing) {
-      final newUsername = _usernameController.text;
-      await authService.updateUsername(newUsername);
-      setState(() {
-        _username = newUsername;
-        _isEditing = false;
-      });
-    } else {
-      _usernameController.text = _username;
-      setState(() {
-        _isEditing = true;
-      });
-    }
   }
 
   void logout() async {
@@ -56,74 +51,64 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      extendBodyBehindAppBar: true,
+      resizeToAvoidBottomInset: false, // Prevent automatic layout resize
+      extendBodyBehindAppBar: true, // Extend body behind AppBar      
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        foregroundColor: Colors.white,
         actions: [
           IconButton(
-            onPressed: logout,
             icon: const Icon(Icons.logout),
-            tooltip: 'Logout',
-          )
-        ],
+            style: IconButton.styleFrom(foregroundColor: Colors.black),
+            onPressed: () async {
+              await authService.signOut();
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (_) => const LoginPage()),
+                (route) => false, // predicate removes all existing routes from stack,
+              );                  //preventing user from using back button to reroute.
+            },
+          ),
+        ],        
       ),
       body: Stack(
         children: [
-          // Background image based on gender
           Positioned.fill(
             child: Image.asset(
-              isFemale
-                  ? 'assets/images/Profile_BG.png'
-                  : 'assets/images/Profile_BG.png',
+              'assets/images/Profile_BG.png',
               fit: BoxFit.cover,
-              key: ValueKey(isFemale),
             ),
           ),
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start, // aligns text left
+                children: [
+                  const Text(
+                    'Profile Information',
+                    style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 16),
 
-          // Foreground content
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 75),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    _isEditing
-                        ? Expanded(
-                            child: TextField(
-                              controller: _usernameController,
-                              decoration: const InputDecoration(
-                                labelText: 'Username',
-                                border: OutlineInputBorder(),
-                              ),
-                            ),
-                          )
-                        : Text(
-                            _username,
-                            style: const TextStyle(
-                              fontSize: 48,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                    IconButton(
-                      onPressed: _toggleEdit,
-                      icon: Icon(_isEditing ? Icons.check : Icons.edit),
-                      tooltip: _isEditing ? 'Save' : 'Edit',
-                      color: Colors.white,
+                  // Basic Info Rows
+                  Text('Username: $username', style: const TextStyle(fontSize: 24)),
+                  const SizedBox(height: 8),
+                  Text('Email: $email', style: const TextStyle(fontSize: 24)),
+                  const SizedBox(height: 8),
+                  Text('Gender: ${isFemale ? "Female" : "Male"}', style: const TextStyle(fontSize: 24)),
+                  const SizedBox(height: 16),
+                  Text('Created: $created', style: const TextStyle(fontSize: 24)),
+
+                  Expanded(
+                    child: Container(                      
                     ),
-                  ],
-                ),
-              ],
+                  ),
+                ],
+              ),
             ),
           ),
-        ],
-      ),
+        ],  
+      )
     );
   }
 }

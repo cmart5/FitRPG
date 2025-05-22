@@ -205,7 +205,10 @@ Widget build(BuildContext context) {
                                 ),
                               ),
                               ChoiceChip(
-                                label: const Text("Female"),
+                                label: const Text(
+                                  "Female",
+                                  style: TextStyle(fontFamily: 'PixelFont'),
+                                ),
                                 selected: isFemale,
                                 onSelected: (selected) {
                                   setState(() {
