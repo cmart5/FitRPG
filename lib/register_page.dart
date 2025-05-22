@@ -59,43 +59,43 @@ class _RegisterPageState extends State<RegisterPage> {
 
   // BUILD UI
   @override
-Widget build(BuildContext context) {
-  return Scaffold(
-    resizeToAvoidBottomInset: false, // Prevent automatic layout resize
-    body: Stack(
-      children: [
-        // Background image
-        Positioned.fill(
-          child: Image.asset(
-            'assets/images/Login_BG.png',
-            fit: BoxFit.cover,
+  Widget build(BuildContext context) {
+    return Scaffold(
+      resizeToAvoidBottomInset: false, // Prevent automatic layout resize
+      body: Stack(
+        children: [
+          // Background image
+          Positioned.fill(
+            child: Image.asset(
+              'assets/images/Login_BG2.png',
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
 
-        // Safe fixed height scrollable area
-        SafeArea(
-          child: Column(
-            children: [
-              const SizedBox(height: 20),
-              Expanded(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      const Center(
-                        child: Text(
-                          "FitRPG",
-                          style: TextStyle(
-                            fontSize: 64,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
+          // Safe fixed height scrollable area
+          SafeArea(
+            child: Column(
+              children: [
+                const SizedBox(height: 20),
+                Expanded(
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const Center(
+                          child: Text(
+                            "FitRPG",
+                            style: TextStyle(
+                              fontSize: 64,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 16),
-                      // Frosted text background
-                      FrostedText(
+                        const SizedBox(height: 16),
+                        // Frosted text background
+                        FrostedText(
                             color: Colors.white.withAlpha(32),
                             borderRadius: BorderRadius.circular(4),
                             padding: const EdgeInsets.all(2),

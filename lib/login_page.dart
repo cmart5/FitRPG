@@ -56,7 +56,7 @@ Widget build(BuildContext context) {
         // Background image
         Positioned.fill(
           child: Image.asset(
-            'assets/images/Login_BG.png',
+            'assets/images/Login_BG2.png',
             fit: BoxFit.cover,
           ),
         ),

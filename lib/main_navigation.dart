@@ -4,7 +4,6 @@ import 'package:fit_rpg/game_page_static.dart';
 import 'package:fit_rpg/game_page_active.dart';
 import 'package:fit_rpg/profile_page.dart';
 
-
 class MainNavigation extends StatefulWidget 
 {
   const MainNavigation({super.key});

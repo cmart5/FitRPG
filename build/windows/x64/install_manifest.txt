@@ -21,6 +21,7 @@ C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Debug/data/flutter_assets/assets
 C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Debug/data/flutter_assets/assets/images/FitRPG_StatBG.png
 C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Debug/data/flutter_assets/assets/images/knight.png
 C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Debug/data/flutter_assets/assets/images/Login_BG.png
+C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Debug/data/flutter_assets/assets/images/Login_BG2.png
 C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Debug/data/flutter_assets/assets/images/Profile_BG.png
 C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Debug/data/flutter_assets/assets/images/Stats_BG.png
 C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Debug/data/flutter_assets/assets/images/Stats_BG2.png
