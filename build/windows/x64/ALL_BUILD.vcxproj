@@ -144,6 +144,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <Project>{036D93AB-DC0A-38BF-8F9C-DA87D7CB3AC4}</Project>
       <Name>app_links_plugin</Name>
     </ProjectReference>
+    <ProjectReference Include="C:\Users\cpmar\fit_rpg\build\windows\x64\plugins\connectivity_plus\connectivity_plus_plugin.vcxproj">
+      <Project>{0751FBBF-961F-3A37-A8F0-B763091F498C}</Project>
+      <Name>connectivity_plus_plugin</Name>
+    </ProjectReference>
     <ProjectReference Include="C:\Users\cpmar\fit_rpg\build\windows\x64\runner\fit_rpg.vcxproj">
       <Project>{AB6D5B4C-E9E6-3B5C-A899-92BC29D8BF86}</Project>
       <Name>fit_rpg</Name>

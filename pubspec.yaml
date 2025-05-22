@@ -40,6 +40,7 @@ dependencies:
   flame: ^1.26.1
   provider: ^6.1.4
   supabase_flutter: ^2.9.0
+  connectivity_plus: ^6.1.4
 
 dev_dependencies:
   flutter_test:

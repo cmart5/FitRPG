@@ -177,8 +177,8 @@ class _ActivityPageState extends State<ActivityPage>
                           ),
                           GridView.count(
                             crossAxisCount: 2,
-                            crossAxisSpacing: 3.0,
-                            mainAxisSpacing: 3.0,
+                            crossAxisSpacing: 3.0, 
+                            mainAxisSpacing: 3.0, 
                             childAspectRatio: 4.0,
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(), // Disable scrolling
@@ -203,7 +203,7 @@ class _ActivityPageState extends State<ActivityPage>
                                   ),
                                   child: Center(
                                     child: Padding(
-                                      padding: const EdgeInsets.all(6.0),
+                                      padding: const EdgeInsets.all(0.0),
                                       child: Text(
                                         skill,
                                         style: TextStyle(

@@ -1,3 +1,6 @@
+import 'package:fit_rpg/game_state.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthService {
@@ -37,8 +40,11 @@ class AuthService {
   }
 
   // Sign out the user
-  Future<void> signOut() async {
+  Future<void> signOut(BuildContext context) async {
     await supabase.auth.signOut();
+    // Clear game state data
+    final gameState = Provider.of<GameState>(context, listen: false);
+    gameState.clear();
   }
 
   String? getUserId() {

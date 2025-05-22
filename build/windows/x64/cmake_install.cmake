@@ -49,6 +49,11 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
+  include("C:/Users/cpmar/fit_rpg/build/windows/x64/plugins/connectivity_plus/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
   include("C:/Users/cpmar/fit_rpg/build/windows/x64/plugins/screen_retriever_windows/cmake_install.cmake")
 endif()
 
@@ -167,7 +172,7 @@ endif()
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Runtime" OR NOT CMAKE_INSTALL_COMPONENT)
   if(CMAKE_INSTALL_CONFIG_NAME MATCHES "^([Dd][Ee][Bb][Uu][Gg])$")
     list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-     "C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Debug/app_links_plugin.dll;C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Debug/screen_retriever_windows_plugin.dll;C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Debug/url_launcher_windows_plugin.dll;C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Debug/window_manager_plugin.dll")
+     "C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Debug/app_links_plugin.dll;C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Debug/connectivity_plus_plugin.dll;C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Debug/screen_retriever_windows_plugin.dll;C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Debug/url_launcher_windows_plugin.dll;C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Debug/window_manager_plugin.dll")
     if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
       message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
     endif()
@@ -176,13 +181,14 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Runtime" OR NOT CMAKE_INSTALL_COMPONENT)
     endif()
     file(INSTALL DESTINATION "C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Debug" TYPE FILE FILES
       "C:/Users/cpmar/fit_rpg/build/windows/x64/plugins/app_links/Debug/app_links_plugin.dll"
+      "C:/Users/cpmar/fit_rpg/build/windows/x64/plugins/connectivity_plus/Debug/connectivity_plus_plugin.dll"
       "C:/Users/cpmar/fit_rpg/build/windows/x64/plugins/screen_retriever_windows/Debug/screen_retriever_windows_plugin.dll"
       "C:/Users/cpmar/fit_rpg/build/windows/x64/plugins/url_launcher_windows/Debug/url_launcher_windows_plugin.dll"
       "C:/Users/cpmar/fit_rpg/build/windows/x64/plugins/window_manager/Debug/window_manager_plugin.dll"
       )
   elseif(CMAKE_INSTALL_CONFIG_NAME MATCHES "^([Pp][Rr][Oo][Ff][Ii][Ll][Ee])$")
     list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-     "C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Profile/app_links_plugin.dll;C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Profile/screen_retriever_windows_plugin.dll;C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Profile/url_launcher_windows_plugin.dll;C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Profile/window_manager_plugin.dll")
+     "C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Profile/app_links_plugin.dll;C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Profile/connectivity_plus_plugin.dll;C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Profile/screen_retriever_windows_plugin.dll;C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Profile/url_launcher_windows_plugin.dll;C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Profile/window_manager_plugin.dll")
     if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
       message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
     endif()
@@ -191,13 +197,14 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Runtime" OR NOT CMAKE_INSTALL_COMPONENT)
     endif()
     file(INSTALL DESTINATION "C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Profile" TYPE FILE FILES
       "C:/Users/cpmar/fit_rpg/build/windows/x64/plugins/app_links/Profile/app_links_plugin.dll"
+      "C:/Users/cpmar/fit_rpg/build/windows/x64/plugins/connectivity_plus/Profile/connectivity_plus_plugin.dll"
       "C:/Users/cpmar/fit_rpg/build/windows/x64/plugins/screen_retriever_windows/Profile/screen_retriever_windows_plugin.dll"
       "C:/Users/cpmar/fit_rpg/build/windows/x64/plugins/url_launcher_windows/Profile/url_launcher_windows_plugin.dll"
       "C:/Users/cpmar/fit_rpg/build/windows/x64/plugins/window_manager/Profile/window_manager_plugin.dll"
       )
   elseif(CMAKE_INSTALL_CONFIG_NAME MATCHES "^([Rr][Ee][Ll][Ee][Aa][Ss][Ee])$")
     list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-     "C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Release/app_links_plugin.dll;C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Release/screen_retriever_windows_plugin.dll;C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Release/url_launcher_windows_plugin.dll;C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Release/window_manager_plugin.dll")
+     "C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Release/app_links_plugin.dll;C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Release/connectivity_plus_plugin.dll;C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Release/screen_retriever_windows_plugin.dll;C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Release/url_launcher_windows_plugin.dll;C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Release/window_manager_plugin.dll")
     if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
       message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
     endif()
@@ -206,6 +213,7 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Runtime" OR NOT CMAKE_INSTALL_COMPONENT)
     endif()
     file(INSTALL DESTINATION "C:/Users/cpmar/fit_rpg/build/windows/x64/runner/Release" TYPE FILE FILES
       "C:/Users/cpmar/fit_rpg/build/windows/x64/plugins/app_links/Release/app_links_plugin.dll"
+      "C:/Users/cpmar/fit_rpg/build/windows/x64/plugins/connectivity_plus/Release/connectivity_plus_plugin.dll"
       "C:/Users/cpmar/fit_rpg/build/windows/x64/plugins/screen_retriever_windows/Release/screen_retriever_windows_plugin.dll"
       "C:/Users/cpmar/fit_rpg/build/windows/x64/plugins/url_launcher_windows/Release/url_launcher_windows_plugin.dll"
       "C:/Users/cpmar/fit_rpg/build/windows/x64/plugins/window_manager/Release/window_manager_plugin.dll"

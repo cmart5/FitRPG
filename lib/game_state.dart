@@ -2,11 +2,13 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 class GameState extends ChangeNotifier 
 {
   final supabase = Supabase.instance.client;
   bool needsCloudSync = false;
+  bool hasLoaded = false;
 
   GameState()
    {
@@ -141,6 +143,9 @@ class GameState extends ChangeNotifier
           .eq('skill_name', skill)
           .maybeSingle();
 
+      print('🧠 Saving skill: $skill with XP=${xp}, Level=$level');
+      print('📥 Checking if exists in Supabase...');
+
       if (existing != null) {
         // Update if exists
         await supabase
@@ -161,6 +166,7 @@ class GameState extends ChangeNotifier
             });
         print('Skill $skill inserted successfully in Supabase');
       }
+      print('👁️ Existing row: $existing');
     } catch (e) {
       print('Error updating/inserting $skill in Supabase: $e');
     }
@@ -215,15 +221,28 @@ class GameState extends ChangeNotifier
     await _saveGameData();
   }
 
+  Future<void> loadGameData() async {
+    if(hasLoaded) {
+      print('Game Data has already been loaded - skipping');
+      return;
+    }
+
+    await _loadGameData();
+
+    hasLoaded = true;
+  }
+
   //
   Future<void> _loadGameData() async
    {
+    //Future<bool> _isOnline() async => true;
     final online = await _isOnline(); // Check if online
 
     if (online) {
       print('Online: loading data from Supabase');  
 
       final userId = Supabase.instance.client.auth.currentUser?.id; // Get the current user ID
+      print("🧠 Loading XP for user: $userId");
       if (userId == null) { return; } // If user is not logged in, do not load data
 
       try {
@@ -274,14 +293,23 @@ class GameState extends ChangeNotifier
 
   Future<bool> _isOnline() async { // Check if the device is online
     try {
-      final response = await Supabase.instance.client
-        .from('user_skills')
-        .select()
-        .limit(1)
-        .maybeSingle();
-      return response != null;
+      final connectivityResult = await Connectivity().checkConnectivity();
+      if (connectivityResult == ConnectivityResult.none) return false;
+
+      final session = Supabase.instance.client.auth.currentSession;
+      if (session == null) return false;
+
+      return true;
     } catch (e) {
+      print("❌ Network check failed: $e");
       return false;
     }
+  }
+  void clear() {
+    skillXP.updateAll((key, value) => 0);
+    skillLevels.updateAll((key, value) => 1);
+    pendingXP.updateAll((key, value) => 0);
+    hasLoaded = false;
+    print("🧹 GameState cleared");
   }
 }

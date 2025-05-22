@@ -1,6 +1,8 @@
+import 'package:fit_rpg/game_state.dart';
 import 'package:fit_rpg/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:fit_rpg/auth_service.dart';
+import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -24,6 +26,8 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     super.initState();
     _loadUserData(); // Loads username and isFemale
+    final gameState = Provider.of<GameState>(context, listen: false);
+    gameState.loadGameData(); // Re-fetch data for logged-in user
   }
 
   Future<void> _loadUserData() async {
@@ -31,6 +35,7 @@ class _ProfilePageState extends State<ProfilePage> {
     print('🔄 Loaded data: $data');
 
     if (data == null) return;
+    if (!mounted) return;
 
     setState(() {
       username = data['username'] ?? 'Unnamed';
@@ -42,10 +47,6 @@ class _ProfilePageState extends State<ProfilePage> {
         created = '${parsedDate.year}-${parsedDate.month.toString().padLeft(2, '0')}-${parsedDate.day.toString().padLeft(2, '0')}';
       } // only XX-XX-XXXX
     });
-  }
-
-  void logout() async {
-    await authService.signOut();
   }
 
   @override
@@ -61,7 +62,7 @@ class _ProfilePageState extends State<ProfilePage> {
             icon: const Icon(Icons.logout),
             style: IconButton.styleFrom(foregroundColor: Colors.black),
             onPressed: () async {
-              await authService.signOut();
+              await authService.signOut(context); // Signout & clear gamestate
               Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(builder: (_) => const LoginPage()),
                 (route) => false, // predicate removes all existing routes from stack,

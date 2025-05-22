@@ -11,6 +11,9 @@
       <FullPath>C:\Users\cpmar\fit_rpg\build\windows\x64\plugins\app_links\Debug\app_links_plugin.dll</FullPath>
     </ProjectOutput>
     <ProjectOutput>
+      <FullPath>C:\Users\cpmar\fit_rpg\build\windows\x64\plugins\connectivity_plus\Debug\connectivity_plus_plugin.dll</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
       <FullPath>C:\Users\cpmar\fit_rpg\build\windows\x64\plugins\screen_retriever_windows\Debug\screen_retriever_windows_plugin.dll</FullPath>
     </ProjectOutput>
     <ProjectOutput>

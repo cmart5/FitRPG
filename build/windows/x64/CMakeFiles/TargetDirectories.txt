@@ -11,6 +11,9 @@ C:/Users/cpmar/fit_rpg/build/windows/x64/runner/CMakeFiles/ALL_BUILD.dir
 C:/Users/cpmar/fit_rpg/build/windows/x64/plugins/app_links/CMakeFiles/app_links_plugin.dir
 C:/Users/cpmar/fit_rpg/build/windows/x64/plugins/app_links/CMakeFiles/INSTALL.dir
 C:/Users/cpmar/fit_rpg/build/windows/x64/plugins/app_links/CMakeFiles/ALL_BUILD.dir
+C:/Users/cpmar/fit_rpg/build/windows/x64/plugins/connectivity_plus/CMakeFiles/connectivity_plus_plugin.dir
+C:/Users/cpmar/fit_rpg/build/windows/x64/plugins/connectivity_plus/CMakeFiles/INSTALL.dir
+C:/Users/cpmar/fit_rpg/build/windows/x64/plugins/connectivity_plus/CMakeFiles/ALL_BUILD.dir
 C:/Users/cpmar/fit_rpg/build/windows/x64/plugins/screen_retriever_windows/CMakeFiles/screen_retriever_windows_plugin.dir
 C:/Users/cpmar/fit_rpg/build/windows/x64/plugins/screen_retriever_windows/CMakeFiles/INSTALL.dir
 C:/Users/cpmar/fit_rpg/build/windows/x64/plugins/screen_retriever_windows/CMakeFiles/ALL_BUILD.dir
