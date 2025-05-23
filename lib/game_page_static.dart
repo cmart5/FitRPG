@@ -31,6 +31,8 @@ class SkillProgressRow extends StatelessWidget { // Widget to display skill prog
   @override
   Widget build(BuildContext context) {
     final xpToLevel = level * 100; // XP needed for next level
+    final int gainedXP = recentlyUpdated ? xp : 0; // XP gained if recently updated
+    final int animationDuration = (gainedXP * 10).clamp(400, 2000); // Animation duration based on gained XP
 
     return Padding(
       padding: const EdgeInsets.symmetric( vertical : 6, horizontal: 20), 
@@ -49,7 +51,7 @@ class SkillProgressRow extends StatelessWidget { // Widget to display skill prog
                   begin: recentlyUpdated ? 0 : xp, // Start from 0 if recently updated, else from current XP
                   end: xp, // End at current XP
                 ),
-                duration: const Duration(milliseconds: 1200), // Animation duration
+                duration: Duration(milliseconds: animationDuration), // Animation duration
                 curve: Curves.easeOutExpo, // Animation curve
                 builder: (context, animatedXP, _) { // Animate XP value
                   return Text( 
@@ -232,7 +234,6 @@ class _GamePageStaticState extends State<GamePageStatic> with SingleTickerProvid
                     final recently = gameState.recentlyUpdatedSkills.contains(skill);
 
                     Widget barWidget;
-                    print('Skill = "$skill", rolloverAnims has key? ${_rolloverAnims.containsKey(skill)}');
                     if(_rolloverAnims.containsKey(skill)) {
                       // If rollover animation was built for skill
                       final anim = _rolloverAnims[skill]!;

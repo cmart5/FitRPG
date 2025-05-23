@@ -1,3 +1,4 @@
+import 'package:fit_rpg/fitness_service.dart';
 import 'package:fit_rpg/game_page_static.dart';
 import 'package:fit_rpg/game_state.dart';
 import 'package:fit_rpg/widgets_ui.dart';
@@ -166,6 +167,19 @@ class _ActivityPageState extends State<ActivityPage>
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          const SizedBox(height: 20),
+                          ElevatedButton(
+                            onPressed: () async {
+                              final data = await HealthService.getTodayActivity();
+                              setState(() {
+                                _stepsController.text = data['steps'].toString();
+                                _caloriesController.text = data['calories'].toString();
+                                _durationController.text = data['duration'].toString();
+                              });
+                            },
+                            child: const Text("Sync with Health App", style: TextStyle(fontSize: 20)),
+                          ),
+                          const SizedBox(height: 20),
                           FrostedText(
                             sigmaX: 6,
                             sigmaY: 6,
@@ -176,10 +190,10 @@ class _ActivityPageState extends State<ActivityPage>
                             ),
                           ),
                           GridView.count(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 3.0, 
+                            crossAxisCount: 3,
+                            crossAxisSpacing: 30.0, 
                             mainAxisSpacing: 3.0, 
-                            childAspectRatio: 4.0,
+                            childAspectRatio: 2.0,
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(), // Disable scrolling
                             children: skills.map((skill) {

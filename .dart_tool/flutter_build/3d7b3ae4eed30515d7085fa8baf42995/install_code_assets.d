@@ -1,1 +1,0 @@
- C:\\Users\\cpmar\\fit_rpg\\.dart_tool\\flutter_build\\3d7b3ae4eed30515d7085fa8baf42995\\native_assets.json: 

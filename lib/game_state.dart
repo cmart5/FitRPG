@@ -104,7 +104,8 @@ class GameState extends ChangeNotifier
     return level * 100; // Incremental XP req for Level UP
   }  
 
-  void gainXP(String skill, int amount) {
+  void gainXP(String skill, int amount) async { 
+    final gainedXP = amount; // Store gained XP for later use
     if (!skillXP.containsKey(skill)) return; // Check if skill exists
 
     skillXP[skill] = (skillXP[skill] ?? 0) + amount; // Add XP to skill
@@ -113,10 +114,25 @@ class GameState extends ChangeNotifier
     while (true) {
       final currentLevel = skillLevels[skill] ?? 1; // Get current level
       final xpToLevel = _xpToLevelUp(currentLevel); // Calculate XP needed for next level
+      final int animationDuration = (gainedXP * 10).clamp(400, 2000); // Animation duration based on gained XP
 
       if (skillXP[skill]! >= xpToLevel) { // Check if enough XP to level up
-        skillXP[skill] = skillXP[skill]! - xpToLevel; // Deduct XP for level up
+
+        recentlyUpdatedSkills.add(skill); // Add skill to recently updated skills
+        notifyListeners(); // Notify listeners for UI update
+        await Future.delayed(Duration(milliseconds: animationDuration)); // Delay for animation
+
+        // Calculate leftover XP after leveling up
+        int leftoverXP = (skillXP[skill]! - xpToLevel).clamp(0, skillXP[skill]!);
+        skillXP[skill] = 0; // Reset XP for this skill
         skillLevels[skill] = currentLevel + 1; // Increment level
+        notifyListeners(); // Notify listeners for UI update
+
+        await Future.delayed(Duration(milliseconds: animationDuration)); // Delay for animation
+
+        skillXP[skill] = leftoverXP;
+        recentlyUpdatedSkills.add(skill); // Add skill to recently updated skills
+        notifyListeners(); // Notify listeners for UI update
       } 
       else { // If not enough XP, break the loop
         break;

@@ -34,13 +34,17 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
-  http: ^1.3.0
-  window_manager: ^0.4.3
-  shared_preferences: ^2.5.3
-  flame: ^1.26.1
-  provider: ^6.1.4
-  supabase_flutter: ^2.9.0
-  connectivity_plus: ^6.1.4
+
+
+  http: ^1.3.0                 # For making HTTP requests (REST APIs, Supabase calls if needed)
+  window_manager: ^0.4.3       # Lets you control the app window on desktop (size, position, fullscreen)
+  shared_preferences: ^2.5.3   # Local key-value storage (used for saving XP, settings offline)
+  flame: ^1.26.1               # Game engine for Flutter (handles your BattleScene, animations, etc.)
+  provider: ^6.1.4             # State management (used for sharing GameState across the app)
+  supabase_flutter: ^2.9.0     # Connects to Supabase for auth, database, and storage
+  connectivity_plus: ^6.1.4    # Checks if device is online/offline (used in GameState for sync logic)
+  health: ^12.2.0               # Cross-platform plugin to access health data (steps, calories, etc.)
+  permission_handler: ^11.0.0  # Requests runtime permissions from the user (needed for health data access)
 
 dev_dependencies:
   flutter_test:
