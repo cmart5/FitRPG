@@ -1,5 +1,7 @@
-import 'package:fit_rpg/game_state.dart';
+import 'package:fit_rpg/audio_service.dart';
+import 'package:fit_rpg/game_stats.dart';
 import 'package:fit_rpg/login_page.dart';
+import 'package:fit_rpg/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:fit_rpg/auth_service.dart';
 import 'package:provider/provider.dart';
@@ -14,17 +16,18 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   final authService = AuthService();
 
-  String username = 'Loading...';
+  String username = '???';
   String email = '???';
   String created = 'XX-XX-XXXX';
   bool isEditing = false;
   bool isFemale = false;
 
-  final _usernameController = TextEditingController();
+  //final _usernameController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+    AudioService().setTheme(GameAudio.mainBackground); // Set the background music theme
     _loadUserData(); // Loads username and isFemale
     final gameState = Provider.of<GameState>(context, listen: false);
     gameState.loadGameData(); // Re-fetch data for logged-in user
@@ -49,6 +52,40 @@ class _ProfilePageState extends State<ProfilePage> {
     });
   }
 
+  Future<bool> confirmLogoutDialog(BuildContext context) async {
+    return await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: const Color.fromARGB(240, 230, 200, 150),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        title: const Text("Confirm Logout",
+        style: TextStyle(fontSize: 32, fontFamily: 'pixelFont')),
+        content: const Text("Are you sure you want to sign out?",
+        style: TextStyle(fontSize: 24, fontFamily: 'pixelFont')),
+        actions: [
+          TextButton(
+            style: TextButton.styleFrom(
+              foregroundColor: Colors.black,
+              textStyle: const TextStyle(fontSize: 24, fontFamily: 'pixelFont'),
+             ),
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text("Cancel"),
+          ),
+          TextButton(
+            style: TextButton.styleFrom(
+              foregroundColor: Colors.red,
+              textStyle: const TextStyle(fontSize: 24, fontFamily: 'pixelFont'),
+              ), // Text color for the button
+            onPressed: () => Navigator.of(context).pop(true),
+            child: const Text("Logout"),
+          ),
+        ],
+      ),
+    ) ?? false; // Default to false if dismissed
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,11 +99,28 @@ class _ProfilePageState extends State<ProfilePage> {
             icon: const Icon(Icons.logout),
             style: IconButton.styleFrom(foregroundColor: Colors.black),
             onPressed: () async {
-              await authService.signOut(context); // Signout & clear gamestate
-              Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (_) => const LoginPage()),
-                (route) => false, // predicate removes all existing routes from stack,
-              );                  //preventing user from using back button to reroute.
+              AudioService().playSFX('touch.wav'); // Play sound effect on logout
+
+              final shouldLogout = await confirmLogoutDialog(context);
+              if (shouldLogout) {
+                await authService.signOut(context);
+                if (context.mounted) {
+                  Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (_) => const LoginPage()),
+                    (route) => false,
+                  );
+                }
+              }
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.settings),
+            style: IconButton.styleFrom(foregroundColor: Colors.black),
+            onPressed: () {
+              AudioService().playSFX('touch.wav'); // Play sound effect on settings
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => const SettingsPage()),
+              );
             },
           ),
         ],        

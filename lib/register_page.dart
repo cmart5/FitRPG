@@ -1,3 +1,4 @@
+import 'package:fit_rpg/audio_service.dart';
 import 'package:fit_rpg/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:fit_rpg/auth_service.dart';
@@ -11,6 +12,13 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+
+  @override
+  void initState() {
+    super.initState();
+    // Optionally, you can add any initialization logic here
+    AudioService().setTheme(GameAudio.mainBackground); // Set the background music theme
+  }
   // Get auth service
   final authService = AuthService();
   // Text controllers
@@ -19,6 +27,8 @@ class _RegisterPageState extends State<RegisterPage> {
   final _confirmPasswordController = TextEditingController();
 
   bool isFemale = false;
+  bool _obscurePassword = true;
+  bool _obscureConfirmPassword = true;
 
   // Register button pressed 
   void register() async {
@@ -26,6 +36,7 @@ class _RegisterPageState extends State<RegisterPage> {
     final email = _emailController.text;
     final password = _passwordController.text;
     final confirmPassword = _confirmPasswordController.text;
+
 
     //attempt registration
     if (password != confirmPassword) {    
@@ -132,19 +143,29 @@ class _RegisterPageState extends State<RegisterPage> {
                         padding: const EdgeInsets.all(3),
                         child: TextField(
                           controller: _passwordController,
+                          obscureText: _obscurePassword,
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: 24
                             ),
-                          decoration: const InputDecoration(
-                              labelStyle: TextStyle(
+                          decoration: InputDecoration(
+                              labelStyle: const TextStyle(
                               color: Colors.black,
                               fontSize: 24
                             ),
                             labelText: "Password",
-                            border: OutlineInputBorder(),
+                            border: const OutlineInputBorder(),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _obscurePassword = !_obscurePassword;
+                                });
+                              },
+                            ),
                           ),
-                          obscureText: true,
                         ),
                       ),
                       const SizedBox(height: 16),
@@ -154,19 +175,29 @@ class _RegisterPageState extends State<RegisterPage> {
                         padding: const EdgeInsets.all(3),
                         child: TextField(
                           controller: _confirmPasswordController,
+                          obscureText: _obscureConfirmPassword,
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: 24
                             ),
-                          decoration: const InputDecoration(
-                            labelStyle: TextStyle(
+                          decoration: InputDecoration(
+                            labelStyle: const TextStyle(
                               color: Colors.black,
                               fontSize: 24
                             ),
                             labelText: "Confirm Password",
-                            border: OutlineInputBorder(),
+                            border: const OutlineInputBorder(),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                _obscureConfirmPassword ? Icons.visibility_off : Icons.visibility,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _obscureConfirmPassword = !_obscureConfirmPassword;
+                                });
+                              },
+                            ),
                           ),
-                          obscureText: true,
                         ),
                       ),
                       const SizedBox(height: 16),
@@ -200,14 +231,14 @@ class _RegisterPageState extends State<RegisterPage> {
                                 selectedColor: Colors.blueAccent,
                                 labelStyle: TextStyle(
                                   color: !isFemale ? Colors.white : Colors.grey,
-                                  fontFamily: 'PixelFont',
+                                  fontFamily: 'pixelFont',
                                   fontSize: 24,
                                 ),
                               ),
                               ChoiceChip(
                                 label: const Text(
                                   "Female",
-                                  style: TextStyle(fontFamily: 'PixelFont'),
+                                  style: TextStyle(fontFamily: 'pixelFont'),
                                 ),
                                 selected: isFemale,
                                 onSelected: (selected) {
@@ -218,7 +249,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 selectedColor: Colors.pinkAccent,
                                 labelStyle: TextStyle(
                                   color: isFemale ? Colors.white : Colors.grey,
-                                  fontFamily: 'PixelFont',
+                                  fontFamily: 'pixelFont',
                                   fontSize: 24,
                                 ),
                               ),

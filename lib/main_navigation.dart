@@ -1,7 +1,8 @@
+import 'package:fit_rpg/audio_service.dart';
+import 'package:fit_rpg/hub_page.dart';
 import 'package:flutter/material.dart';
 import 'package:fit_rpg/activity_page.dart';
 import 'package:fit_rpg/game_page_static.dart';
-import 'package:fit_rpg/game_page_active.dart';
 import 'package:fit_rpg/profile_page.dart';
 
 class MainNavigation extends StatefulWidget 
@@ -20,12 +21,13 @@ class _MainNavigationState extends State<MainNavigation>
     const ProfilePage(),
     const ActivityPage(),
     const GamePageStatic(),
-    const GamePageActive(),
+    const HubPage(),
   ];
 
   void _onItemTapped(int index) 
   {
-    setState(() 
+    AudioService().playSFX('touch.wave');
+    setState(()
     {
       _selectedIndex = index;
     });
@@ -54,7 +56,7 @@ class _MainNavigationState extends State<MainNavigation>
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.videogame_asset), //placeholder icon
-            label: 'Game',
+            label: 'Base',
           ),
         ],
         selectedItemColor: Colors.blueAccent,

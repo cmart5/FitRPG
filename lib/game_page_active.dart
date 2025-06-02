@@ -1,4 +1,5 @@
-import 'package:fit_rpg/battler_services.dart';
+import 'package:fit_rpg/audio_service.dart';
+import 'package:fit_rpg/battler_service.dart';
 import 'package:flutter/material.dart';
 import 'package:fit_rpg/battle_scene.dart';
 
@@ -17,6 +18,13 @@ enum BattlePhase {
 }
 
 class _GamePageActiveState extends State<GamePageActive> {
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize the game scene
+    AudioService().setTheme(GameAudio.battleBackground);
+  }
 
   int playerHP = 100;
   int enemyHP = 100;
@@ -120,7 +128,7 @@ class _GamePageActiveState extends State<GamePageActive> {
                     if(command.contains('Run')) {
                       setState(() {
                         battleLog = 'You fled safely from the fight!';
-                        //Navigator.pop(context); //Leave page
+                        Navigator.pop(context); //Leave page
                       });
                     }
                   }

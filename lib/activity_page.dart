@@ -1,6 +1,7 @@
+import 'package:fit_rpg/audio_service.dart';
 import 'package:fit_rpg/fitness_service.dart';
 import 'package:fit_rpg/game_page_static.dart';
-import 'package:fit_rpg/game_state.dart';
+import 'package:fit_rpg/game_stats.dart';
 import 'package:fit_rpg/widgets_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -15,7 +16,15 @@ class ActivityPage extends StatefulWidget
 }
 
 class _ActivityPageState extends State<ActivityPage> 
-{
+{  
+  @override
+  void initState() 
+  {
+    super.initState();
+    _loadActivityData();
+    AudioService().setTheme(GameAudio.mainBackground); // Set the background music theme
+  }
+
   final TextEditingController _stepsController = TextEditingController();
   final TextEditingController _caloriesController = TextEditingController();
   final TextEditingController _durationController = TextEditingController();
@@ -33,14 +42,7 @@ class _ActivityPageState extends State<ActivityPage>
     "Agility",
     "Crafting",
     "Smithing",
-  ];
-
-  @override
-  void initState() 
-  {
-    super.initState();
-    _loadActivityData();
-  }
+  ]; 
 
   Future<void> _loadActivityData() async 
   {
@@ -117,6 +119,10 @@ class _ActivityPageState extends State<ActivityPage>
                       ),
                       const SizedBox(height: 0),
                       TextField(
+                        onTap: () {
+                          Feedback.forTap(context); // Provide haptic feedback
+                          AudioService().playSFX('Touch.wav'); // Play button click sound
+                        },
                         controller: _stepsController,
                         style: const TextStyle(
                           fontSize: 24
@@ -133,6 +139,10 @@ class _ActivityPageState extends State<ActivityPage>
                       ),
                       const SizedBox(height: 16),
                       TextField(
+                        onTap: () {
+                          Feedback.forTap(context); // Provide haptic feedback
+                          AudioService().playSFX('Touch.wav'); // Play button click sound
+                        },
                         controller: _caloriesController,
                         style: const TextStyle(
                           fontSize: 24
@@ -149,6 +159,10 @@ class _ActivityPageState extends State<ActivityPage>
                       ),
                       const SizedBox(height: 20),
                       TextField(
+                        onTap: () {
+                          Feedback.forTap(context); // Provide haptic feedback
+                          AudioService().playSFX('Touch.wav'); // Play button click sound
+                        },
                         controller: _durationController,
                         style: const TextStyle(
                           fontSize: 24
@@ -170,6 +184,8 @@ class _ActivityPageState extends State<ActivityPage>
                           const SizedBox(height: 20),
                           ElevatedButton(
                             onPressed: () async {
+                              Feedback.forTap(context); // Provide haptic feedback
+                              AudioService().playSFX('Touch.wav'); // Play button click sound
                               final data = await HealthService.getTodayActivity();
                               setState(() {
                                 _stepsController.text = data['steps'].toString();
@@ -201,6 +217,8 @@ class _ActivityPageState extends State<ActivityPage>
 
                               return GestureDetector(
                                 onTap: () {
+                                  Feedback.forTap(context); // Provide haptic feedback
+                                  AudioService().playCardSFX('Touch.wav'); // Play button click sound
                                   setState(() {
                                     selectedSkill = isSelected ? null : skill;
                                   });
@@ -238,6 +256,7 @@ class _ActivityPageState extends State<ActivityPage>
                       // Save Button
                       ElevatedButton(
                         onPressed: () async {
+                          AudioService().playSFX('Touch.wav'); // Play button click sound
                           final steps = int.tryParse(_stepsController.text) ?? 0; // Get from the text field,
                           final calories = int.tryParse(_caloriesController.text) ?? 0; // set to 0 if empty
                           final duration = int.tryParse(_durationController.text) ?? 0;

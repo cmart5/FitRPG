@@ -43,8 +43,10 @@ dependencies:
   provider: ^6.1.4             # State management (used for sharing GameState across the app)
   supabase_flutter: ^2.9.0     # Connects to Supabase for auth, database, and storage
   connectivity_plus: ^6.1.4    # Checks if device is online/offline (used in GameState for sync logic)
-  health: ^12.2.0               # Cross-platform plugin to access health data (steps, calories, etc.)
+  health: ^12.2.0              # Cross-platform plugin to access health data (steps, calories, etc.)
   permission_handler: ^11.0.0  # Requests runtime permissions from the user (needed for health data access)
+  just_audio: ^0.10.3          # Audio playback (for background music, sound effects in BattleScene)
+  audio_session: ^0.1.6        # Manages audio session (important for just_audio to work properly)
 
 dev_dependencies:
   flutter_test:
@@ -66,6 +68,8 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/sounds/
+    - assets/music/
 
   fonts:
     - family: pixelFont

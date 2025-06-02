@@ -1,8 +1,7 @@
 import 'package:health/health.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 // Toggle for simulating health data for testing purposes when the app is not running on a real device 
-const bool simulateHealthData = true;
+const bool simulateHealthData = false;
 
 class HealthService {
   static final _health = Health();

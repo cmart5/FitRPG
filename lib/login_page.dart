@@ -1,3 +1,4 @@
+import 'package:fit_rpg/audio_service.dart';
 import 'package:fit_rpg/main_navigation.dart';
 import 'package:fit_rpg/register_page.dart';
 import 'package:flutter/material.dart';
@@ -12,12 +13,20 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+  @override
+  void initState() {
+    super.initState();
+    // Optionally, you can add any initialization logic here
+    AudioService().setTheme(GameAudio.mainBackground); // Set the background music theme
+  }
   // Get auth service
   final authService = AuthService();
 
   // Text controllers
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  bool _obscurePassword = true; // For password visibility toggle
 
   // login button pressed 
   void login() async {
@@ -120,19 +129,29 @@ Widget build(BuildContext context) {
                         padding: const EdgeInsets.all(3),
                         child: TextField(
                           controller: _passwordController,
+                          obscureText: _obscurePassword,
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: 24
                             ),
-                          decoration: const InputDecoration(
-                            labelStyle: TextStyle(
+                          decoration: InputDecoration(
+                            labelStyle: const TextStyle(
                               color: Colors.black,
                               fontSize: 24
                             ),
                             labelText: "Password",
-                            border: OutlineInputBorder(),
+                            border: const OutlineInputBorder(),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _obscurePassword = !_obscurePassword;
+                                });
+                              },
+                            ),
                           ),
-                        obscureText: true,
                         ),
                       ),
                       const SizedBox(height: 16),

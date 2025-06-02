@@ -1,7 +1,7 @@
+import 'package:fit_rpg/audio_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
-import 'package:fit_rpg/game_state.dart';
+import 'package:fit_rpg/game_stats.dart';
 
 class GamePageStatic extends StatefulWidget 
 {
@@ -87,6 +87,7 @@ class _GamePageStaticState extends State<GamePageStatic> with SingleTickerProvid
   void initState()
   {
     super.initState();
+    AudioService().setTheme(GameAudio.mainBackground); // Set the main background music theme
     // Store the current snapshot
     final gameState = Provider.of<GameState>(context, listen: false); // Initialize game state
     final previousXP = Map.from(gameState.skillXP); // Store initial XP values
