@@ -17,6 +17,7 @@ class AudioService {
 
   double musicVolume = 0.5;
   double sfxVolume = 0.5;
+  double cardSFXVolume = 0.5;
 
   GameAudio? _currentTheme;
 
@@ -40,6 +41,7 @@ class AudioService {
       break;
     }
 
+    await Future.delayed(const Duration(milliseconds: 200)); // Short delay to ensure asset is ready
     _bgmPlayer.setLoopMode(LoopMode.one);
     await _bgmPlayer.play();
     print("✅ Music playback started");
@@ -57,7 +59,7 @@ class AudioService {
     try {
       final player = AudioPlayer(); // Create a new temporary player
       await player.setAsset('assets/sounds/$soundFile');
-      await player.setVolume(sfxVolume);
+      await player.setVolume(cardSFXVolume);
       await player.play();
 
       // Dispose after playback completes
@@ -81,7 +83,29 @@ class AudioService {
   Future<void> setSFXVolume(double volume) async {
     sfxVolume = volume;
     _sfxPlayer.setVolume(volume);
+    // Also set volume for any temporary players
     final prefs = await SharedPreferences.getInstance();
     prefs.setDouble('sfxVolume', volume);
+  }
+
+  Future<void> setCardSFXVolume(double volume) async {
+    cardSFXVolume = volume;
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setDouble('cardSFXVolume', volume);
+  }
+
+  Future<void> loadVolumeSettings() async {
+    final prefs = await SharedPreferences.getInstance();
+    musicVolume = prefs.getDouble('musicVolume') ?? 0.5;
+    sfxVolume = prefs.getDouble('sfxVolume') ?? 0.5;
+    cardSFXVolume = prefs.getDouble('cardSFXVolume') ?? 0.5;
+
+    _bgmPlayer.setVolume(musicVolume);
+    _sfxPlayer.setVolume(sfxVolume);
+  }
+
+  Future<void> initializeAudio() async {
+    await loadVolumeSettings();
+    await setTheme(GameAudio.mainBackground);
   }
 }

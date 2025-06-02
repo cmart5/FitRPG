@@ -1,3 +1,6 @@
+import 'package:fit_rpg/Game/game_page_static.dart';
+import 'package:fit_rpg/Pages/activity_page.dart';
+import 'package:fit_rpg/Pages/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:fit_rpg/Game/game_page_active.dart';
 import 'package:fit_rpg/Services/audio_service.dart';
@@ -10,6 +13,7 @@ class HubPage extends StatefulWidget {
 }
 
 class _HubPageState extends State<HubPage> {
+
   @override
   void initState() {
     super.initState();
@@ -24,79 +28,133 @@ class _HubPageState extends State<HubPage> {
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      body: Stack(
-        children: [
-          // Background
-          Positioned.fill(
-            child: Image.asset(
-              'assets/images/Hub_BG.png',
-              fit: BoxFit.cover,
-            ),
-          ),
-          Positioned(
-            top: 130,
-            left:0,
-            right: 0,
-            child: Center(
-              child: Image.asset(
-                'assets/images/Hub_Logo.png',
-                width: 175,
-                height: 175,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final width = constraints.maxWidth;
+          final height = constraints.maxHeight;
+
+          return Stack(
+            children: [
+              //Background
+              Positioned.fill(
+                child: Image.asset(
+                  'assets/images/Hub_BG.png',
+                  fit: BoxFit.cover,
+                ),
               ),
-            ),
-          ),        
-          // Button Grid
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: GridView.count(
-                crossAxisCount: 2,
-                crossAxisSpacing: 20,
-                mainAxisSpacing: 20,
-                shrinkWrap: true,
-                children: [
-                  _hubButton(context, "Battle", Icons.sports_martial_arts, () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => const GamePageActive()),
-                    );
-                  }),
-                  _hubButton(context, "Inventory(X)", Icons.backpack, () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("Inventory not implemented")),
-                    );
-                  }),
-                  _hubButton(context, "Quests(X)", Icons.map, () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("Quest Board not implemented")),
-                    );
-                  }),
-                  
-                ],
+              //Hub Logo
+              Positioned(
+                top: height * 0.0,
+                left: (width) / 2, // Center horizontally
+                child: Image.asset(
+                  'assets/images/Hub_Logo.png',
+                  width: 175,
+                  height: 175,
+                ),
               ),
-            ),
-          ),
-        ],
+              _iconButtonOverlay(
+                context,
+                label: 'Battle',
+                assetPath: 'assets/images/door.png',
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const GamePageActive()),
+                ),
+                topPercent: 0.35,
+                leftPercent: 0.8,
+              ),
+              _iconButtonOverlay(
+                context,
+                label: 'Stats',
+                assetPath: 'assets/images/book.png',
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const GamePageStatic(),
+                  ),
+                ),
+                topPercent: 0.60,
+                leftPercent: 0.75,
+              ),
+              _iconButtonOverlay(
+                context,
+                label: 'Activity',
+                assetPath: 'assets/images/bench.png',
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const ActivityPage(),
+                  ),
+                ),
+                topPercent: 0.25,
+                leftPercent: 0.05,
+              ),
+              _iconButtonOverlay(
+                context,
+                label: 'Profile',
+                assetPath: 'assets/images/armor.png',
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const ProfilePage(),
+                  ),
+                ),
+                topPercent: 0.15,
+                leftPercent: 0.35,
+              ),
+            ],
+          );
+        },
       ),
     );
   }
 
-  Widget _hubButton(BuildContext context, String label, IconData icon, VoidCallback onTap) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.black.withAlpha(120),
-        foregroundColor: Colors.white,
-        padding: const EdgeInsets.all(12),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      ),
-      onPressed: onTap,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(icon, size: 36),
-          const SizedBox(height: 8),
-          Text(label, style: const TextStyle(fontSize: 18)),
-        ],
+  Widget _iconButtonOverlay(
+    BuildContext context, {
+    required String label,
+    required String assetPath,
+    required VoidCallback onTap,
+    required double topPercent,
+    required double leftPercent,
+  }) {
+    return Positioned(
+      top: MediaQuery.of(context).size.height * topPercent,
+      left: MediaQuery.of(context).size.width * leftPercent,
+      child: GestureDetector(
+        onTap: () {
+          AudioService().playSFX('touch.wav'); // Play sound effect on touch
+          Feedback.forTap(context);
+          onTap();
+        },
+        child: Column(
+          children: [
+            Material(
+              elevation: 8,
+              shape: const CircleBorder(),
+              child: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.transparent,
+                ),
+                padding: const EdgeInsets.all(0),
+                child: Image.asset(
+                  assetPath,
+                  width: 64,
+                  height: 64,
+                )
+              ),
+            )  ,
+            const SizedBox(height: 0),
+            Text(
+              label,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+                fontFamily: 'pixelFont',
+              ),
+            ),         
+          ],
+        ),
       ),
     );
   }

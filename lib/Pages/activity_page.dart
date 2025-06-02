@@ -73,6 +73,12 @@ class _ActivityPageState extends State<ActivityPage>
   {
     return Scaffold( // Scaffold to provide basic material design layout
       resizeToAvoidBottomInset: false, // Prevent automatic layout resize
+      extendBodyBehindAppBar: true, // Extend body behind AppBar      
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        foregroundColor: Colors.black,
+        elevation: 0,
+      ),
       body: Stack( // Stack to allow background image
       children: [
         MediaQuery.removeViewInsets(
@@ -121,7 +127,7 @@ class _ActivityPageState extends State<ActivityPage>
                       TextField(
                         onTap: () {
                           Feedback.forTap(context); // Provide haptic feedback
-                          AudioService().playSFX('Touch.wav'); // Play button click sound
+                          AudioService().playSFX('touch.wav'); // Play button click sound
                         },
                         controller: _stepsController,
                         style: const TextStyle(
@@ -141,7 +147,7 @@ class _ActivityPageState extends State<ActivityPage>
                       TextField(
                         onTap: () {
                           Feedback.forTap(context); // Provide haptic feedback
-                          AudioService().playSFX('Touch.wav'); // Play button click sound
+                          AudioService().playSFX('touch.wav'); // Play button click sound
                         },
                         controller: _caloriesController,
                         style: const TextStyle(
@@ -161,7 +167,7 @@ class _ActivityPageState extends State<ActivityPage>
                       TextField(
                         onTap: () {
                           Feedback.forTap(context); // Provide haptic feedback
-                          AudioService().playSFX('Touch.wav'); // Play button click sound
+                          AudioService().playSFX('touch.wav'); // Play button click sound
                         },
                         controller: _durationController,
                         style: const TextStyle(
@@ -185,7 +191,7 @@ class _ActivityPageState extends State<ActivityPage>
                           ElevatedButton(
                             onPressed: () async {
                               Feedback.forTap(context); // Provide haptic feedback
-                              AudioService().playSFX('Touch.wav'); // Play button click sound
+                              AudioService().playSFX('touch.wav'); // Play button click sound
                               final data = await HealthService.getTodayActivity();
                               setState(() {
                                 _stepsController.text = data['steps'].toString();
@@ -218,7 +224,7 @@ class _ActivityPageState extends State<ActivityPage>
                               return GestureDetector(
                                 onTap: () {
                                   Feedback.forTap(context); // Provide haptic feedback
-                                  AudioService().playCardSFX('Touch.wav'); // Play button click sound
+                                  AudioService().playCardSFX('touch.wav'); // Play button click sound
                                   setState(() {
                                     selectedSkill = isSelected ? null : skill;
                                   });
@@ -256,7 +262,7 @@ class _ActivityPageState extends State<ActivityPage>
                       // Save Button
                       ElevatedButton(
                         onPressed: () async {
-                          AudioService().playSFX('Touch.wav'); // Play button click sound
+                          AudioService().playSFX('touch.wav'); // Play button click sound
                           final steps = int.tryParse(_stepsController.text) ?? 0; // Get from the text field,
                           final calories = int.tryParse(_caloriesController.text) ?? 0; // set to 0 if empty
                           final duration = int.tryParse(_durationController.text) ?? 0;

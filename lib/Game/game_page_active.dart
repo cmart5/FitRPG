@@ -129,6 +129,10 @@ class _GamePageActiveState extends State<GamePageActive> {
                       setState(() {
                         battleLog = 'You fled safely from the fight!';
                         Navigator.pop(context); //Leave page
+                        AudioService().playSFX('run.wav');
+                        Future.delayed(const Duration(milliseconds: 250), () {
+                          AudioService().setTheme(GameAudio.mainBackground);
+                        });
                       });
                     }
                   }

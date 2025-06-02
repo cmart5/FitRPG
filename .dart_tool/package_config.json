@@ -236,6 +236,12 @@
       "languageVersion": "3.2"
     },
     {
+      "name": "just_audio_windows",
+      "rootUri": "file:///C:/Users/cpmar/AppData/Local/Pub/Cache/hosted/pub.dev/just_audio_windows-0.2.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.16"
+    },
+    {
       "name": "jwt_decode",
       "rootUri": "file:///C:/Users/cpmar/AppData/Local/Pub/Cache/hosted/pub.dev/jwt_decode-0.3.1",
       "packageUri": "lib/",
@@ -716,7 +722,7 @@
       "languageVersion": "3.7"
     }
   ],
-  "generated": "2025-06-01T15:12:04.500927Z",
+  "generated": "2025-06-02T18:53:46.278370Z",
   "generator": "pub",
   "generatorVersion": "3.7.2",
   "flutterRoot": "file:///C:/Users/cpmar/flutter",

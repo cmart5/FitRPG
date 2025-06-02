@@ -11,6 +11,7 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   double _musicVolume = AudioService().musicVolume;
   double _sfxVolume = AudioService().sfxVolume;
+  double _cardSFXVolume = AudioService().cardSFXVolume;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +40,9 @@ class _SettingsPageState extends State<SettingsPage> {
                   'Settings',
                   style: TextStyle(fontSize: 48),
                 ),
-                const Text('Music Volume', style: TextStyle(fontSize: 24)),
+                Text(
+                  'Music Volume: ${(_musicVolume * 100).round()}%',
+                   style: TextStyle(fontSize: 24)),
                 Slider(
                   thumbColor: Colors.black,
                   activeColor: Colors.black.withAlpha(200),
@@ -53,10 +56,11 @@ class _SettingsPageState extends State<SettingsPage> {
                   min: 0,
                   max: 1,
                   divisions: 5,
-                  label: (_musicVolume * 100).toInt().toString() + '%',
                 ),
                 const SizedBox(height: 20),
-                const Text('SFX Volume', style: TextStyle(fontSize: 24)),
+                Text(
+                  'SFX Volume: ${(_sfxVolume * 100).round()}%',
+                   style: TextStyle(fontSize: 24)),
                 Slider(
                   thumbColor: Colors.black,
                   activeColor: Colors.black.withAlpha(200),
@@ -66,11 +70,11 @@ class _SettingsPageState extends State<SettingsPage> {
                   onChanged: (value) {
                     setState(() => _sfxVolume = value);
                     AudioService().setSFXVolume(value);
+                    AudioService().setCardSFXVolume(value);
                   },
                   min: 0,
                   max: 1,
                   divisions: 5,
-                  label: (_sfxVolume * 100).toInt().toString() + '%',
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
@@ -78,6 +82,13 @@ class _SettingsPageState extends State<SettingsPage> {
                     AudioService().playSFX('touch.wav');
                   },
                   child: const Text('Play SFX'),
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    AudioService().setTheme(GameAudio.mainBackground);
+                  },
+                  child: const Text('Play Music (if not playing)'),
                 ),
               ],
             ),

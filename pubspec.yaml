@@ -46,6 +46,8 @@ dependencies:
   health: ^12.2.0              # Cross-platform plugin to access health data (steps, calories, etc.)
   permission_handler: ^11.0.0  # Requests runtime permissions from the user (needed for health data access)
   just_audio: ^0.10.3          # Audio playback (for background music, sound effects in BattleScene)
+  just_audio_web: ^0.4.16      # Web support for just_audio (if you plan to run on web)
+  just_audio_windows: ^0.2.2   # Windows support for just_audio (if you plan to run on Windows)
   audio_session: ^0.1.6        # Manages audio session (important for just_audio to work properly)
 
 dev_dependencies:

@@ -93,6 +93,7 @@ class _ProfilePageState extends State<ProfilePage> {
       extendBodyBehindAppBar: true, // Extend body behind AppBar      
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        foregroundColor: Colors.black,
         elevation: 0,
         actions: [
           IconButton(

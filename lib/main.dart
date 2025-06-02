@@ -1,3 +1,4 @@
+import 'package:fit_rpg/Services/audio_service.dart';
 import 'package:fit_rpg/Services/auth_gate.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,7 +15,8 @@ void main() async
     anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhxZ2VwYXFyb3hmdWt4YnRycGtiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3MDk1NTksImV4cCI6MjA2MjI4NTU1OX0.jNAzar8L9X2m9F58q23fzOTkPsL3ysgSTU-oiWH8k6k',
   );
   //await Supabase.instance.client.auth.recoverSession('your-refresh-token-here'); // Attempt to recover the session if it exists
-
+  await AudioService().initializeAudio();
+  
   runApp(
     WindowManagerInitializer(
       child: ChangeNotifierProvider(
