@@ -87,24 +87,19 @@ class _RegisterPageState extends State<RegisterPage> {
           SafeArea(
             child: Column(
               children: [
-                const SizedBox(height: 20),
                 Expanded(
                   child: SingleChildScrollView(
                     padding: const EdgeInsets.all(16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        const Center(
-                          child: Text(
-                            "FitRPG",
-                            style: TextStyle(
-                              fontSize: 64,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 16),
+                        Center(
+                          child: Image.asset(
+                          'assets/images/FitRPG_Logo.png',
+                          width: 275,
+                          height: 275,
+                        )
+                      ),
                         // Frosted text background
                         FrostedText(
                             color: Colors.white.withAlpha(32),
@@ -158,6 +153,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             suffixIcon: IconButton(
                               icon: Icon(
                                 _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                                color: Colors.black,
                               ),
                               onPressed: () {
                                 setState(() {
@@ -190,6 +186,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             suffixIcon: IconButton(
                               icon: Icon(
                                 _obscureConfirmPassword ? Icons.visibility_off : Icons.visibility,
+                                color: Colors.black,
                               ),
                               onPressed: () {
                                 setState(() {

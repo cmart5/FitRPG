@@ -1,5 +1,5 @@
+import 'package:fit_rpg/Pages/hub_page.dart';
 import 'package:fit_rpg/Services/audio_service.dart';
-import 'package:fit_rpg/Services/main_navigation.dart';
 import 'package:fit_rpg/Pages/register_page.dart';
 import 'package:flutter/material.dart';
 import 'package:fit_rpg/Services/auth_service.dart';
@@ -39,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
       await authService.signInWithEmailPassword(email, password);
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => const MainNavigation(),
+          builder: (context) => const HubPage(),
         ),
       );
     }
@@ -74,29 +74,26 @@ Widget build(BuildContext context) {
         SafeArea(
           child: Column(
             children: [
-              const SizedBox(height: 20),
+              //const SizedBox(height: 20),
               Expanded(
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.all(16),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      const Center(
-                        child: Text(
-                          "FitRPG",
-                          style: TextStyle(
-                            fontSize: 64,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
-                        ),
+                      Center(
+                        child: Image.asset(
+                          'assets/images/FitRPG_Logo.png',
+                          width: 300,
+                          height: 300,
+                        )
                       ),
-                      const SizedBox(height: 16),
+                      //const SizedBox(height: 16),
                       FrostedText(
                         color: Colors.white.withAlpha(32),
                         borderRadius: BorderRadius.circular(4),
                         padding: const EdgeInsets.all(0),
-                        child: const Text(
+                        child: Text(
                           " Welcome back! Please login to continue.",
                           style: TextStyle(fontSize: 28, color: Colors.black),
                         ),
@@ -144,6 +141,7 @@ Widget build(BuildContext context) {
                             suffixIcon: IconButton(
                               icon: Icon(
                                 _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                                color: Colors.black,
                               ),
                               onPressed: () {
                                 setState(() {

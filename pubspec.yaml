@@ -1,5 +1,5 @@
 name: fit_rpg
-description: "A new Flutter project."
+description: "A medeival fantasy RPG game that tracks your real-world health data to level up your character and complete quests."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -49,10 +49,17 @@ dependencies:
   just_audio_web: ^0.4.16      # Web support for just_audio (if you plan to run on web)
   just_audio_windows: ^0.2.2   # Windows support for just_audio (if you plan to run on Windows)
   audio_session: ^0.1.6        # Manages audio session (important for just_audio to work properly)
+  flutter_screenutil: ^5.9.3
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.12.0 # Generates app icons for Android and iOS
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/FitRPG_Logo.png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

@@ -11,7 +11,7 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   double _musicVolume = AudioService().musicVolume;
   double _sfxVolume = AudioService().sfxVolume;
-  double _cardSFXVolume = AudioService().cardSFXVolume;
+  final double _cardSFXVolume = AudioService().cardSFXVolume;
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +55,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   },
                   min: 0,
                   max: 1,
-                  divisions: 5,
+                  divisions: 100,
                 ),
                 const SizedBox(height: 20),
                 Text(
@@ -74,7 +74,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   },
                   min: 0,
                   max: 1,
-                  divisions: 5,
+                  divisions: 100,
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(

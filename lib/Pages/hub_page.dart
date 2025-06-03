@@ -4,6 +4,7 @@ import 'package:fit_rpg/Pages/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:fit_rpg/Game/game_page_active.dart';
 import 'package:fit_rpg/Services/audio_service.dart';
+import 'package:fit_rpg/Services/widgets_ui.dart';
 
 class HubPage extends StatefulWidget {
   const HubPage({super.key});
@@ -17,7 +18,13 @@ class _HubPageState extends State<HubPage> {
   @override
   void initState() {
     super.initState();
-    AudioService().setTheme(GameAudio.mainBackground);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Future.delayed(const Duration(seconds: 1), () {
+        AudioService().setTheme(GameAudio.mainBackground);
+      });
+    });
+    
   }
 
   @override
@@ -25,6 +32,7 @@ class _HubPageState extends State<HubPage> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
+        automaticallyImplyLeading: false, // Hide the back button
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
@@ -44,12 +52,12 @@ class _HubPageState extends State<HubPage> {
               ),
               //Hub Logo
               Positioned(
-                top: height * 0.0,
-                left: (width) / 2, // Center horizontally
+                top: height * -0.0, // Adjusted to fit the logo
+                left: (width) / 1.95, // Center horizontally
                 child: Image.asset(
-                  'assets/images/Hub_Logo.png',
-                  width: 175,
-                  height: 175,
+                  'assets/images/FitRPG_Logo.png',
+                  width: 190,
+                  height: 190,
                 ),
               ),
               _iconButtonOverlay(
@@ -60,8 +68,8 @@ class _HubPageState extends State<HubPage> {
                   context,
                   MaterialPageRoute(builder: (_) => const GamePageActive()),
                 ),
-                topPercent: 0.35,
-                leftPercent: 0.8,
+                topPercent: 0.175,
+                leftPercent: 0.58,
               ),
               _iconButtonOverlay(
                 context,
@@ -73,8 +81,8 @@ class _HubPageState extends State<HubPage> {
                     builder: (_) => const GamePageStatic(),
                   ),
                 ),
-                topPercent: 0.60,
-                leftPercent: 0.75,
+                topPercent: 0.548,
+                leftPercent: 0.46,
               ),
               _iconButtonOverlay(
                 context,
@@ -86,8 +94,8 @@ class _HubPageState extends State<HubPage> {
                     builder: (_) => const ActivityPage(),
                   ),
                 ),
-                topPercent: 0.25,
-                leftPercent: 0.05,
+                topPercent: 0.16,
+                leftPercent: -.42,
               ),
               _iconButtonOverlay(
                 context,
@@ -99,8 +107,8 @@ class _HubPageState extends State<HubPage> {
                     builder: (_) => const ProfilePage(),
                   ),
                 ),
-                topPercent: 0.15,
-                leftPercent: 0.35,
+                topPercent: 0.055,
+                leftPercent: 0.02,
               ),
             ],
           );
@@ -120,41 +128,10 @@ class _HubPageState extends State<HubPage> {
     return Positioned(
       top: MediaQuery.of(context).size.height * topPercent,
       left: MediaQuery.of(context).size.width * leftPercent,
-      child: GestureDetector(
-        onTap: () {
-          AudioService().playSFX('touch.wav'); // Play sound effect on touch
-          Feedback.forTap(context);
-          onTap();
-        },
-        child: Column(
-          children: [
-            Material(
-              elevation: 8,
-              shape: const CircleBorder(),
-              child: Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.transparent,
-                ),
-                padding: const EdgeInsets.all(0),
-                child: Image.asset(
-                  assetPath,
-                  width: 64,
-                  height: 64,
-                )
-              ),
-            )  ,
-            const SizedBox(height: 0),
-            Text(
-              label,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 24,
-                fontFamily: 'pixelFont',
-              ),
-            ),         
-          ],
-        ),
+      child: InteractiveIcon(
+        label: label,
+        assetPath: assetPath,
+        onTap: onTap,
       ),
     );
   }
