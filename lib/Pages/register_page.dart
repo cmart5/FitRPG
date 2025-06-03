@@ -3,6 +3,7 @@ import 'package:fit_rpg/Pages/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:fit_rpg/Services/auth_service.dart';
 import 'package:fit_rpg/Services/widgets_ui.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -89,67 +90,66 @@ class _RegisterPageState extends State<RegisterPage> {
               children: [
                 Expanded(
                   child: SingleChildScrollView(
-                    padding: const EdgeInsets.all(16),
+                    padding: EdgeInsets.all(16.w), 
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Center(
                           child: Image.asset(
                           'assets/images/FitRPG_Logo.png',
-                          width: 275,
-                          height: 275,
+                          width: 275.w, 
+                          height: 275.h, 
                         )
                       ),
-                        // Frosted text background
                         FrostedText(
                             color: Colors.white.withAlpha(32),
-                            borderRadius: BorderRadius.circular(4),
-                            padding: const EdgeInsets.all(2),
-                            child: const Text(
+                            borderRadius: BorderRadius.circular(4.r), 
+                            padding: EdgeInsets.all(2.w), 
+                            child: Text(
                               "Welcome to FitRPG! Register, Champion.",
-                              style: TextStyle(fontSize: 28, color: Colors.black),
+                              style: TextStyle(fontSize: 28.sp, color: Colors.black), 
                         ),
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: 16.h), 
                       FrostedText(
                         color: Colors.black.withAlpha(64),
-                        borderRadius: BorderRadius.circular(4),
-                        padding: const EdgeInsets.all(3),
+                        borderRadius: BorderRadius.circular(4.r), 
+                        padding: EdgeInsets.all(3.w), 
                         child: TextField(
                           controller: _emailController,
                           style: TextStyle(
                               color: Colors.black,
-                              fontSize: 24
+                              fontSize: 24.sp 
                             ),
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             labelStyle: TextStyle(
                               color: Colors.black,
-                              fontSize: 24
+                              fontSize: 24.sp 
                             ),
                             labelText: "Email",
                             border: OutlineInputBorder(),
                           ),
                         ),
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: 16.h), 
                       FrostedText(
                         color: Colors.black.withAlpha(64),
-                        borderRadius: BorderRadius.circular(4),
-                        padding: const EdgeInsets.all(3),
+                        borderRadius: BorderRadius.circular(4.r), 
+                        padding: EdgeInsets.all(3.w), 
                         child: TextField(
                           controller: _passwordController,
                           obscureText: _obscurePassword,
                           style: TextStyle(
                               color: Colors.black,
-                              fontSize: 24
+                              fontSize: 24.sp 
                             ),
                           decoration: InputDecoration(
-                              labelStyle: const TextStyle(
+                              labelStyle: TextStyle(
                               color: Colors.black,
-                              fontSize: 24
+                              fontSize: 24.sp 
                             ),
                             labelText: "Password",
-                            border: const OutlineInputBorder(),
+                            border: OutlineInputBorder(),
                             suffixIcon: IconButton(
                               icon: Icon(
                                 _obscurePassword ? Icons.visibility_off : Icons.visibility,
@@ -164,25 +164,25 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: 16.h), 
                       FrostedText(
                         color: Colors.black.withAlpha(64),
-                        borderRadius: BorderRadius.circular(4),
-                        padding: const EdgeInsets.all(3),
+                        borderRadius: BorderRadius.circular(4.r), 
+                        padding: EdgeInsets.all(3.w), 
                         child: TextField(
                           controller: _confirmPasswordController,
                           obscureText: _obscureConfirmPassword,
                           style: TextStyle(
                               color: Colors.black,
-                              fontSize: 24
+                              fontSize: 24.sp 
                             ),
                           decoration: InputDecoration(
-                            labelStyle: const TextStyle(
+                            labelStyle: TextStyle(
                               color: Colors.black,
-                              fontSize: 24
+                              fontSize: 24.sp 
                             ),
                             labelText: "Confirm Password",
-                            border: const OutlineInputBorder(),
+                            border: OutlineInputBorder(),
                             suffixIcon: IconButton(
                               icon: Icon(
                                 _obscureConfirmPassword ? Icons.visibility_off : Icons.visibility,
@@ -197,28 +197,27 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 16),
-                      // Male or Female selection
+                      SizedBox(height: 16.h), 
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           FrostedText(
-                            sigmaX: 12,
-                            sigmaY: 12,
+                            sigmaX: 12.w,
+                            sigmaY: 12.h, 
                             color: Colors.white.withAlpha(32),
-                            borderRadius: BorderRadius.circular(4),
-                            padding: const EdgeInsets.all(2),
-                            child: const Text(
+                            borderRadius: BorderRadius.circular(4.r),
+                            padding: EdgeInsets.all(2.w),
+                            child: Text(
                               "Choose Your Champion:",
-                              style: TextStyle(fontSize: 28, color: Colors.black),
+                              style: TextStyle(fontSize: 28.sp, color: Colors.black), 
                             ),
                           ),
-                          const SizedBox(height: 8),
+                          SizedBox(height: 8.h), 
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               ChoiceChip(
-                                label: const Text(" Male"),
+                                label: Text(" Male"),
                                 selected: !isFemale,
                                 onSelected: (selected) {
                                   setState(() {
@@ -229,11 +228,11 @@ class _RegisterPageState extends State<RegisterPage> {
                                 labelStyle: TextStyle(
                                   color: !isFemale ? Colors.white : Colors.grey,
                                   fontFamily: 'pixelFont',
-                                  fontSize: 24,
+                                  fontSize: 24.sp, 
                                 ),
                               ),
                               ChoiceChip(
-                                label: const Text(
+                                label: Text(
                                   "Female",
                                   style: TextStyle(fontFamily: 'pixelFont'),
                                 ),
@@ -247,19 +246,19 @@ class _RegisterPageState extends State<RegisterPage> {
                                 labelStyle: TextStyle(
                                   color: isFemale ? Colors.white : Colors.grey,
                                   fontFamily: 'pixelFont',
-                                  fontSize: 24,
+                                  fontSize: 24.sp,  
                                 ),
                               ),
                             ],
                           ),
                         ],
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: 16.h),
                       ElevatedButton(
                         onPressed: register,
-                        child: const Text("Register"),
+                        child: Text("Register"),
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: 16.h), 
                       TextButton(
                         onPressed: () {
                           Navigator.push(
@@ -271,11 +270,11 @@ class _RegisterPageState extends State<RegisterPage> {
                         },
                         child: FrostedText(
                           color: Colors.white.withAlpha(32),
-                          borderRadius: BorderRadius.circular(4),
-                          padding: const EdgeInsets.all(2),
-                          child: const Text(
+                          borderRadius: BorderRadius.circular(4.r), 
+                          padding: EdgeInsets.all(2.w), 
+                          child: Text(
                             "Already have an account? Login",
-                            style: TextStyle(fontSize: 24, color: Colors.black),
+                            style: TextStyle(fontSize: 24.sp, color: Colors.black), 
                           ),
                         ),
                       ),

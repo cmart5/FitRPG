@@ -6,6 +6,7 @@ import 'package:fit_rpg/Services/widgets_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ActivityPage extends StatefulWidget 
 {
@@ -104,80 +105,80 @@ class _ActivityPageState extends State<ActivityPage>
               const SizedBox(height: 0),
               Expanded( // Expanded to fill available space
                 child: SingleChildScrollView( // Scrollable area for the content
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16.w),
                   child: Column( // Column to stack widgets vertically
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const Center( // Centered title
+                      Center( // Centered title
                         child: Text(
                           "Acitivty Tracker",
                           style: TextStyle(
-                            fontSize: 48,
+                            fontSize: 48.sp,
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
                           ),
                         ),
                       ),
-                      const SizedBox(height: 0),
-                      const Text(
+                      SizedBox(height: 0.h),
+                      Text(
                         "Enter your daily stats here.",
-                        style: TextStyle(fontSize: 32, color: Colors.black),
+                        style: TextStyle(fontSize: 32.sp, color: Colors.black),
                       ),
-                      const SizedBox(height: 0),
+                      SizedBox(height: 0.h),
                       TextField(
                         onTap: () {
                           Feedback.forTap(context); // Provide haptic feedback
                           AudioService().playSFX('touch.wav'); // Play button click sound
                         },
                         controller: _stepsController,
-                        style: const TextStyle(
-                          fontSize: 24
+                        style: TextStyle(
+                          fontSize: 24.sp
                         ),
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           labelText: "Total Steps",
                           labelStyle: TextStyle(
                             color: Colors.black,
-                            fontSize: 24
+                            fontSize: 24.sp
                         ),
                           border: OutlineInputBorder(),
                         ),
                         keyboardType: TextInputType.number,
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: 16.h),
                       TextField(
                         onTap: () {
                           Feedback.forTap(context); // Provide haptic feedback
                           AudioService().playSFX('touch.wav'); // Play button click sound
                         },
                         controller: _caloriesController,
-                        style: const TextStyle(
-                          fontSize: 24
+                        style: TextStyle(
+                          fontSize: 24.sp
                         ),
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           labelText: "Active Calories",
                           labelStyle: TextStyle(
                             color: Colors.black,
-                            fontSize: 24
+                            fontSize: 24.sp
                         ),
                           border: OutlineInputBorder(),
                         ),
                         keyboardType: TextInputType.number,
                       ),
-                      const SizedBox(height: 20),
+                      SizedBox(height: 20.h),
                       TextField(
                         onTap: () {
                           Feedback.forTap(context); // Provide haptic feedback
                           AudioService().playSFX('touch.wav'); // Play button click sound
                         },
                         controller: _durationController,
-                        style: const TextStyle(
-                          fontSize: 24
+                        style: TextStyle(
+                          fontSize: 24.sp
                         ),
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           labelText: "Total Workout Duration (minutes)",
                           labelStyle: TextStyle(
                             color: Colors.black,
-                            fontSize: 24
+                            fontSize: 24.sp
                         ),
                           border: OutlineInputBorder(),
                         ),
@@ -187,7 +188,7 @@ class _ActivityPageState extends State<ActivityPage>
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const SizedBox(height: 20),
+                          SizedBox(height: 20.h),
                           ElevatedButton(
                             onPressed: () async {
                               Feedback.forTap(context); // Provide haptic feedback
@@ -199,22 +200,22 @@ class _ActivityPageState extends State<ActivityPage>
                                 _durationController.text = data['duration'].toString();
                               });
                             },
-                            child: const Text("Sync with Health App", style: TextStyle(fontSize: 20)),
+                            child: Text("Sync with Health App", style: TextStyle(fontSize: 20.sp)),
                           ),
-                          const SizedBox(height: 20),
+                          SizedBox(height: 20.h),
                           FrostedText(
-                            sigmaX: 6,
-                            sigmaY: 6,
+                            sigmaX: 6.w,
+                            sigmaY: 6.h,
                             color: Colors.white.withAlpha(0),
-                            child: const Text(
+                            child: Text(
                             "Choose which Skill to Apply XP to:",
-                            style: TextStyle(fontSize: 24, color: Colors.black),
+                            style: TextStyle(fontSize: 24.sp, color: Colors.black),
                             ),
                           ),
                           GridView.count(
                             crossAxisCount: 3,
-                            crossAxisSpacing: 30.0, 
-                            mainAxisSpacing: 3.0, 
+                            crossAxisSpacing: 30.0.w, 
+                            mainAxisSpacing: 3.0.h, 
                             childAspectRatio: 2.0,
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(), // Disable scrolling
@@ -233,19 +234,19 @@ class _ActivityPageState extends State<ActivityPage>
                                   color: isSelected ? Colors.blueAccent : Colors.black.withAlpha(150),
                                   elevation: isSelected ? 8 : 1,
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(6),
+                                    borderRadius: BorderRadius.circular(6.r),
                                     side: BorderSide(
                                       color: isSelected ? Colors.white : Colors.grey,
-                                      width: 2,
+                                      width: 2.w,
                                     ),
                                   ),
                                   child: Center(
                                     child: Padding(
-                                      padding: const EdgeInsets.all(0.0),
+                                      padding: EdgeInsets.all(0.w),
                                       child: Text(
                                         skill,
                                         style: TextStyle(
-                                          fontSize: 20,
+                                          fontSize: 20.sp,
                                           fontFamily: 'pixelFont',
                                           color: isSelected ? Colors.white : Colors.grey[300],
                                         ),
@@ -258,7 +259,7 @@ class _ActivityPageState extends State<ActivityPage>
                           ),
                         ],
                       ),
-                      const SizedBox(height: 10),
+                      SizedBox(height: 10.h),
                       // Save Button
                       ElevatedButton(
                         onPressed: () async {
@@ -282,7 +283,7 @@ class _ActivityPageState extends State<ActivityPage>
                             ),
                           );
                         },
-                        child: const Text("Save Activity", style: TextStyle(fontSize: 20)),
+                        child: Text("Save Activity", style: TextStyle(fontSize: 20.sp)),
                       ),
                     ],
                   ),

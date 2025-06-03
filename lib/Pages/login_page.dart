@@ -4,6 +4,7 @@ import 'package:fit_rpg/Pages/register_page.dart';
 import 'package:flutter/material.dart';
 import 'package:fit_rpg/Services/auth_service.dart';
 import 'package:fit_rpg/Services/widgets_ui.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -13,28 +14,21 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
   @override
   void initState() {
     super.initState();
-    // Optionally, you can add any initialization logic here
     AudioService().setTheme(GameAudio.mainBackground); // Set the background music theme
   }
-  // Get auth service
-  final authService = AuthService();
 
-  // Text controllers
+  final authService = AuthService();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  bool _obscurePassword = true; // For password visibility toggle
+  bool _obscurePassword = true;
 
-  // login button pressed 
   void login() async {
-    // Prepare data
     final email = _emailController.text;
     final password = _passwordController.text;
 
-    // Attempt login
     try {
       await authService.signInWithEmailPassword(email, password);
       Navigator.of(context).pushReplacement(
@@ -42,11 +36,7 @@ class _LoginPageState extends State<LoginPage> {
           builder: (context) => const HubPage(),
         ),
       );
-    }
-
-    // Catch errors
-    catch (e) {
-      // Show error message
+    } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text("Error: $e"),
@@ -55,137 +45,136 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  // BUILD UI
- @override
-Widget build(BuildContext context) {
-  return Scaffold(
-    resizeToAvoidBottomInset: false, // Prevent automatic layout resize
-    body: Stack(
-      children: [
-        // Background image
-        Positioned.fill(
-          child: Image.asset(
-            'assets/images/Login_BG2.png',
-            fit: BoxFit.cover,
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: Stack(
+        children: [
+          // Background image
+          Positioned.fill(
+            child: Image.asset(
+              'assets/images/Login_BG2.png',
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
-
-        // Safe fixed height scrollable area
-        SafeArea(
-          child: Column(
-            children: [
-              //const SizedBox(height: 20),
-              Expanded(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Center(
-                        child: Image.asset(
-                          'assets/images/FitRPG_Logo.png',
-                          width: 300,
-                          height: 300,
-                        )
-                      ),
-                      //const SizedBox(height: 16),
-                      FrostedText(
-                        color: Colors.white.withAlpha(32),
-                        borderRadius: BorderRadius.circular(4),
-                        padding: const EdgeInsets.all(0),
-                        child: Text(
-                          " Welcome back! Please login to continue.",
-                          style: TextStyle(fontSize: 28, color: Colors.black),
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      FrostedText(
-                        color: Colors.black.withAlpha(64),
-                        borderRadius: BorderRadius.circular(4),
-                        padding: const EdgeInsets.all(3),
-                        child: TextField(
-                          controller: _emailController,
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 24
-                            ),
-                          decoration: const InputDecoration(
-                            labelStyle: TextStyle(
-                              color: Colors.black,
-                              fontSize: 24
-                            ),
-                            labelText: "Email",
-                            border: OutlineInputBorder(),
+          SafeArea(
+            child: Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    padding: EdgeInsets.all(16.w), 
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Center(
+                          child: Image.asset(
+                            'assets/images/FitRPG_Logo.png',
+                            width: 300.w, 
+                            height: 300.h, 
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 16),
-                      FrostedText(
-                        color: Colors.black.withAlpha(64),
-                        borderRadius: BorderRadius.circular(4),
-                        padding: const EdgeInsets.all(3),
-                        child: TextField(
-                          controller: _passwordController,
-                          obscureText: _obscurePassword,
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 24
-                            ),
-                          decoration: InputDecoration(
-                            labelStyle: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 24
-                            ),
-                            labelText: "Password",
-                            border: const OutlineInputBorder(),
-                            suffixIcon: IconButton(
-                              icon: Icon(
-                                _obscurePassword ? Icons.visibility_off : Icons.visibility,
-                                color: Colors.black,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  _obscurePassword = !_obscurePassword;
-                                });
-                              },
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      ElevatedButton(
-                        onPressed: login,
-                        child: const Text("Login"),
-                      ),
-                      const SizedBox(height: 16),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const RegisterPage(),
-                            ),
-                          );
-                        },
-                        child: FrostedText(
+                        SizedBox(height: 16.h), 
+                        FrostedText(
                           color: Colors.white.withAlpha(32),
-                          borderRadius: BorderRadius.circular(4),
-                          padding: const EdgeInsets.all(0),
-                          child: const Text(
-                            "Dont have an account? Register here.",
-                            style: TextStyle(fontSize: 24, color: Colors.black),
+                          borderRadius: BorderRadius.circular(4.r), 
+                          padding: EdgeInsets.all(0.w), 
+                          child: Text(
+                            " Welcome back! Please login to continue.",
+                            style: TextStyle(fontSize: 28.sp, color: Colors.black), 
                           ),
                         ),
-                      ),
-                    ],
+                        SizedBox(height: 16.h), 
+                        FrostedText(
+                          color: Colors.black.withAlpha(64),
+                          borderRadius: BorderRadius.circular(4.r), 
+                          padding: EdgeInsets.all(3.w),
+                          child: TextField(
+                            controller: _emailController,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 24.sp, 
+                            ),
+                            decoration: InputDecoration(
+                              labelStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 24.sp, 
+                              ),
+                              labelText: "Email",
+                              border: OutlineInputBorder(),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 16.h), 
+                        FrostedText(
+                          color: Colors.black.withAlpha(64),
+                          borderRadius: BorderRadius.circular(4.r), 
+                          padding: EdgeInsets.all(3.w), 
+                          child: TextField(
+                            controller: _passwordController,
+                            obscureText: _obscurePassword,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 24.sp, 
+                            ),
+                            decoration: InputDecoration(
+                              labelStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 24.sp, 
+                              ),
+                              labelText: "Password",
+                              border: OutlineInputBorder(),
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                                  color: Colors.black,
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _obscurePassword = !_obscurePassword;
+                                  });
+                                },
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 16.h), 
+                        ElevatedButton(
+                          onPressed: login,
+                          child: Text(
+                            "Login",
+                            style: TextStyle(fontSize: 20.sp), 
+                          ),
+                        ),
+                        SizedBox(height: 16.h), 
+                        TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const RegisterPage(),
+                              ),
+                            );
+                          },
+                          child: FrostedText(
+                            color: Colors.white.withAlpha(32),
+                            borderRadius: BorderRadius.circular(4.r), 
+                            padding: EdgeInsets.all(0.w), 
+                            child: Text(
+                              "Don't have an account? Register here.",
+                              style: TextStyle(fontSize: 24.sp, color: Colors.black), 
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ],
-    ),
-  );
-}
+        ],
+      ),
+    );
+  }
 }

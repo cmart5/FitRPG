@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fit_rpg/Services/audio_service.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart'; // Import ScreenUtil
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -32,22 +33,22 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(24.0),
+            padding: EdgeInsets.all(24.w), 
             child: Column(
               children: [
-                const SizedBox(height: 40),
-                const Text(
+                SizedBox(height: 40.h),
+                Text(
                   'Settings',
-                  style: TextStyle(fontSize: 48),
+                  style: TextStyle(fontSize: 48.sp),
                 ),
                 Text(
                   'Music Volume: ${(_musicVolume * 100).round()}%',
-                   style: TextStyle(fontSize: 24)),
+                  style: TextStyle(fontSize: 24.sp),
+                ),
                 Slider(
                   thumbColor: Colors.black,
                   activeColor: Colors.black.withAlpha(200),
                   inactiveColor: Colors.black.withAlpha(96),
-                  
                   value: _musicVolume,
                   onChanged: (value) {
                     setState(() => _musicVolume = value);
@@ -57,15 +58,15 @@ class _SettingsPageState extends State<SettingsPage> {
                   max: 1,
                   divisions: 100,
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: 20.h),
                 Text(
                   'SFX Volume: ${(_sfxVolume * 100).round()}%',
-                   style: TextStyle(fontSize: 24)),
+                  style: TextStyle(fontSize: 24.sp),
+                ),
                 Slider(
                   thumbColor: Colors.black,
                   activeColor: Colors.black.withAlpha(200),
                   inactiveColor: Colors.black.withAlpha(96),
-                  
                   value: _sfxVolume,
                   onChanged: (value) {
                     setState(() => _sfxVolume = value);
@@ -76,19 +77,25 @@ class _SettingsPageState extends State<SettingsPage> {
                   max: 1,
                   divisions: 100,
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: 20.h), 
                 ElevatedButton(
                   onPressed: () {
                     AudioService().playSFX('touch.wav');
                   },
-                  child: const Text('Play SFX'),
+                  child: Text(
+                    'Play SFX',
+                    style: TextStyle(fontSize: 16.sp),
+                  ),
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: 20.h),
                 ElevatedButton(
                   onPressed: () {
                     AudioService().setTheme(GameAudio.mainBackground);
                   },
-                  child: const Text('Play Music (if not playing)'),
+                  child: Text(
+                    'Play Music (if not playing)',
+                    style: TextStyle(fontSize: 16.sp),
+                  ),
                 ),
               ],
             ),

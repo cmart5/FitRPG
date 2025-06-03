@@ -1,4 +1,5 @@
 import 'package:fit_rpg/Services/auth_gate.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:fit_rpg/Game/game_stats.dart';
@@ -6,8 +7,7 @@ import 'package:fit_rpg/Services/window_manager.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-void main() async
-{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Ensures that the Flutter engine is initialized before running the app
   // Initialize Supabase client with URL and API key
   await Supabase.initialize(
@@ -26,47 +26,67 @@ void main() async
   );
 }
 
-class FitRPGApp extends StatelessWidget 
-{
+class FitRPGApp extends StatelessWidget {
   const FitRPGApp({super.key});
 
   // Widget is the application layout
   // MaterialApp is the main widget for Flutter apps, providing navigation and theming
   @override
-  Widget build(BuildContext context) 
-  {
+   Widget build(BuildContext context) {
+    // We’re using ScreenUtilInit to scale text/padding/etc. based on a design size of 412x915
     return ScreenUtilInit(
-      designSize: const Size(1344, 2992), // Set to match your emulator's original design
+      designSize: const Size(412, 915),
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        return MaterialApp(
-          title: 'FitRPG',
-          theme: ThemeData.dark().copyWith(
-            textTheme: ThemeData.dark().textTheme.apply(
-              fontFamily: 'pixelFont', // Custom font for the app
-              bodyColor: Colors.black, // Text color
-              displayColor: Colors.black, // Text color for display    
-            ),
-            elevatedButtonTheme: ElevatedButtonThemeData(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color.fromARGB(255, 180, 180, 180), // Button fill color
-                foregroundColor: const Color.fromARGB(255, 0, 0, 0), // Text (and icon) color
-                textStyle: const TextStyle(
-                  fontFamily: 'pixelFont',
-                  fontSize: 32,
-                ),
-                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(4), // Sharp corners for retro feel
-                ),
+        // If we are on the web, wrap our entire MaterialApp inside a box of max 375x812
+        if (kIsWeb) {
+          return Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(
+                maxWidth: 375,
+                maxHeight: 812,
+              ),
+              child: MaterialApp(
+                title: 'FitRPG',
+                theme: _buildDarkTheme(),
+                home: const AuthGate(),
               ),
             ),
-          ),
-
-          home: const AuthGate(), // Main entry point of the app, where the authentication gate is displayed
-        );
+          );
+        } else {
+          // Otherwise (mobile/desktop), just return the MaterialApp as before
+          return MaterialApp(
+            title: 'FitRPG',
+            theme: _buildDarkTheme(),
+            home: const AuthGate(),
+          );
+        }
       },
+    );
+  }
+
+  ThemeData _buildDarkTheme() {
+    return ThemeData.dark().copyWith(
+      textTheme: ThemeData.dark().textTheme.apply(
+            fontFamily: 'pixelFont',
+            bodyColor: Colors.black,
+            displayColor: Colors.black,
+          ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: const Color.fromARGB(255, 180, 180, 180),
+          foregroundColor: const Color.fromARGB(255, 0, 0, 0),
+          textStyle: TextStyle(
+            fontFamily: 'pixelFont',
+            fontSize: 32.sp,
+          ),
+          padding: EdgeInsets.symmetric(horizontal: 18.h, vertical: 8.w),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(4),
+          ),
+        ),
+      ),
     );
   }
 }

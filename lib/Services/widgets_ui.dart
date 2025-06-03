@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:fit_rpg/Services/audio_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class FrostedText extends StatelessWidget {
   final Widget child;
@@ -23,7 +24,7 @@ class FrostedText extends StatelessWidget {
   Widget build(BuildContext context) {
     return RepaintBoundary(
       child: ClipRRect(
-        borderRadius: borderRadius ?? BorderRadius.circular(8),
+        borderRadius: borderRadius ?? BorderRadius.circular(8.r),
         //Blur effect
         child: BackdropFilter(
           filter: ImageFilter.blur( // Blur strength
@@ -76,8 +77,8 @@ class InteractiveIconState extends State<InteractiveIcon> {
               child: IgnorePointer( // Ignore taps while pressed
                 child: Image.asset(
                   widget.assetPath,
-                  width: 360,
-                  height: 360,
+                  width: 360.w,
+                  height: 360.h,
                 ),
               ),
             ),
@@ -96,8 +97,8 @@ class InteractiveIconState extends State<InteractiveIcon> {
                 setState(() => _isPressed = false);
               },
               child: Container(
-                width: 165, // hitbox size
-                height: 275,
+                width: 165.w, // hitbox size
+                height: 275.h,
                 color: Colors.transparent,
               ),
             ),

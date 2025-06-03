@@ -4,6 +4,7 @@ import 'package:fit_rpg/Pages/login_page.dart';
 import 'package:fit_rpg/Pages/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:fit_rpg/Services/auth_service.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -58,26 +59,30 @@ class _ProfilePageState extends State<ProfilePage> {
       builder: (context) => AlertDialog(
         backgroundColor: const Color.fromARGB(240, 230, 200, 150),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
+          borderRadius: BorderRadius.circular(8.r), 
         ),
-        title: const Text("Confirm Logout",
-        style: TextStyle(fontSize: 32, fontFamily: 'pixelFont')),
-        content: const Text("Are you sure you want to sign out?",
-        style: TextStyle(fontSize: 24, fontFamily: 'pixelFont')),
+        title: Text(
+          "Confirm Logout",
+          style: TextStyle(fontSize: 32.sp, fontFamily: 'pixelFont'), 
+        ),
+        content: Text(
+          "Are you sure you want to sign out?",
+          style: TextStyle(fontSize: 24.sp, fontFamily: 'pixelFont'), 
+        ),
         actions: [
           TextButton(
             style: TextButton.styleFrom(
               foregroundColor: Colors.black,
-              textStyle: const TextStyle(fontSize: 24, fontFamily: 'pixelFont'),
-             ),
+              textStyle: TextStyle(fontSize: 24.sp, fontFamily: 'pixelFont'), 
+            ),
             onPressed: () => Navigator.of(context).pop(false),
             child: const Text("Cancel"),
           ),
           TextButton(
             style: TextButton.styleFrom(
               foregroundColor: Colors.red,
-              textStyle: const TextStyle(fontSize: 24, fontFamily: 'pixelFont'),
-              ), // Text color for the button
+              textStyle: TextStyle(fontSize: 24.sp, fontFamily: 'pixelFont'), 
+            ),
             onPressed: () => Navigator.of(context).pop(true),
             child: const Text("Logout"),
           ),
@@ -136,28 +141,25 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           SafeArea(
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: EdgeInsets.all(16.w), 
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start, // aligns text left
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     'Profile Information',
-                    style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 48.sp, fontWeight: FontWeight.bold), 
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 16.h), 
 
-                  // Basic Info Rows
-                  Text('Username: $username', style: const TextStyle(fontSize: 24)),
-                  const SizedBox(height: 8),
-                  Text('Email: $email', style: const TextStyle(fontSize: 24)),
-                  const SizedBox(height: 8),
-                  Text('Gender: ${isFemale ? "Female" : "Male"}', style: const TextStyle(fontSize: 24)),
-                  const SizedBox(height: 16),
-                  Text('Created: $created', style: const TextStyle(fontSize: 24)),
-
+                  Text('Username: $username', style: TextStyle(fontSize: 24.sp)),
+                  SizedBox(height: 8.h), 
+                  Text('Email: $email', style: TextStyle(fontSize: 24.sp)), 
+                  SizedBox(height: 8.h), 
+                  Text('Gender: ${isFemale ? "Female" : "Male"}', style: TextStyle(fontSize: 24.sp)), 
+                  SizedBox(height: 16.h), 
+                  Text('Created: $created', style: TextStyle(fontSize: 24.sp)), 
                   Expanded(
-                    child: Container(                      
-                    ),
+                    child: Container(),
                   ),
                 ],
               ),

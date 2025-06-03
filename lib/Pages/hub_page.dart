@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fit_rpg/Game/game_page_active.dart';
 import 'package:fit_rpg/Services/audio_service.dart';
 import 'package:fit_rpg/Services/widgets_ui.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HubPage extends StatefulWidget {
   const HubPage({super.key});
@@ -14,7 +15,6 @@ class HubPage extends StatefulWidget {
 }
 
 class _HubPageState extends State<HubPage> {
-
   @override
   void initState() {
     super.initState();
@@ -24,7 +24,6 @@ class _HubPageState extends State<HubPage> {
         AudioService().setTheme(GameAudio.mainBackground);
       });
     });
-    
   }
 
   @override
@@ -43,21 +42,21 @@ class _HubPageState extends State<HubPage> {
 
           return Stack(
             children: [
-              //Background
+              // Background
               Positioned.fill(
                 child: Image.asset(
                   'assets/images/Hub_BG.png',
                   fit: BoxFit.cover,
                 ),
               ),
-              //Hub Logo
+              // Hub Logo
               Positioned(
                 top: height * -0.0, // Adjusted to fit the logo
-                left: (width) / 1.95, // Center horizontally
+                left: width / 1.95, // Center horizontally
                 child: Image.asset(
                   'assets/images/FitRPG_Logo.png',
-                  width: 190,
-                  height: 190,
+                  width: 190.w,
+                  height: 190.h,
                 ),
               ),
               _iconButtonOverlay(
@@ -68,8 +67,8 @@ class _HubPageState extends State<HubPage> {
                   context,
                   MaterialPageRoute(builder: (_) => const GamePageActive()),
                 ),
-                topPercent: 0.175,
-                leftPercent: 0.58,
+                topPercent: 0.172,
+                leftPercent: 0.555,
               ),
               _iconButtonOverlay(
                 context,
@@ -81,8 +80,8 @@ class _HubPageState extends State<HubPage> {
                     builder: (_) => const GamePageStatic(),
                   ),
                 ),
-                topPercent: 0.548,
-                leftPercent: 0.46,
+                topPercent: 0.54,
+                leftPercent: 0.44,
               ),
               _iconButtonOverlay(
                 context,
@@ -94,8 +93,8 @@ class _HubPageState extends State<HubPage> {
                     builder: (_) => const ActivityPage(),
                   ),
                 ),
-                topPercent: 0.16,
-                leftPercent: -.42,
+                topPercent: 0.14,
+                leftPercent: -0.46,
               ),
               _iconButtonOverlay(
                 context,
@@ -107,14 +106,15 @@ class _HubPageState extends State<HubPage> {
                     builder: (_) => const ProfilePage(),
                   ),
                 ),
-                topPercent: 0.055,
-                leftPercent: 0.02,
+                topPercent: 0.041,
+                leftPercent: -0.025,
               ),
             ],
           );
         },
       ),
-    );
+      );
+    }
   }
 
   Widget _iconButtonOverlay(
@@ -126,13 +126,12 @@ class _HubPageState extends State<HubPage> {
     required double leftPercent,
   }) {
     return Positioned(
-      top: MediaQuery.of(context).size.height * topPercent,
-      left: MediaQuery.of(context).size.width * leftPercent,
-      child: InteractiveIcon(
-        label: label,
-        assetPath: assetPath,
-        onTap: onTap,
-      ),
-    );
-  }
+     top: 915.h * topPercent,
+     left: 412.w * leftPercent,
+     child: InteractiveIcon(
+       label: label,
+       assetPath: assetPath,
+       onTap: onTap,
+     ),
+   );
 }

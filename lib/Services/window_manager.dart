@@ -28,9 +28,7 @@ class _WindowManagerInitializerState extends State<WindowManagerInitializer> wit
       await windowManager.ensureInitialized();
 
       WindowOptions options = const WindowOptions(
-        size: Size(375, 812),
-        minimumSize: Size(375, 812),
-        maximumSize: Size(375, 812),
+        size: Size(375, 812), // Default size for iPhone 12/13/14
         center: true,
       );
 
