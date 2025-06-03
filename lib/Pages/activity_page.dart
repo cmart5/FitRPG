@@ -225,7 +225,7 @@ class _ActivityPageState extends State<ActivityPage>
                               return GestureDetector(
                                 onTap: () {
                                   Feedback.forTap(context); // Provide haptic feedback
-                                  AudioService().playCardSFX('touch.wav'); // Play button click sound
+                                  //AudioService().playCardSFX('touch.wav'); // Play button click sound
                                   setState(() {
                                     selectedSkill = isSelected ? null : skill;
                                   });

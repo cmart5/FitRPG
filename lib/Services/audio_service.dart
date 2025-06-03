@@ -56,20 +56,20 @@ class AudioService {
   }
 
   Future<void> playCardSFX(String soundFile) async {
+    final player = AudioPlayer(); // Create a temporary player for card SFX
     try {
-      final player = AudioPlayer(); // Create a new temporary player
       await player.setAsset('assets/sounds/$soundFile');
       await player.setVolume(cardSFXVolume);
       await player.play();
 
-      // Dispose after playback completes
-      player.playerStateStream.listen((state) {
-        if (state.processingState == ProcessingState.completed) {
-          player.dispose();
-        }
-      });
+      // Wait until playback finishes (on main thread)
+      await player.playerStateStream.firstWhere(
+        (state) => state.processingState == ProcessingState.completed,
+      );
+      await player.dispose();
     } catch (e) {
       print("❌ Error playing SFX: $e");
+      player.dispose();
     }
   }
 

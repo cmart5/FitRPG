@@ -37,24 +37,24 @@ dependencies:
 
 
   http: ^1.3.0                 # For making HTTP requests (REST APIs, Supabase calls if needed)
-  window_manager: ^0.4.3       # Lets you control the app window on desktop (size, position, fullscreen)
+  window_manager: ^0.5.0       # Lets you control the app window on desktop (size, position, fullscreen)
   shared_preferences: ^2.5.3   # Local key-value storage (used for saving XP, settings offline)
   flame: ^1.26.1               # Game engine for Flutter (handles your BattleScene, animations, etc.)
   provider: ^6.1.4             # State management (used for sharing GameState across the app)
   supabase_flutter: ^2.9.0     # Connects to Supabase for auth, database, and storage
   connectivity_plus: ^6.1.4    # Checks if device is online/offline (used in GameState for sync logic)
-  health: ^12.2.0              # Cross-platform plugin to access health data (steps, calories, etc.)
-  permission_handler: ^11.0.0  # Requests runtime permissions from the user (needed for health data access)
+  health: ^13.0.1              # Cross-platform plugin to access health data (steps, calories, etc.)
+  permission_handler: ^12.0.0+1  # Requests runtime permissions from the user (needed for health data access)
   just_audio: ^0.10.3          # Audio playback (for background music, sound effects in BattleScene)
   just_audio_web: ^0.4.16      # Web support for just_audio (if you plan to run on web)
   just_audio_windows: ^0.2.2   # Windows support for just_audio (if you plan to run on Windows)
-  audio_session: ^0.1.6        # Manages audio session (important for just_audio to work properly)
+  audio_session: ^0.2.2        # Manages audio session (important for just_audio to work properly)
   flutter_screenutil: ^5.9.3
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: ^0.12.0 # Generates app icons for Android and iOS
+  flutter_launcher_icons: ^0.14.3 # Generates app icons for Android and iOS
 
 flutter_launcher_icons:
   android: true

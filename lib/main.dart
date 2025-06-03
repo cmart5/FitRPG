@@ -39,29 +39,11 @@ class FitRPGApp extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        // If we are on the web, wrap our entire MaterialApp inside a box of max 375x812
-        if (kIsWeb) {
-          return Center(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(
-                maxWidth: 375,
-                maxHeight: 812,
-              ),
-              child: MaterialApp(
-                title: 'FitRPG',
-                theme: _buildDarkTheme(),
-                home: const AuthGate(),
-              ),
-            ),
-          );
-        } else {
-          // Otherwise (mobile/desktop), just return the MaterialApp as before
-          return MaterialApp(
-            title: 'FitRPG',
-            theme: _buildDarkTheme(),
-            home: const AuthGate(),
-          );
-        }
+        return MaterialApp(
+          title: 'FitRPG',
+          theme: _buildDarkTheme(),
+          home: const AuthGate(),
+        );
       },
     );
   }

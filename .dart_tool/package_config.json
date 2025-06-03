@@ -45,9 +45,9 @@
     },
     {
       "name": "audio_session",
-      "rootUri": "file:///C:/Users/cpmar/AppData/Local/Pub/Cache/hosted/pub.dev/audio_session-0.1.25",
+      "rootUri": "file:///C:/Users/cpmar/AppData/Local/Pub/Cache/hosted/pub.dev/audio_session-0.2.2",
       "packageUri": "lib/",
-      "languageVersion": "3.4"
+      "languageVersion": "3.6"
     },
     {
       "name": "boolean_selector",
@@ -75,9 +75,9 @@
     },
     {
       "name": "cli_util",
-      "rootUri": "file:///C:/Users/cpmar/AppData/Local/Pub/Cache/hosted/pub.dev/cli_util-0.3.5",
+      "rootUri": "file:///C:/Users/cpmar/AppData/Local/Pub/Cache/hosted/pub.dev/cli_util-0.4.2",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "3.4"
     },
     {
       "name": "clock",
@@ -159,7 +159,7 @@
     },
     {
       "name": "flame",
-      "rootUri": "file:///C:/Users/cpmar/AppData/Local/Pub/Cache/hosted/pub.dev/flame-1.28.1",
+      "rootUri": "file:///C:/Users/cpmar/AppData/Local/Pub/Cache/hosted/pub.dev/flame-1.29.0",
       "packageUri": "lib/",
       "languageVersion": "3.6"
     },
@@ -171,9 +171,9 @@
     },
     {
       "name": "flutter_launcher_icons",
-      "rootUri": "file:///C:/Users/cpmar/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_launcher_icons-0.12.0",
+      "rootUri": "file:///C:/Users/cpmar/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_launcher_icons-0.14.3",
       "packageUri": "lib/",
-      "languageVersion": "2.18"
+      "languageVersion": "3.0"
     },
     {
       "name": "flutter_screenutil",
@@ -213,7 +213,7 @@
     },
     {
       "name": "health",
-      "rootUri": "file:///C:/Users/cpmar/AppData/Local/Pub/Cache/hosted/pub.dev/health-12.2.0",
+      "rootUri": "file:///C:/Users/cpmar/AppData/Local/Pub/Cache/hosted/pub.dev/health-13.0.1",
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
@@ -339,9 +339,9 @@
     },
     {
       "name": "ordered_set",
-      "rootUri": "file:///C:/Users/cpmar/AppData/Local/Pub/Cache/hosted/pub.dev/ordered_set-7.0.0",
+      "rootUri": "file:///C:/Users/cpmar/AppData/Local/Pub/Cache/hosted/pub.dev/ordered_set-8.0.0",
       "packageUri": "lib/",
-      "languageVersion": "3.4"
+      "languageVersion": "3.6"
     },
     {
       "name": "path",
@@ -387,13 +387,13 @@
     },
     {
       "name": "permission_handler",
-      "rootUri": "file:///C:/Users/cpmar/AppData/Local/Pub/Cache/hosted/pub.dev/permission_handler-11.4.0",
+      "rootUri": "file:///C:/Users/cpmar/AppData/Local/Pub/Cache/hosted/pub.dev/permission_handler-12.0.0+1",
       "packageUri": "lib/",
       "languageVersion": "3.5"
     },
     {
       "name": "permission_handler_android",
-      "rootUri": "file:///C:/Users/cpmar/AppData/Local/Pub/Cache/hosted/pub.dev/permission_handler_android-12.1.0",
+      "rootUri": "file:///C:/Users/cpmar/AppData/Local/Pub/Cache/hosted/pub.dev/permission_handler_android-13.0.1",
       "packageUri": "lib/",
       "languageVersion": "3.5"
     },
@@ -723,7 +723,7 @@
     },
     {
       "name": "window_manager",
-      "rootUri": "file:///C:/Users/cpmar/AppData/Local/Pub/Cache/hosted/pub.dev/window_manager-0.4.3",
+      "rootUri": "file:///C:/Users/cpmar/AppData/Local/Pub/Cache/hosted/pub.dev/window_manager-0.5.0",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
@@ -758,7 +758,7 @@
       "languageVersion": "3.7"
     }
   ],
-  "generated": "2025-06-03T03:20:26.188895Z",
+  "generated": "2025-06-03T22:04:27.097142Z",
   "generator": "pub",
   "generatorVersion": "3.7.2",
   "flutterRoot": "file:///C:/Users/cpmar/flutter",

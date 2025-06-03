@@ -2,6 +2,7 @@ import 'package:fit_rpg/Services/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:fit_rpg/Game/game_stats.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class GamePageStatic extends StatefulWidget 
 {
@@ -35,7 +36,7 @@ class SkillProgressRow extends StatelessWidget { // Widget to display skill prog
     final int animationDuration = (gainedXP * 10).clamp(400, 2000); // Animation duration based on gained XP
 
     return Padding(
-      padding: const EdgeInsets.symmetric( vertical : 6, horizontal: 20), 
+      padding: EdgeInsets.symmetric( vertical : 6.h, horizontal: 20.w), 
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -44,7 +45,7 @@ class SkillProgressRow extends StatelessWidget { // Widget to display skill prog
             children: [
               Text(
                 '$skill: Level $level',
-                style: const TextStyle(fontSize: 24),
+                style: TextStyle(fontSize: 24.sp),
               ),
               TweenAnimationBuilder<int>(
                 tween: IntTween(
@@ -57,7 +58,7 @@ class SkillProgressRow extends StatelessWidget { // Widget to display skill prog
                   return Text( 
                     'XP: $animatedXP / $xpToLevel', // Display XP value
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: 20.sp,
                       color: (xp / xpToLevel) >= 1.0 // Check if XP is maxed out
                           ? Colors.green // Change color to green if maxed out
                           : Colors.black, // Default color
@@ -67,7 +68,7 @@ class SkillProgressRow extends StatelessWidget { // Widget to display skill prog
               ),
             ],
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: 4.h),
           bar, // XP bar widget
         ],
       ),
@@ -165,23 +166,23 @@ class _GamePageStaticState extends State<GamePageStatic> with SingleTickerProvid
   
   Widget xpBar(double percent) {
     return Container(
-      width: 200, // full width of the bar
-      height: 20,
+      width: 200.w, // full width of the bar
+      height: 20.h,
       decoration: BoxDecoration(
         border: Border.all(color: Colors.black),
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.circular(4.r),
         ),
         child: Stack(
           children: [
             ClipRRect( // Change the rectagle based on the percent
-              borderRadius: BorderRadius.circular(4), // round the corners
+              borderRadius: BorderRadius.circular(4.r), // round the corners
               child: FractionallySizedBox( // Use FractionallySizedBox to fill the bar
                 alignment: Alignment.centerLeft,
                 widthFactor: percent,
                 child: Image.asset(
                   'assets/images/XP_Bar.png',
                   fit: BoxFit.cover,
-                  height: 20,
+                  height: 20.h,
                   alignment: Alignment.centerLeft,
                 ),
               ),
@@ -222,8 +223,8 @@ class _GamePageStaticState extends State<GamePageStatic> with SingleTickerProvid
           // Foreground content
           Column(
             children: [
-              const SizedBox(height: 75),
-              const Text("Your Skills", style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold)),
+              SizedBox(height: 75.h),
+              Text("Your Skills", style: TextStyle(fontSize: 48.sp, fontWeight: FontWeight.bold)),
 
               Expanded(
                 child: ListView(

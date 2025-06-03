@@ -35,103 +35,85 @@ class _HubPageState extends State<HubPage> {
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          final width = constraints.maxWidth;
-          final height = constraints.maxHeight;
-
-          return Stack(
-            children: [
-              // Background
-              Positioned.fill(
-                child: Image.asset(
-                  'assets/images/Hub_BG.png',
-                  fit: BoxFit.cover,
-                ),
-              ),
-              // Hub Logo
-              Positioned(
-                top: height * -0.0, // Adjusted to fit the logo
-                left: width / 1.95, // Center horizontally
-                child: Image.asset(
-                  'assets/images/FitRPG_Logo.png',
-                  width: 190.w,
-                  height: 190.h,
-                ),
-              ),
-              _iconButtonOverlay(
+      body: ResponsiveIconsOverBackground(               
+        backgroundAsset: 'assets/images/Hub_BG.png',
+        bgDesignWidth: 1000,   // your Hub_BG.png is 1000px wide
+        bgDesignHeight: 1500,  // and 1500px tall
+        icons: [
+          // Each icon: assetPath, onTap, UL.x, UL.y, BR.x, BR.y
+          IconInfo(
+            assetPath: 'assets/images/battle_icon.png',
+            onTap: () {
+              AudioService().playSFX('touch.wav');
+              Navigator.push(
                 context,
-                label: 'Battle',
-                assetPath: 'assets/images/door.png',
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const GamePageActive()),
+                MaterialPageRoute(
+                  builder: (_) => const GamePageActive(),
                 ),
-                topPercent: 0.172,
-                leftPercent: 0.555,
-              ),
-              _iconButtonOverlay(
+              );
+            },
+            ulx: 690, uly: 250, brx: 1000, bry: 850, // battle
+          ),
+          IconInfo(
+            assetPath: 'assets/images/stats_icon.png',
+            onTap: () {
+              AudioService().playSFX('touch.wav');
+              Navigator.push(
                 context,
-                label: 'Stats',
-                assetPath: 'assets/images/book.png',
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => const GamePageStatic(),
-                  ),
+                MaterialPageRoute(
+                  builder: (_) => const GamePageStatic(),
                 ),
-                topPercent: 0.54,
-                leftPercent: 0.44,
-              ),
-              _iconButtonOverlay(
+              );
+            },
+            ulx: 560, uly: 880, brx: 975, bry: 1310, // stats
+          ),
+          IconInfo(
+            assetPath: 'assets/images/activity_icon.png',
+            onTap: () {
+              AudioService().playSFX('touch.wav');
+              Navigator.push(
                 context,
-                label: 'Activity',
-                assetPath: 'assets/images/bench.png',
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => const ActivityPage(),
-                  ),
+                MaterialPageRoute(
+                  builder: (_) => const ActivityPage(),
                 ),
-                topPercent: 0.14,
-                leftPercent: -0.46,
-              ),
-              _iconButtonOverlay(
+              );
+            },
+            ulx: 15, uly: 285, brx: 710, bry: 940, // activity
+          ),
+          IconInfo(
+            assetPath: 'assets/images/profile_icon.png',
+            onTap: () {
+              AudioService().playSFX('touch.wav');
+              Navigator.push(
                 context,
-                label: 'Profile',
-                assetPath: 'assets/images/armor.png',
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => const ProfilePage(),
-                  ),
+                MaterialPageRoute(
+                  builder: (_) => const ProfilePage(),
                 ),
-                topPercent: 0.041,
-                leftPercent: -0.025,
-              ),
-            ],
-          );
-        },
+              );
+            },
+            ulx: 345, uly: 100, brx: 550, bry: 620, // profile
+          ),
+          IconInfo(
+            assetPath: 'assets/images/crafting_icon.png',
+            onTap: () {
+              // TODO: Navigate to crafting page
+            },
+            ulx: 360, uly: 1130, brx: 710, bry: 1490, // crafting
+          ),
+          IconInfo(
+            assetPath: 'assets/images/inventory_icon.png',
+            onTap: () {
+              // TODO: Navigate to inventory page
+            },
+            ulx: 35, uly: 990, brx: 290, bry: 1340, // inventory
+          ),
+          IconInfo(
+            assetPath: 'assets/images/FitRPG_Logo.png',
+            onTap: () { },
+            ulx: 520, uly: 0, brx: 820, bry: 300, // example logo coords
+          ),
+        ],
       ),
-      );
-    }
+    );
   }
-
-  Widget _iconButtonOverlay(
-    BuildContext context, {
-    required String label,
-    required String assetPath,
-    required VoidCallback onTap,
-    required double topPercent,
-    required double leftPercent,
-  }) {
-    return Positioned(
-     top: 915.h * topPercent,
-     left: 412.w * leftPercent,
-     child: InteractiveIcon(
-       label: label,
-       assetPath: assetPath,
-       onTap: onTap,
-     ),
-   );
 }
