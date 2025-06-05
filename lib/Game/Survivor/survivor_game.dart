@@ -1,5 +1,7 @@
 import 'package:flame/camera.dart';
+import 'package:flame/components.dart';
 import 'package:flame/events.dart';
+import 'package:flame/flame.dart';
 import 'package:flame/game.dart';          // Base class FlameGame
 import 'package:flame/input.dart';         // For keyboard/touch input
 import 'package:flutter/material.dart';    // For Color, etc.
@@ -21,16 +23,28 @@ class SurvivorGame extends FlameGame
   bool gameReady = false; // track explicitly when the game is safe to run game logic
 
   @override
-  Future<void> onLoad() async {
-    camera.viewport = FixedResolutionViewport(resolution: Vector2(412, 915)); // Set the game resolution
-    final worldSize = camera.viewport.size; // Get the world size from the viewport
+  Future<void> onLoad() async { 
+
+    final camera = CameraComponent.withFixedResolution(
+      width: 360,
+      height: 640,
+    );
+    camera.viewfinder.anchor = Anchor.center;
+    camera.viewfinder.position = size / 2;
     //final sprite = Sprite(await Flame.images.load('WarriorSprite.png')); // Load player sprite image
     // This means the “world” is 800×600 units, and Flame scales it to your device.
+    final bgImage = await Flame.images.load('survivorgame_bg.png');
+    final background = SpriteComponent()
+      ..sprite = Sprite(bgImage)
+      ..size = size
+      ..position = Vector2.zero()
+      ..priority = 0;
     player = PlayerComponent(
-      position: worldSize / 2, // Center the player
-      size: Vector2(50, 50), // Player size
+      position: size / 2, // Center the player
+      size: Vector2(85, 125), // Player size
     );
-
+    
+    add(background);
     add(player!); // Add the player to the game
     gameReady = true; // mark as ready and safe
     print('✅ Player registered: ${player}');
@@ -68,6 +82,13 @@ class SurvivorGame extends FlameGame
   void render(Canvas canvas) {
     super.render(canvas);
     if (!gameReady) return;
+
+    final rect = Rect.fromLTWH(0, 0, size.x, size.y);
+    final paint = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 4
+      ..color = Colors.yellowAccent;
+    canvas.drawRect(rect, paint);
 
     final textPainter = TextPainter(
       text: TextSpan(

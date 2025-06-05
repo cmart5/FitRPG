@@ -70,7 +70,8 @@ class PlayerComponent extends SpriteComponent
           position += moveVector * speed * dt;
 
           // Clamp to game bounds
-          position.clamp(Vector2.zero(), game.size - size);
+          final halfSize = size / 2;
+          position.clamp(halfSize, game.size - halfSize);
         }
       }
 
@@ -102,10 +103,10 @@ class PlayerComponent extends SpriteComponent
             removeFromParent(); // Remove player from game
             print(" 💀 Player has died!"); // For debugging, replace with game over logic
 
+            // trigger a game over screen/reset the game state
             final survivorGame = findParent<SurvivorGame>();
             survivorGame?.gameOver();
-            // You can also trigger a game over screen or reset the game state here
-          }
+          }        
         }
       }
     }

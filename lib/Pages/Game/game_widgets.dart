@@ -28,6 +28,7 @@ class GameOverOverlay extends StatelessWidget {
                 onPressed: onRetry,
                 child: const Text("Try Again"),
               ),
+              SizedBox(height: 20),
               ElevatedButton(
                 onPressed: onExit,
                 child: const Text("Back to Hub"),
