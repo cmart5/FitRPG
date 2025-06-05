@@ -55,7 +55,7 @@ class AuthService {
     final user = supabase.auth.currentUser;
     if (user == null) {
       throw Exception('No logged in user.');
-    };
+    }
 
     final response = await supabase
         .from('users')

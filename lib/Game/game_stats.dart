@@ -159,7 +159,7 @@ class GameState extends ChangeNotifier
           .eq('skill_name', skill)
           .maybeSingle();
 
-      print('🧠 Saving skill: $skill with XP=${xp}, Level=$level');
+      print('🧠 Saving skill: $skill with XP=$xp, Level=$level');
       print('📥 Checking if exists in Supabase...');
 
       if (existing != null) {
@@ -267,28 +267,24 @@ class GameState extends ChangeNotifier
           .select()
           .eq('user_id', userId);
 
-        if (response == null) {
-          print('Error loading XP data: response is null');
-        } else {
-          // Clear current data first
-          skillXP.updateAll((key, _) => 0);
-          skillLevels.updateAll((key, _) => 1);
+        // Clear current data first
+        skillXP.updateAll((key, _) => 0);
+        skillLevels.updateAll((key, _) => 1);
 
-          for (final row in response) {
-            final skill = row['skill_name'] as String;
-            final xp = row['xp'] as int;
-            final level = row['level'] as int;
+        for (final row in response) {
+          final skill = row['skill_name'] as String;
+          final xp = row['xp'] as int;
+          final level = row['level'] as int;
 
-            if (skillXP.containsKey(skill)) {
-              skillXP[skill] = xp;
-              skillLevels[skill] = level;
-            } 
-            else {
-              print('Unknown skill: $skill');
-            }
+          if (skillXP.containsKey(skill)) {
+            skillXP[skill] = xp;
+            skillLevels[skill] = level;
+          } 
+          else {
+            print('Unknown skill: $skill');
           }
         }
-      } catch (e) {
+            } catch (e) {
         print('Error loading XP data: $e');
       }
     } else { // If offline, load data from local storage

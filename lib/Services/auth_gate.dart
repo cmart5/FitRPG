@@ -4,10 +4,10 @@
 // authenticated -> account page
 
 
+import 'package:fit_rpg/Pages/Main/hub_page.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:fit_rpg/Pages/login_page.dart';
-import 'package:fit_rpg/Services/main_navigation.dart';
+import 'package:fit_rpg/Pages/Main/login_page.dart';
 
 class AuthGate extends StatelessWidget { // This widget will continuously check if the user is logged in or not
   const AuthGate({super.key}); 
@@ -31,7 +31,7 @@ class AuthGate extends StatelessWidget { // This widget will continuously check 
         final session = snapshot.hasData ? snapshot.data!.session : null;
 
         if (session != null) {
-          return const MainNavigation();
+          return const HubPage();
         } else {
           return const LoginPage(); 
         }

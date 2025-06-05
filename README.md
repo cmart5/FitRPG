@@ -22,5 +22,3 @@ FEATURES
 
 STATUS
 This project is actively under development.
-
-
