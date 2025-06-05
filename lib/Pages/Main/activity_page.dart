@@ -1,6 +1,6 @@
 import 'package:fit_rpg/Services/audio_service.dart';
 import 'package:fit_rpg/Services/fitness_service.dart';
-import 'package:fit_rpg/Pages/Game/game_page_static.dart';
+import 'package:fit_rpg/Pages/Game/skills_page.dart';
 import 'package:fit_rpg/Game/game_stats.dart';
 import 'package:fit_rpg/Services/widgets_ui.dart';
 import 'package:flutter/material.dart';

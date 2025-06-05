@@ -1,8 +1,8 @@
-import 'package:fit_rpg/Pages/Game/game_page_static.dart';
+import 'package:fit_rpg/Pages/Game/skills_page.dart';
 import 'package:fit_rpg/Pages/Main/activity_page.dart';
 import 'package:fit_rpg/Pages/Main/profile_page.dart';
 import 'package:flutter/material.dart';
-import 'package:fit_rpg/Pages/Game/game_page_active.dart';
+import 'package:fit_rpg/Pages/Game/turnbased_page.dart';
 import 'package:fit_rpg/Services/audio_service.dart';
 import 'package:fit_rpg/Services/widgets_ui.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

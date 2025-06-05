@@ -1,4 +1,5 @@
-import 'package:fit_rpg/Pages/Game/game_page_active.dart';
+import 'package:fit_rpg/Pages/Game/minigame_page.dart';
+import 'package:fit_rpg/Pages/Game/turnbased_page.dart';
 import 'package:fit_rpg/Pages/Main/hub_page.dart';
 import 'package:fit_rpg/Services/audio_service.dart';
 import 'package:fit_rpg/Services/widgets_ui.dart';
@@ -20,9 +21,10 @@ class _AdventurePageState extends State<AdventurePage> {
         return Scaffold(
             extendBodyBehindAppBar: true,
             appBar: AppBar(
-                backgroundColor: Colors.transparent,
-                foregroundColor: Colors.black,
-                elevation: 0,
+              automaticallyImplyLeading: false,
+              backgroundColor: Colors.transparent,
+              foregroundColor: Colors.black,
+              elevation: 0,
             ),
             body: ResponsiveIconsOverBackground(
               backgroundAsset: 'assets/images/adventure_menu_bg.png',
@@ -44,12 +46,12 @@ class _AdventurePageState extends State<AdventurePage> {
                   assetPath: 'assets/images/minigames_icon.png',
                   onTap: () {
                     AudioService().playSFX('touch.wav');
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (_) => const GamePageActive(),
-                    //   ),
-                    // );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const MinigamePage(),
+                      ),
+                    );
                   },
                   ulx: 300, uly: 450, brx: 700, bry: 1150, // stats
                 ),

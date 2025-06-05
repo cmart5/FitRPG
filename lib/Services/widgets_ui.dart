@@ -144,7 +144,7 @@ class ResponsiveIconsOverBackground extends StatelessWidget {
     required this.backgroundAsset,
     this.bgDesignWidth = 1000,
     this.bgDesignHeight = 1500,
-    required this.icons,
+    required this.icons, // List of icons to overlay, in UI use [] to skip
   }) : super(key: key);
 
   @override
@@ -187,7 +187,7 @@ class ResponsiveIconsOverBackground extends StatelessWidget {
             ),
 
             // Overlay each icon at (offsetX + designX×scale, offsetY + designY×scale)
-            ...icons.map((icon) {
+            ...(icons ?? []).map((icon) {
               // Actual design-time width/height (in our 1000×1500 PNG):
               final double iconDesignW = (icon.brx - icon.ulx).toDouble();
               final double iconDesignH = (icon.bry - icon.uly).toDouble();

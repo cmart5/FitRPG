@@ -2,7 +2,7 @@ import 'package:fit_rpg/Services/audio_service.dart';
 import 'package:fit_rpg/Pages/Main/hub_page.dart';
 import 'package:flutter/material.dart';
 import 'package:fit_rpg/Pages/Main/activity_page.dart';
-import 'package:fit_rpg/Pages/Game/game_page_static.dart';
+import 'package:fit_rpg/Pages/Game/skills_page.dart';
 import 'package:fit_rpg/Pages/Main/profile_page.dart';
 
 class MainNavigation extends StatefulWidget 
