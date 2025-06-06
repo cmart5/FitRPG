@@ -1,4 +1,4 @@
-import 'package:flame/camera.dart';
+import 'package:fit_rpg/Game/input_controller.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/flame.dart';
@@ -41,9 +41,10 @@ class SurvivorGame extends FlameGame
       ..priority = 0;
     player = PlayerComponent(
       position: size / 2, // Center the player
-      size: Vector2(85, 125), // Player size
+      size: Vector2(64, 64), // Player size
     );
     
+    add(InputController(player!));
     add(background);
     add(player!); // Add the player to the game
     gameReady = true; // mark as ready and safe
@@ -66,8 +67,8 @@ class SurvivorGame extends FlameGame
     if(_timeSinceLastSpawn >= spawnInterval) {
       _timeSinceLastSpawn -= spawnInterval; // Reset spawn timer
       
-      // Speed up spawning over time every 10 seconds down to 0.5 seconds lowest
-      if(survivalTime > 10 && spawnInterval > 0.5) {
+      // Speed up spawning over time every 10 seconds down to 1 seconds lowest
+      if(survivalTime > 30 && spawnInterval > 1.0) {
         spawnInterval -= 0.2; // Increase spawn rate every 10 seconds
       }
 
@@ -83,12 +84,12 @@ class SurvivorGame extends FlameGame
     super.render(canvas);
     if (!gameReady) return;
 
-    final rect = Rect.fromLTWH(0, 0, size.x, size.y);
-    final paint = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 4
-      ..color = Colors.yellowAccent;
-    canvas.drawRect(rect, paint);
+    // final rect = Rect.fromLTWH(0, 0, size.x, size.y);
+    // final paint = Paint()
+    //   ..style = PaintingStyle.stroke
+    //   ..strokeWidth = 4
+    //   ..color = Colors.yellowAccent;
+    // canvas.drawRect(rect, paint);
 
     final textPainter = TextPainter(
       text: TextSpan(
@@ -140,7 +141,7 @@ class SurvivorGame extends FlameGame
     children.whereType<EnemyComponent>().forEach((enemy) => enemy.removeFromParent());
     player = null;
     survivalTime = 0;
-    spawnInterval = 2.0;
+    spawnInterval = 10.0;
     _timeSinceLastSpawn = 0;
     gameReady = false;
 

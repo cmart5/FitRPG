@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:fit_rpg/Game/Survivor/projectile_component.dart';
 import 'package:fit_rpg/Game/Survivor/survivor_game.dart';
 import 'package:flame/components.dart';
 import 'package:flame/collisions.dart';
@@ -8,12 +9,13 @@ class EnemyComponent extends SpriteComponent
 with CollisionCallbacks, HasGameReference<SurvivorGame> {
 
   final PlayerComponent playerRef; // Reference to the player component
-  final double speed = 120; // Speed of the enemy
+  final double speed = 15; // Speed of the enemy
+  int health = 1; // Enemy health
 
   EnemyComponent({
     required this.playerRef,
     required Vector2 gameSize,
-  }) : super(size: Vector2(40,40), // Size of the enemy
+  }) : super(size: Vector2(30,30), // Size of the enemy
   ) {
     _spawnAtEdge(gameSize);
   }
@@ -53,6 +55,13 @@ with CollisionCallbacks, HasGameReference<SurvivorGame> {
     return position;
   }
 
+  void takeDamage(int amount) {
+    health -= amount;
+    if(health <= 0) {
+      removeFromParent(); // death animation can be placed here
+    }
+  }
+
   @override
   void update(double dt) {
     super.update(dt);
@@ -71,6 +80,12 @@ with CollisionCallbacks, HasGameReference<SurvivorGame> {
     if (other is PlayerComponent) {
       removeFromParent(); // Remove enemy on collision with player
       //Let the player handle the collision HP
+      return;
+    }
+
+    if (other is ProjectileComponent) {
+      takeDamage(1); // projectile damage to enemy
+      other.removeFromParent();
     }
   }
 }
