@@ -3,6 +3,9 @@
 FitRPG is a cross-platform fitness RPG where your real-world activity drives your in-game progress. Gain XP by walking, working out, and completing daily challenges. Plans for integration with Apple Health and Google Fit. Built in Flutter + Flame.
 
 ![FitRPG Demo](assets/screenshots/visualdisplay.gif)
+![FitRPG **WIP** TurnBased](assets/screenshots/rpg.png)
+![FitRPG **WIP** Survivor](assets/screenshots/survivor.gif)
+
 
 TECH
 - **Flutter** – UI and platform support
